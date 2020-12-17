@@ -82,10 +82,26 @@ create table course_open
     foreign key (teacher) references teacher (id)
 );
 
-create table second_hand
+create table second_hand_publish
 (
+    person   varchar(32) not null,
+    foreign key (person) references student (id),
     isbn     varchar(32) not null,
     foreign key (isbn) references book (isbn),
+    primary key (person, isbn),
     price    decimal     not null,
-    exchange boolean     not null default false
+    exchange boolean     not null default false,
+    status   integer     not null
+);
+
+create table second_hand_find
+(
+    person   varchar(32) not null,
+    foreign key (person) references student (id),
+    isbn     varchar(32) not null,
+    foreign key (isbn) references book (isbn),
+    primary key (person, isbn),
+    price    decimal     not null,
+    exchange boolean     not null default false,
+    status   integer     not null
 );
