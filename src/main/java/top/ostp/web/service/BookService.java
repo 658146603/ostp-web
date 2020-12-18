@@ -30,4 +30,15 @@ public class BookService {
     public ApiResponse<Book> selectByISBN(String isbn) {
         return Responses.ok(bookMapper.selectByISBN(isbn));
     }
+
+    public ApiResponse<Object> deleteByISBN(String isbn){
+
+            int result = bookMapper.deleteByISBN(isbn);
+            if (result==1){
+                return Responses.ok();
+            }else {
+                return Responses.fail("删除失败");
+            }
+
+    }
 }

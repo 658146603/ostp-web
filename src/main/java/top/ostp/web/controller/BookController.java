@@ -32,6 +32,12 @@ public class BookController {
     public ApiResponse<Book> selectBook(String isbn) {
         return bookService.selectByISBN(isbn);
     }
+
+    @PostMapping("/book/delete")
+    @ResponseBody
+    public ApiResponse<Object> deleteBook(String isbn) {
+        return bookService.deleteByISBN(isbn);
+    }
 //
 //    @PostMapping("/book/update")
 //    @ResponseBody
