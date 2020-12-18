@@ -38,11 +38,10 @@ public class BookController {
     public ApiResponse<Object> deleteBook(String isbn) {
         return bookService.deleteByISBN(isbn);
     }
-//
-//    @PostMapping("/book/update")
-//    @ResponseBody
-//    public String updateBook(Book book) {
-//        int result = bookMapper.updateByISBN(book);
-//        return "";
-//    }
+
+    @PostMapping("/book/update")
+    @ResponseBody
+    public ApiResponse<Object> updateBook(Book book) {
+        return bookService.updateBook(book);
+    }
 }
