@@ -28,17 +28,30 @@ public class BookService {
     }
 
     public ApiResponse<Book> selectByISBN(String isbn) {
-        return Responses.ok(bookMapper.selectByISBN(isbn));
+        Book book = bookMapper.selectByISBN(isbn);
+        if (book != null) {
+            return Responses.ok(book);
+        } else {
+            return Responses.fail("ISBN不存在");
+        }
     }
 
-    public ApiResponse<Object> deleteByISBN(String isbn){
+    public ApiResponse<Object> deleteByISBN(String isbn) {
+        int result = bookMapper.deleteByISBN(isbn);
+        if (result == 1) {
+            return Responses.ok();
+        } else {
+            return Responses.fail("删除失败");
+        }
 
-            int result = bookMapper.deleteByISBN(isbn);
-            if (result==1){
-                return Responses.ok();
-            }else {
-                return Responses.fail("删除失败");
-            }
+    }
 
+    public ApiResponse<Object> updateBook(Book book) {
+        int result = bookMapper.updateByISBN(book);
+        if (result == 1) {
+            return Responses.ok();
+        } else {
+            return Responses.fail("更新失败");
+        }
     }
 }
