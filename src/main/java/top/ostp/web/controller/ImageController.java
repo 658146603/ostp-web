@@ -12,6 +12,7 @@ import top.ostp.web.model.common.Responses;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -27,7 +28,13 @@ public class ImageController {
     public byte[] getImage(String id) throws IOException {
         id = new String(Base64.getEncoder().encode(id.getBytes(StandardCharsets.UTF_8)));
         File file = new File("image/" + id);
-        FileInputStream inputStream = new FileInputStream(file);
+        FileInputStream inputStream;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            inputStream = new FileInputStream("image/404.jpg");
+            e.printStackTrace();
+        }
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
         return bytes;
