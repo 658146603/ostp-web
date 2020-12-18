@@ -18,7 +18,7 @@ create table major
     foreign key (college) references college (id)
 );
 
-create table class
+create table clazz
 (
     id    integer auto_increment not null primary key,
     name  varchar(32)            not null,
@@ -31,8 +31,8 @@ create table student
 (
     id       varchar(32) not null primary key,
     name     varchar(32) not null,
-    class    integer     not null,
-    foreign key (class) references class (id),
+    clazz    integer     not null,
+    foreign key (clazz) references clazz (id),
     password varchar(64) not null,
     balance  long        not null,
     email    varchar(64) null

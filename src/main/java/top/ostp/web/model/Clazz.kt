@@ -1,6 +1,6 @@
 package top.ostp.web.model
 
-data class Class(
+data class Clazz(
     var id: Long,
     var name: String,
     var major: Major?

@@ -2,21 +2,21 @@ package top.ostp.web.mapper
 
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
-import top.ostp.web.model.Class
+import top.ostp.web.model.Clazz
 
 @Mapper
 @Repository
-interface ClassMapper {
-    @Insert("insert into class (name, major) value (#{name}, #{major.id})")
-    fun insert(clazz: Class): Int
+interface ClazzMapper {
+    @Insert("insert into clazz (name, major) value (#{name}, #{major.id})")
+    fun insert(clazz: Clazz): Int
 
-    @Update("update class set name = #{name} where id = #{id}")
-    fun update(clazz: Class): Int
+    @Update("update clazz set name = #{name} where id = #{id}")
+    fun update(clazz: Clazz): Int
 
-    @Delete("delete from class where id = #{id}")
-    fun delete(clazz: Class): Int
+    @Delete("delete from clazz where id = #{id}")
+    fun delete(clazz: Clazz): Int
 
-    @Select("select * from class")
+    @Select("select * from clazz")
     @Results(
         value = [
             Result(
@@ -25,10 +25,10 @@ interface ClassMapper {
             )
         ]
     )
-    @ResultType(Class::class)
-    fun selectAll(): List<Class>
+    @ResultType(Clazz::class)
+    fun selectAll(): List<Clazz>
 
-    @Select("select * from class where id = #{id} limit 1")
+    @Select("select * from clazz where id = #{id} limit 1")
     @Results(
         value = [
             Result(
@@ -37,9 +37,9 @@ interface ClassMapper {
             )
         ]
     )
-    fun selectById(id: Long): Class?
+    fun selectById(id: Long): Clazz?
 
-    @Select("select * from class where name = #{name}")
+    @Select("select * from clazz where name = #{name}")
     @Results(
         value = [
             Result(
@@ -48,6 +48,6 @@ interface ClassMapper {
             )
         ]
     )
-    @ResultType(Class::class)
-    fun selectByName(name: String): List<Class>
+    @ResultType(Clazz::class)
+    fun selectByName(name: String): List<Clazz>
 }
