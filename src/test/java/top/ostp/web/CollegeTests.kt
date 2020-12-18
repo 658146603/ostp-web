@@ -20,7 +20,7 @@ class CollegeTests {
     //DONE
     @Test
     fun getCollegeByName() {
-        val collage = mapper.selectByName("计算机科学与技术学院");
+        val collage = mapper.selectByName("计算机科学与技术学院")
         println(collage)
     }
 

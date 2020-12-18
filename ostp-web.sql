@@ -34,7 +34,7 @@ create table student
     class    integer     not null,
     foreign key (class) references class (id),
     password varchar(64) not null,
-    balance  decimal     not null,
+    balance  long        not null,
     email    varchar(64) null
 );
 
@@ -52,7 +52,7 @@ create table book
 (
     isbn  varchar(32)  not null primary key,
     name  varchar(64)  not null,
-    price decimal      not null,
+    price long         not null,
     cover varchar(128) not null # file path
 );
 
@@ -67,15 +67,15 @@ create table course
 
 create table course_open
 (
-    course  integer     not null,
+    course   integer     not null,
     foreign key (course) references course (id),
-    primary key (course),
-    book    varchar(32) not null,
+    year     integer     not null,
+    semester integer     not null,
+    primary key (course, year, semester),
+    book     varchar(32) not null,
     foreign key (book) references book (isbn),
-    teacher varchar(32) not null,
-    foreign key (teacher) references teacher (id),
-    class integer not null ,
-    foreign key (class) references class(id)
+    teacher  varchar(32) not null,
+    foreign key (teacher) references teacher (id)
 );
 
 create table second_hand_publish
@@ -85,7 +85,7 @@ create table second_hand_publish
     book     varchar(32) not null,
     foreign key (book) references book (isbn),
     primary key (person, book),
-    price    decimal     not null,
+    price    long        not null,
     exchange boolean     not null default false,
     status   integer     not null
 );
@@ -97,7 +97,7 @@ create table second_hand_find
     book     varchar(32) not null,
     foreign key (book) references book (isbn),
     primary key (person, book),
-    price    decimal     not null,
+    price    long        not null,
     exchange boolean     not null default false,
     status   integer     not null
 );

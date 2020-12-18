@@ -45,4 +45,7 @@ values ('201806060231', '周科宇', (select id from class where class.name = '�
         '201806060231@zjut.edu.cn');
 
 insert into teacher (id, name, college, password, email)
-values ('123456', '韩珊珊', (select id from college where college.name = '计算机科学与技术学院'), '123456', 'hss@zjut.ecu.cn')
+values ('123456', '韩珊珊', (select id from college where college.name = '计算机科学与技术学院'), '123456', 'hss@zjut.ecu.cn');
+
+insert into teacher (id, name, college, password, email)
+values ('123457', '王春平', (select id from college where college.name = '计算机科学与技术学院'), '123456', 'wcp@zjut.ecu.cn');
