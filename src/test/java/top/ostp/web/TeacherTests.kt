@@ -49,7 +49,7 @@ class TeacherTests {
     fun login() {
         var teacher = mapper.login("123456", "123456")
         println(teacher)
-        teacher = mapper.login("123456", "1231231")
+        teacher = mapper.login("123458", "123456")
         println(teacher)
     }
 }
