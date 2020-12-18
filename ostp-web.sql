@@ -1,3 +1,4 @@
+drop database ostp;
 create database if not exists ostp character set utf8mb4 collate utf8mb4_bin;
 
 use ostp;
@@ -39,11 +40,12 @@ create table student
 
 create table teacher
 (
-    id      varchar(32) not null primary key,
-    name    varchar(32) not null,
-    college integer     not null,
+    id       varchar(32) not null primary key,
+    name     varchar(32) not null,
+    college  integer     not null,
+    password varchar(64) not null,
     foreign key (college) references college (id),
-    email   varchar(64) not null
+    email    varchar(64) not null
 );
 
 create table book
@@ -62,23 +64,15 @@ create table course
     name  integer not null
 );
 
-create table semester
-(
-    id   integer auto_increment not null primary key,
-    year integer                not null,
-    no   integer                not null
-);
 
 create table course_open
 (
-    course   integer     not null,
+    course  integer     not null,
     foreign key (course) references course (id),
-    semester integer     not null,
-    foreign key (semester) references semester (id),
-    primary key (course, semester),
-    book     varchar(32) not null,
+    primary key (course),
+    book    varchar(32) not null,
     foreign key (book) references book (isbn),
-    teacher  varchar(32) not null,
+    teacher varchar(32) not null,
     foreign key (teacher) references teacher (id)
 );
 
