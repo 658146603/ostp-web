@@ -12,11 +12,12 @@ class CollegeTests {
     lateinit var mapper: CollegeMapper
 
     @Test
+    // DONE
     fun getColleges() {
         val colleges = mapper.selectAll()
         colleges.forEach(::println)
     }
-
+    //DONE
     @Test
     fun getCollegeByName() {
         val collage = mapper.selectByName("计算机科学与技术学院");
