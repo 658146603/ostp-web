@@ -21,7 +21,7 @@ interface MajorMapper {
     @ResultType(Major::class)
     fun selectAll(): List<Major>
 
-    @Select("select * from major where id = #{id}")
+    @Select("select * from major where id = #{id} limit 1")
     @Results(
         value = [
             Result(
