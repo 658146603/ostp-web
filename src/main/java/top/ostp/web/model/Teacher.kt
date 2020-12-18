@@ -7,5 +7,5 @@ data class Teacher(
     var password: String,
     var email: String
 ) {
-    constructor() : this("UNDEFINED", "UNDEFINED", null, "UNDEFINED", "UNDEFINED")
+    constructor() : this("", "", null, "", "")
 }
