@@ -36,4 +36,12 @@ class TeacherTests {
         val teacher = Teacher("123458", "韩珊珊", college, "123457", "hss2@zjut.edu.cn")
         mapper.insert(teacher)
     }
+
+    @Test
+    fun testDeleteTeacher() {
+        val teacher = mapper.selectById("123458")
+        if (teacher != null) {
+            mapper.delete(teacher)
+        }
+    }
 }
