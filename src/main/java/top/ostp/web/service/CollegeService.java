@@ -41,4 +41,17 @@ public class CollegeService {
         }
     }
 
+    public ApiResponse<Object> insertByName(String name) {
+        int result = collegeMapper.insertByName(name);
+        if (result == 1) {
+            return Responses.ok();
+        } else {
+            return Responses.fail("主键重复");
+        }
+    }
+
+    public ApiResponse<College> selectById(int id) {
+        return Responses.ok(collegeMapper.selectById(id));
+    }
+
 }
