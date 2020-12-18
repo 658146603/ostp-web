@@ -7,6 +7,7 @@ import top.ostp.web.model.Book
 @Mapper
 @Repository
 interface BookMapper {
+
     @Select("select * from book")
     @ResultType(Book::class)
     fun selectAll(): List<Book>

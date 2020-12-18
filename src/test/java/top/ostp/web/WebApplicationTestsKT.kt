@@ -22,7 +22,7 @@ internal class WebApplicationTestsKT {
         book.cover = "312"
         book.name = "abc"
         book.price = 8899
-        bookMapper.insert(book)
+        println(bookMapper.insert(book))
     }
 
     @Test
