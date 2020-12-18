@@ -10,4 +10,8 @@ class WebApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    void insertBook() {
+
+    }
 }

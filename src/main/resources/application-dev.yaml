@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: web
+
+  datasource:
+    url: jdbc:mysql://nfcv.xyz:3306/ostp?useUnicode=true&characterEncoding=utf8
+    username: dbuser
+    password: dbpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8082
