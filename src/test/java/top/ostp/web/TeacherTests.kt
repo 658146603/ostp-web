@@ -43,4 +43,13 @@ class TeacherTests {
             mapper.delete(teacher)
         }
     }
+
+    @Test
+    //TODO
+    fun login() {
+        var teacher = mapper.login("123456", "123456")
+        println(teacher)
+        teacher = mapper.login("123456", "1231231")
+        println(teacher)
+    }
 }
