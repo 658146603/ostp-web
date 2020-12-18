@@ -6,4 +6,6 @@ data class Major(
     var college: College?
 ) {
     constructor() : this(0, "", null)
+
+    constructor(name: String, college: College) : this(0, name, college)
 }
