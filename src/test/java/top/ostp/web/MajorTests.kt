@@ -32,19 +32,15 @@ class MajorTests {
 
     @Test
     fun updateMajor() {
-        val major = majorMapper.selectByName("电子科学与技术1")
-        if (major != null) {
-            major.name = "电子科学与技术"
-            majorMapper.update(major)
-        }
+        val major = majorMapper.selectByName("电子科学与技术1").firstOrNull()!!
+        major.name = "电子科学与技术"
+        majorMapper.update(major)
     }
 
     @Test
     fun deleteMajor() {
-        val major = majorMapper.selectByName("电子科学与技术")
-        if (major != null) {
-            majorMapper.delete(major)
-        }
+        val major = majorMapper.selectByName("电子科学与技术").firstOrNull()!!
+        majorMapper.delete(major)
     }
 
 }

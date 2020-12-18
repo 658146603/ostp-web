@@ -18,8 +18,8 @@ class ClazzTests {
 
     @Test
     fun insert() {
-        val major = majorMapper.selectByName("计算机科学与技术")
-        val clazz = Clazz("计算机科学与技术1802", major!!)
+        val major = majorMapper.selectByName("计算机科学与技术").firstOrNull()!!
+        val clazz = Clazz("计算机科学与技术1802", major)
         clazzMapper.insert(clazz)
     }
 
