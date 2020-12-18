@@ -18,7 +18,7 @@ interface MajorMapper {
             )
         ]
     )
-    @ResultType(MajorMapper::class)
+    @ResultType(Major::class)
     fun selectAll(): List<Major>
 
     @Select("select * from major where id = #{id}")
