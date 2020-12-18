@@ -1,0 +1,98 @@
+package top.ostp.web.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import top.ostp.web.mapper.StudentMapper;
+import top.ostp.web.model.Student;
+import top.ostp.web.model.common.ApiResponse;
+import top.ostp.web.model.common.Responses;
+
+@Service
+public class StudentService {
+    StudentMapper studentMapper;
+
+    @Autowired
+    public void setStudentMapper(StudentMapper studentMapper) {
+        this.studentMapper = studentMapper;
+    }
+
+    public ApiResponse<Object> addStudent(Student student) {
+        int result = studentMapper.insert(student);
+        if (result == 1) {
+            return Responses.ok("插入成功");
+        } else {
+            return Responses.fail("插入失败");
+        }
+    }
+
+    public ApiResponse<Object> deleteStudent(Student student) {
+        int result = studentMapper.delete(student);
+        if (result == 1) {
+            return Responses.ok("删除成功");
+        } else {
+            return Responses.fail("删除失败");
+        }
+    }
+
+    public ApiResponse<Object> modifyStudent(Student student) {
+        int result = studentMapper.update(student);
+        if (result == 1) {
+            return Responses.ok("删除成功");
+        } else {
+            return Responses.fail("删除失败");
+        }
+    }
+
+    public ApiResponse<Object> findStudent(String id) {
+        Student student = studentMapper.selectStudentById(id);
+        if (student != null) {
+            return Responses.ok(student);
+        } else {
+            return Responses.fail("未找到该学生");
+        }
+    }
+
+    public ApiResponse<Object> charge(Student student, int money) {
+        int result = studentMapper.changeMoney(student, money);
+        if (result == 1) {
+            return Responses.ok("删除成功");
+        } else {
+            return Responses.fail("删除失败");
+        }
+    }
+
+    public ApiResponse<Object> charge(String id, int money) {
+        Student student = studentMapper.selectStudentById(id);
+        if (student == null) {
+            return Responses.fail("学生ID不存在");
+        }
+        int result = studentMapper.changeMoney(student, money);
+        if (result == 1) {
+            return Responses.ok("充值成功");
+        } else {
+            return Responses.fail("充值失败");
+        }
+    }
+
+    public ApiResponse<Object> useMoney(Student student, int money) {
+        int result = studentMapper.changeMoney(student, -money);
+        if (result == 1) {
+            return Responses.ok("删除成功");
+        } else {
+            return Responses.fail("删除失败");
+        }
+    }
+
+    public ApiResponse<Object> useMoney(String id, int money) {
+        Student student = studentMapper.selectStudentById(id);
+        if (student == null) {
+            return Responses.fail("学生ID不存在");
+        }
+        int result = studentMapper.changeMoney(student, money);
+        if (result == 1) {
+            return Responses.ok("消费成功");
+        } else {
+            return Responses.fail("消费失败");
+        }
+    }
+}
