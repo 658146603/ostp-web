@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'top.ostp'
-version = '0.0.1'
+version = '0.0.2'
 sourceCompatibility = '11'
 
 repositories {
@@ -22,9 +22,8 @@ dependencies {
     }
 
     implementation 'mysql:mysql-connector-java:8.0.22'
-
     implementation 'org.mybatis:mybatis:3.5.6'
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.6'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 

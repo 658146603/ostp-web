@@ -2,10 +2,7 @@ package top.ostp.web.model;
 
 import java.io.Serializable;
 
-/**
- * book
- * @author 
- */
+
 public class Book implements Serializable {
     private String isbn;
 
@@ -13,7 +10,7 @@ public class Book implements Serializable {
 
     private Long price;
 
-    private byte[] cover;
+    private String cover;
 
     private static final long serialVersionUID = 1L;
 
@@ -41,11 +38,11 @@ public class Book implements Serializable {
         this.price = price;
     }
 
-    public byte[] getCover() {
+    public String getCover() {
         return cover;
     }
 
-    public void setCover(byte[] cover) {
+    public void setCover(String cover) {
         this.cover = cover;
     }
 }

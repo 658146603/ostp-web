@@ -50,10 +50,10 @@ create table teacher
 
 create table book
 (
-    isbn  varchar(32) not null primary key,
-    name  varchar(64) not null,
-    price decimal     not null,
-    cover blob        not null # file or blob
+    isbn  varchar(32)  not null primary key,
+    name  varchar(64)  not null,
+    price decimal      not null,
+    cover varchar(128) not null # file path
 );
 
 create table course
