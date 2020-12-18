@@ -2,12 +2,16 @@
 
 delete
 from student;
+
 delete
 from class;
+
 delete
 from major;
+
 delete
 from teacher;
+
 delete
 from college;
 

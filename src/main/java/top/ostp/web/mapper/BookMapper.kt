@@ -21,7 +21,7 @@ interface BookMapper {
     @Insert("insert into book (isbn, name, price, cover) values (#{isbn}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR})")
     fun insert(record: Book): Int
 
-    @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR}")
+    @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
     fun selectByISBN(isbn: String): Book?
 
     @Update("update book set name = #{name,jdbcType=VARCHAR}, price = #{price,jdbcType=DECIMAL} where isbn = #{isbn,jdbcType=VARCHAR}")

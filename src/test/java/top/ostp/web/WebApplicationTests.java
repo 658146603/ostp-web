@@ -9,9 +9,4 @@ class WebApplicationTests {
     @Test
     void contextLoads() {
     }
-
-    @Test
-    void insertBook() {
-
-    }
 }

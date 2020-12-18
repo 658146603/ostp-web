@@ -7,11 +7,7 @@ import top.ostp.web.mapper.BookMapper
 import top.ostp.web.model.Book
 
 @SpringBootTest
-internal class WebApplicationTestsKT {
-    @Test
-    fun contextLoads() {
-    }
-
+class BookTests {
     @Autowired
     lateinit var bookMapper: BookMapper
 

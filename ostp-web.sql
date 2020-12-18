@@ -73,7 +73,9 @@ create table course_open
     book    varchar(32) not null,
     foreign key (book) references book (isbn),
     teacher varchar(32) not null,
-    foreign key (teacher) references teacher (id)
+    foreign key (teacher) references teacher (id),
+    class integer not null ,
+    foreign key (class) references class(id)
 );
 
 create table second_hand_publish
