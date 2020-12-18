@@ -14,7 +14,7 @@ class BookTests {
     @Test
     fun insertBook() {
         val book = Book()
-        book.isbn = "97878-------312"
+        book.isbn = "97878-323-322-312"
         book.cover = "312"
         book.name = "abc"
         book.price = 8899

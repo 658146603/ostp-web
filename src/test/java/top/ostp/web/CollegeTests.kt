@@ -17,6 +17,7 @@ class CollegeTests {
         val colleges = mapper.selectAll()
         colleges.forEach(::println)
     }
+
     //DONE
     @Test
     fun getCollegeByName() {
@@ -27,6 +28,10 @@ class CollegeTests {
     @Test
     fun insertAndDeleteCollege() {
         mapper.insert(College("理学院"))
+    }
+
+    @Test
+    fun deleteCollege() {
         mapper.selectByName("理学院")?.let { mapper.deleteById(it.id) }
     }
 }
