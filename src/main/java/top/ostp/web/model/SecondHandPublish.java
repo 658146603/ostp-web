@@ -11,13 +11,6 @@ public class SecondHandPublish {
     public SecondHandPublish() {
     }
 
-    public SecondHandPublish(Student person, Book book, double price, long exchange, long status) {
-        this.person = person;
-        this.book = book;
-        this.price = price;
-        this.exchange = exchange;
-        this.status = status;
-    }
 
     public SecondHandPublish(String id, Student person, Book book, double price, long exchange, long status) {
         this.id = id;

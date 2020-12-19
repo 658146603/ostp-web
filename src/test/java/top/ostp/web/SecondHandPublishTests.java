@@ -41,7 +41,7 @@ public class SecondHandPublishTests {
     @Test
     public void selectPublishByStudentId(){
         Student s = new Student();
-        s.setId("201806060231");
+        s.setId("201806061108");
         List<SecondHandPublish> secondHandPublishes = secondHandPublishMapper.selectPublishByStudentId("201806061108");
         for (SecondHandPublish s1:secondHandPublishes) {
             System.out.println(s1.toString());
@@ -53,8 +53,8 @@ public class SecondHandPublishTests {
         s.setId("201806060231");
         Book book = new Book();
         book.setIsbn("9787-212-222-333");
-        SecondHandPublish secondHandPublish = new SecondHandPublish(s,book,12,0,1);
-//        secondHandPublishMapper.insert(secondHandPublish);
+        SecondHandPublish secondHandPublish = new SecondHandPublish("12345671",s,book,12,0,1);
+        secondHandPublishMapper.insert(secondHandPublish);
 //        secondHandPublishMapper.deleteByBookISBN(book);
     }
     @Test
@@ -62,8 +62,9 @@ public class SecondHandPublishTests {
         Student s = new Student();
         s.setId("201806060231");
         Book book = new Book();
-        book.setIsbn("9787-212-222-423");
-        SecondHandPublish secondHandPublish = new SecondHandPublish(s,book,12,0,1);
+        book.setIsbn("9787-212-233-344");
+        SecondHandPublish secondHandPublish = new SecondHandPublish("12345671",s,book,12,0,1);
+        secondHandPublishMapper.update(secondHandPublish);
 
     }
 

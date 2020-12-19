@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandPublish;
@@ -24,20 +25,20 @@ public class SecondHandPublishController {
 
     @PostMapping(value = "/second/publish/insert")
     @ResponseBody
-    public ApiResponse<Object> insertSecondHandPublish(SecondHandPublish secondHandPublish) {
-        return secondHandPublishService.insert(secondHandPublish);
+    public ApiResponse<Object> insertSecondHandPublish(String id,@RequestParam("person") String person,@RequestParam("book") String book,int price,int exchange,int status) {
+        return secondHandPublishService.insert(id,person,book,price,exchange,status);
     }
 
     @PostMapping(value = "/second/publish/delete")
     @ResponseBody
-    public ApiResponse<Object> deleteSecondHandPublish(Book book) {
-        return secondHandPublishService.deleteByBookISBN(book);
+    public ApiResponse<Object> deleteSecondHandPublish(String id) {
+        return secondHandPublishService.deleteByOrderId(id);
     }
 
     @PostMapping(value = "/second/publish/update")
     @ResponseBody
-    public ApiResponse<Object> updateSecondHandPublish(SecondHandPublish secondHandPublish) {
-        return secondHandPublishService.update(secondHandPublish);
+    public ApiResponse<Object> updateSecondHandPublish(String id,@RequestParam("person") String person,@RequestParam("book") String book,int price,int exchange,int status) {
+        return secondHandPublishService.update(id,person,book,price,exchange,status);
     }
 
     @PostMapping(value = "/second/publish/select/all")
@@ -48,7 +49,12 @@ public class SecondHandPublishController {
 
     @PostMapping(value = "/second/publish/select/{id}")
     @ResponseBody
-    public ApiResponse<List<SecondHandPublish>> selectSecondHandPublish(@PathVariable String id) {
+    public ApiResponse<SecondHandPublish> selectSecondHandPublishByOrderId(@PathVariable String id) {
+        return secondHandPublishService.selectPublishByOrderId(id);
+    }
+    @PostMapping(value = "/second/publish/selectByStudent")
+    @ResponseBody
+    public ApiResponse<List<SecondHandPublish>> selectSecondHandPublishByStudentId(String id){
         return secondHandPublishService.selectPublishByStudentId(id);
     }
 }
