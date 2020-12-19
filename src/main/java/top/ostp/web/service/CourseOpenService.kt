@@ -25,7 +25,7 @@ class CourseOpenService {
     lateinit var bookMapper: BookMapper
 
 
-    fun insert(course: String, year: Int, semester: Int, book: String, teacher: String): ApiResponse<String> {
+    fun insert(course: String, book: String, teacher: String, year: Int, semester: Int): ApiResponse<String> {
         val c = courseMapper.selectById(course)
         val b = bookMapper.selectByISBN(book)
         val t = teacherMapper.selectById(teacher)
@@ -40,4 +40,6 @@ class CourseOpenService {
             else -> Responses.fail("插入失败")
         }
     }
+
+    fun listAll() = Responses.ok(courseOpenMapper.selectAll())
 }

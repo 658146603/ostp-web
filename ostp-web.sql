@@ -7,7 +7,7 @@ use ostp;
 create table college
 (
     id   integer auto_increment not null primary key,
-    name varchar(32)            not null
+    name varchar(32)            not null unique
 );
 
 create table major
@@ -15,6 +15,8 @@ create table major
     id      integer auto_increment not null primary key,
     name    varchar(32)            not null,
     college integer                not null,
+    year    integer                not null,
+    unique index (name, college, year),
     foreign key (college) references college (id)
 );
 
@@ -23,6 +25,7 @@ create table clazz
     id    integer auto_increment not null primary key,
     name  varchar(32)            not null,
     major integer                not null,
+    unique index (name, major),
     foreign key (major) references major (id)
 );
 
@@ -64,14 +67,16 @@ create table course
     name  varchar(64) not null
 );
 
+# drop table if exists course_open;
 
 create table course_open
 (
+    id       integer     not null auto_increment primary key,
     course   varchar(32) not null,
     foreign key (course) references course (id),
     year     integer     not null,
     semester integer     not null,
-    primary key (course, year, semester),
+    unique index (course, year, semester),
     book     varchar(32) not null,
     foreign key (book) references book (isbn),
     teacher  varchar(32) not null,

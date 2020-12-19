@@ -2,19 +2,28 @@ POST http://localhost:8082/book/list
 Content-Type: application/x-www-form-urlencoded
 
 ###
-POST http://localhost:8082/teacher/selectAll
+POST http://localhost:8082/teacher/list
 Content-Type: application/x-www-form-urlencoded
 
 ###
-POST http://localhost:8082/college/list
+POST http://localhost:8082/course/list
 Content-Type: application/x-www-form-urlencoded
 
 ###
+POST http://localhost:8082/course/list/by/major
+
+###
+POST http://localhost:8082/major/list
+Content-Type: application/x-www-form-urlencoded
+
+###
+POST http://localhost:8082/course_open/list
+Content-Type: application/x-www-form-urlencoded
 
 ###
 POST http://localhost:8082/course_open/insert
 Content-Type: application/x-www-form-urlencoded
 
-id=99&content=new-element
+book=5&teacher=868&year=2018&semester=3&course=G122112
 
 ###

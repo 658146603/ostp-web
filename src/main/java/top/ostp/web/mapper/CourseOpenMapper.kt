@@ -1,5 +1,6 @@
 package top.ostp.web.mapper
 
+import com.mysql.cj.log.Log
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
@@ -16,6 +17,9 @@ interface CourseOpenMapper {
 
     @Delete("delete from course_open where (course, year, semester) = (#{course.id}, #{year}, #{semester})")
     fun delete(courseOpen: CourseOpen): Int
+
+    @Delete("delete from course_open where id = #{id}")
+    fun deleteById(id: Long): Int
 
     @Update("update course_open set teacher = #{teacher.id}, book = #{book.isbn} where (course, year, semester) = (#{course.id}, #{year}, #{semester})")
     fun update(courseOpen: CourseOpen): Int

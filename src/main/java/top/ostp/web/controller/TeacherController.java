@@ -15,37 +15,37 @@ public class TeacherController {
     TeacherService teacherService;
 
     @Autowired
-    public void setTeacherService(TeacherService teacherService){
+    public void setTeacherService(TeacherService teacherService) {
         this.teacherService = teacherService;
     }
 
     @PostMapping(value = "/teacher/insert")
     @ResponseBody
-    public ApiResponse<Object> insertTeacher(Teacher teacher){
+    public ApiResponse<Object> insertTeacher(Teacher teacher) {
         return teacherService.insert(teacher);
     }
 
     @PostMapping(value = "/teacher/selectById")
     @ResponseBody
-    public ApiResponse<Teacher> selectById(String id){
+    public ApiResponse<Teacher> selectById(String id) {
         return teacherService.selectById(id);
     }
 
     @PostMapping(value = "/teacher/selectByName")
     @ResponseBody
-    public ApiResponse<List<Teacher>> selectByName(String name){
+    public ApiResponse<List<Teacher>> selectByName(String name) {
         return teacherService.selectByName(name);
     }
 
-    @PostMapping(value = "/teacher/selectAll")
+    @PostMapping(value = {"/teacher/selectAll", "teacher/list"})
     @ResponseBody
-    public ApiResponse<List<Teacher>> selectAll(){
+    public ApiResponse<List<Teacher>> selectAll() {
         return teacherService.selectAll();
     }
 
     @PostMapping(value = "/teacher/deleteById")
     @ResponseBody
-    public ApiResponse<Object> deleteById(Teacher teacher){
+    public ApiResponse<Object> deleteById(Teacher teacher) {
         return teacherService.deleteById(teacher);
     }
 }
