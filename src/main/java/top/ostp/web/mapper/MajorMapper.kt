@@ -32,6 +32,18 @@ interface MajorMapper {
     )
     fun selectById(id: Long): Major?
 
+    @Select("select * from major where year = #{year}")
+    @Results(
+        value = [
+            Result(
+                property = "college", column = "college",
+                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+            )
+        ]
+    )
+    @ResultType(Major::class)
+    fun selectByYear(year: Int): List<Major>
+
     @Select("select * from major where name = #{name}")
     @Results(
         value = [

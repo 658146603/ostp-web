@@ -13,9 +13,10 @@ Content-Type: application/x-www-form-urlencoded
 POST http://localhost:8082/course/list/by/major
 
 ###
-POST http://localhost:8082/major/list
+POST http://localhost:8082/major/by/year
 Content-Type: application/x-www-form-urlencoded
 
+year=2019
 ###
 POST http://localhost:8082/course_open/list
 Content-Type: application/x-www-form-urlencoded
