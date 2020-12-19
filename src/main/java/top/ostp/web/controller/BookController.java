@@ -52,4 +52,10 @@ public class BookController {
     public ApiResponse<List<Book>> selectAll() {
         return bookService.selectAll();
     }
+
+    @PostMapping("/book/fuzzy")
+    @ResponseBody
+    public ApiResponse<List<Book>> fuzzyQuery(String name){
+        return bookService.fuzzyQuery(name);
+    }
 }

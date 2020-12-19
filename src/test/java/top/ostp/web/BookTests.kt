@@ -41,4 +41,10 @@ class BookTests {
             bookMapper.updateByISBN(book)
         }
     }
+
+    @Test
+    fun fuzzyQuery(){
+        val books = bookMapper.fuzzyQuery("法")
+        books.forEach(::println)
+    }
 }
