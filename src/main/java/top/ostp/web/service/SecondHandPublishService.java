@@ -15,43 +15,44 @@ import java.util.List;
 @Service
 public class SecondHandPublishService {
     SecondHandPublishMapper secondHandPublishMapper;
+
     @Autowired
-    public void setSecondHandPublishMapper(SecondHandPublishMapper secondHandPublishMapper){
+    public void setSecondHandPublishMapper(SecondHandPublishMapper secondHandPublishMapper) {
         this.secondHandPublishMapper = secondHandPublishMapper;
     }
 
-    public ApiResponse<Object> insert(SecondHandPublish secondHandPublish){
+    public ApiResponse<Object> insert(SecondHandPublish secondHandPublish) {
         try {
             int result = secondHandPublishMapper.insert(secondHandPublish);
             return Responses.ok();
-        }catch (DuplicateKeyException e){
+        } catch (DuplicateKeyException e) {
             e.printStackTrace();
         }
         return Responses.fail("主键重复");
     }
 
-    public ApiResponse<Object> deleteByBookISBN(Book book){
+    public ApiResponse<Object> deleteByBookISBN(Book book) {
         int result = secondHandPublishMapper.deleteByBookISBN(book);
-        if(result == 1){
+        if (result == 1) {
             return Responses.ok();
-        }else {
+        } else {
             return Responses.fail("删除失败");
         }
     }
 
-    public ApiResponse<List<SecondHandPublish>> selectAll(){
+    public ApiResponse<List<SecondHandPublish>> selectAll() {
         return Responses.ok(secondHandPublishMapper.selectAll());
     }
 
-    public ApiResponse<List<SecondHandPublish>> selectPublishByStudentId(Student student){
-        return Responses.ok(secondHandPublishMapper.selectPublishByStudentId(student));
+    public ApiResponse<List<SecondHandPublish>> selectPublishByStudentId(String id) {
+        return Responses.ok(secondHandPublishMapper.selectPublishByStudentId(id));
     }
 
-    public ApiResponse<Object> update(SecondHandPublish secondHandPublish){
+    public ApiResponse<Object> update(SecondHandPublish secondHandPublish) {
         try {
             int result = secondHandPublishMapper.update(secondHandPublish);
             return Responses.ok();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return Responses.fail("更新失败");
