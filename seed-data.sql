@@ -60,6 +60,14 @@ values ('123458', '王松', (select id from college where college.name = '计算
 insert into teacher (id, name, college, password, email)
 values ('123459', '潘清', (select id from college where college.name = '信息工程学院'), '123456', 'pq@zjut.ecu.cn');
 
-insert into ostp.book (isbn, name, price, cover) values ('9787-212-222-333', '数据结构&算法分析', 9999, 'images/adt.jpg');
+insert into ostp.book (isbn, name, price, cover)
+values ('9787-212-222-333', '数据结构&算法分析', 9999, 'images/adt.jpg');
 
-insert into course_open (course, year, semester, book, teacher) values ('G101010', 2019, 3, '9787-212-222-333', '123458')
+insert into ostp.book (isbn, name, price, cover)
+values ('9787-212-222-423', 'JavaEE教程', 12999, 'images/javaee.jpg');
+
+insert into course_open (course, year, semester, book, teacher)
+values ('G101010', 2019, 3, '9787-212-222-333', '123458');
+
+insert into ostp.course_open (course, year, semester, book, teacher)
+values ('G101012', 2020, 3, '9787-212-222-423', '123456');
