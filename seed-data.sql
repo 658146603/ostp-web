@@ -95,6 +95,7 @@ from major
 where name = '软件工程'
 limit 1
 into @SE;
+
 select id
 from major
 where name = '计算机科学与技术'
@@ -106,16 +107,19 @@ from teacher
 where name = '韩珊珊'
 limit 1
 into @HSS;
+
 select id
 from teacher
 where name = '王春平'
 limit 1
 into @WCP;
+
 select id
 from teacher
 where name = '王松'
 limit 1
 into @WS;
+
 select id
 from teacher
 where name = '潘清'

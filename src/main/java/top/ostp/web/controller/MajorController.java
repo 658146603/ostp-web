@@ -29,6 +29,12 @@ public class MajorController {
         return majorService.selectAll();
     }
 
+    @PostMapping(path = {"/major/by/year"})
+    @ResponseBody
+    public ApiResponse<Object> selectByYear(int year) {
+        return majorService.selectByYear(year);
+    }
+
     @PostMapping(path = "/major/update")
     @ResponseBody
     public ApiResponse<Object> update(Major major) {

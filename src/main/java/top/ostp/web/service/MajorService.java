@@ -38,6 +38,15 @@ public class MajorService {
         }
     }
 
+    public ApiResponse<Object> selectByYear(int year) {
+        List<Major> majors = majorMapper.selectByYear(year);
+        if (majors.isEmpty()) {
+            return Responses.fail("没有专业");
+        } else {
+            return Responses.ok(majors);
+        }
+    }
+
     public ApiResponse<Object> update(Major major) {
         int result = majorMapper.update(major);
         if (result == 1) {
