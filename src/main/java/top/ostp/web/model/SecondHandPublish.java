@@ -8,6 +8,17 @@ public class SecondHandPublish {
         return person;
     }
 
+    @Override
+    public String toString() {
+        return "SecondHandPublish{" +
+                "person=" + person +
+                ", book=" + book +
+                ", price=" + price +
+                ", exchange=" + exchange +
+                ", status=" + status +
+                '}';
+    }
+
     public void setPerson(Student person) {
         this.person = person;
     }
