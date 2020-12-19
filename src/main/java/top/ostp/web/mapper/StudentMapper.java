@@ -28,4 +28,15 @@ public interface StudentMapper {
             }
     )
     Student selectStudentById(String id);
+
+    @Select("select id, name, clazz, password, balance, email from student where id=#{id} and password=#{password}")
+    @Results(
+            value = {
+                    @Result(
+                            property = "clazz", column = "clazz",
+                            one = @One(select = "top.ostp.web.mapper.ClazzMapper.selectById", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    Student login(@Param("id") String id, @Param("password") String password);
 }

@@ -29,7 +29,7 @@ interface TeacherMapper {
             )
         ]
     )
-    fun login(@Param("id") id: String, @Param("password") password: String): Teacher
+    fun login(@Param("id") id: String, @Param("password") password: String): Teacher?
 
     @Select("select id, name, college, password, email from teacher")
     @Results(
