@@ -21,7 +21,7 @@ public class TeacherService {
 
     public ApiResponse<Object> insert(Teacher teacher) {
         try {
-            int result = teacherMapper.insert(teacher);
+            teacherMapper.insert(teacher);
             return Responses.ok();
         } catch (DuplicateKeyException e) {
             e.printStackTrace();

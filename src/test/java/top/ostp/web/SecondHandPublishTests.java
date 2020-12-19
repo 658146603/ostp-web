@@ -42,10 +42,9 @@ public class SecondHandPublishTests {
     public void selectPublishByStudentId(){
         Student s = new Student();
         s.setId("201806060231");
-        List<SecondHandPublish> secondHandPublishes = secondHandPublishMapper.selectPublishByStudentId(s);
+        List<SecondHandPublish> secondHandPublishes = secondHandPublishMapper.selectPublishByStudentId("201806061108");
         for (SecondHandPublish s1:secondHandPublishes) {
             System.out.println(s1.toString());
-
         }
     }
     @Test

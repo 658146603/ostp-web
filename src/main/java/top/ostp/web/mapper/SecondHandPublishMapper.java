@@ -50,6 +50,6 @@ public interface SecondHandPublishMapper {
 
             }
     )
-    List<SecondHandPublish> selectPublishByStudentId(Student student);
+    List<SecondHandPublish> selectPublishByStudentId(String id);
 
 }

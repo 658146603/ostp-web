@@ -80,11 +80,11 @@ create table course_open
 
 create table second_hand_publish
 (
+    id       varchar(32) not null primary key,
     person   varchar(32) not null,
     foreign key (person) references student (id),
     book     varchar(32) not null,
     foreign key (book) references book (isbn),
-    primary key (person, book),
     price    integer     not null,
     exchange boolean     not null default false,
     status   integer     not null
@@ -92,11 +92,11 @@ create table second_hand_publish
 
 create table second_hand_find
 (
+    id       varchar(32) not null primary key,
     person   varchar(32) not null,
     foreign key (person) references student (id),
     book     varchar(32) not null,
     foreign key (book) references book (isbn),
-    primary key (person, book),
     price    integer     not null,
     exchange boolean     not null default false,
     status   integer     not null
