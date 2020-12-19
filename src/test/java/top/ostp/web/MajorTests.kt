@@ -17,7 +17,7 @@ class MajorTests {
     @Test
     fun insertMajor() {
         val college = collegeMapper.selectByName("信息工程学院")
-        val major = college?.let { Major("电子科学与技术1", it) }
+        val major = college?.let { Major("电子科学与技术1", it, 2020) }
 
         if (major != null) {
             majorMapper.insert(major)

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
+import top.ostp.web.model.CourseOpen
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.service.CourseOpenService
 
@@ -22,6 +23,12 @@ class CourseOpenController {
         @RequestParam("teacher") teacher: String,
         @RequestParam("year") year: Int,
         @RequestParam("semester") semester: Int
-    ): ApiResponse<String> = service.insert(course, year, semester, book, teacher)
+    ): ApiResponse<String> = service.insert(course, book, teacher, year, semester)
+
+
+    @PostMapping(path= ["/course_open/list"])
+    @ResponseBody
+    fun list(): ApiResponse<List<CourseOpen>> = service.listAll()
+
 
 }

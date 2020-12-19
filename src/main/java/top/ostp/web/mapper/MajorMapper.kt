@@ -44,7 +44,7 @@ interface MajorMapper {
     @ResultType(Major::class)
     fun selectByName(name: String): List<Major>
 
-    @Insert("insert into major (name, college) values (#{name}, #{college.id})")
+    @Insert("insert into major (name, college, year) values (#{name}, #{college.id}, #{year})")
     fun insert(major: Major): Int
 
     @Update("update major set name = #{name} where id = #{id}")

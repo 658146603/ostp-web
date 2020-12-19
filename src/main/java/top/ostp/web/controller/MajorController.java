@@ -23,7 +23,7 @@ public class MajorController {
         return majorService.insert(major);
     }
 
-    @PostMapping(path = "/major/all")
+    @PostMapping(path = {"/major/all", "/major/list"})
     @ResponseBody
     public ApiResponse<Object> selectAll() {
         return majorService.selectAll();
