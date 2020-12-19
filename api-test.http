@@ -1,0 +1,20 @@
+POST http://localhost:8082/book/list
+Content-Type: application/x-www-form-urlencoded
+
+###
+POST http://localhost:8082/teacher/selectAll
+Content-Type: application/x-www-form-urlencoded
+
+###
+POST http://localhost:8082/college/list
+Content-Type: application/x-www-form-urlencoded
+
+###
+
+###
+POST http://localhost:8082/course_open/insert
+Content-Type: application/x-www-form-urlencoded
+
+id=99&content=new-element
+
+###

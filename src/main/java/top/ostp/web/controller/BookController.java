@@ -11,6 +11,8 @@ import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.service.BookService;
 
+import java.util.List;
+
 
 @Controller(value = "/book")
 public class BookController {
@@ -43,5 +45,11 @@ public class BookController {
     @ResponseBody
     public ApiResponse<Object> updateBook(Book book) {
         return bookService.updateBook(book);
+    }
+
+    @PostMapping("/book/list")
+    @ResponseBody
+    public ApiResponse<List<Book>> selectAll() {
+        return bookService.selectAll();
     }
 }

@@ -8,6 +8,8 @@ import top.ostp.web.model.Book;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
+import java.util.List;
+
 @Service
 public class BookService {
     BookMapper bookMapper;
@@ -53,5 +55,9 @@ public class BookService {
         } else {
             return Responses.fail("更新失败");
         }
+    }
+
+    public ApiResponse<List<Book>> selectAll() {
+        return Responses.ok(bookMapper.selectAll());
     }
 }
