@@ -1,6 +1,7 @@
 package top.ostp.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.model.Student;
@@ -17,10 +18,10 @@ public class StudentService {
     }
 
     public ApiResponse<Object> addStudent(Student student) {
-        int result = studentMapper.insert(student);
-        if (result == 1) {
+        try {
+            studentMapper.insert(student);
             return Responses.ok("插入成功");
-        } else {
+        } catch (DuplicateKeyException e) {
             return Responses.fail("插入失败");
         }
     }

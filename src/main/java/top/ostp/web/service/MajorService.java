@@ -1,6 +1,7 @@
 package top.ostp.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.MajorMapper;
 import top.ostp.web.model.Major;
@@ -20,10 +21,10 @@ public class MajorService {
     }
 
     public ApiResponse<Object> insert(Major major) {
-        int result = majorMapper.insert(major);
-        if (result == 1) {
+        try {
+            majorMapper.insert(major);
             return Responses.ok("插入成功");
-        } else {
+        } catch (DuplicateKeyException e) {
             return Responses.fail("插入出错");
         }
     }
