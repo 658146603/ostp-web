@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.CollegeMapper;
-import top.ostp.web.model.Book;
 import top.ostp.web.model.College;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
@@ -54,4 +53,7 @@ public class CollegeService {
         return Responses.ok(collegeMapper.selectById(id));
     }
 
+    public ApiResponse<Object> selectAll() {
+        return Responses.ok(collegeMapper.selectAll());
+    }
 }

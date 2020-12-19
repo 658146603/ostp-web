@@ -2,7 +2,6 @@ package top.ostp.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.ostp.web.model.College;
@@ -34,5 +33,11 @@ public class CollegeController {
     @ResponseBody
     public ApiResponse<Object> deleteCollege(int id) {
         return collegeService.deleteById(id);
+    }
+
+    @PostMapping(value = "college/list")
+    @ResponseBody
+    public ApiResponse<Object> selectAllCollege() {
+        return collegeService.selectAll();
     }
 }
