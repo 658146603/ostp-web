@@ -57,6 +57,10 @@ public class BookService {
         }
     }
 
+    public ApiResponse<List<Book>> fuzzyQuery(String name) {
+        return Responses.ok(bookMapper.fuzzyQuery(name));
+    }
+
     public ApiResponse<List<Book>> selectAll() {
         return Responses.ok(bookMapper.selectAll());
     }

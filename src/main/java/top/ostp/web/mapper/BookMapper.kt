@@ -26,4 +26,7 @@ interface BookMapper {
 
     @Update("update book set name = #{name,jdbcType=VARCHAR}, price = #{price,jdbcType=DECIMAL} where isbn = #{isbn,jdbcType=VARCHAR}")
     fun updateByISBN(record: Book): Int
+
+    @Select("select * from book where name like concat('%',#{name},'%') limit 10")
+    fun fuzzyQuery(name:String): List<Book>
 }
