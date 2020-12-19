@@ -1,10 +1,19 @@
 # noinspection SqlWithoutWhereForFile
 
 delete
+from second_hand_find;
+
+delete
+from second_hand_publish;
+
+delete
 from student;
 
 delete
 from clazz;
+
+delete
+from course;
 
 delete
 from major;
@@ -15,22 +24,32 @@ from teacher;
 delete
 from college;
 
+delete
+from book;
+
 insert into college (name)
 values ('计算机科学与技术学院');
 insert into college (name)
 values ('信息工程学院');
 
-insert into major (name, college)
-values ('软件工程', (select id from college where college.name = '计算机科学与技术学院'));
+insert into major (name, college, year)
+values ('软件工程', (select id from college where college.name = '计算机科学与技术学院'), 2018);
 
-insert into major (name, college)
-values ('计算机科学与技术', (select id from college where college.name = '计算机科学与技术学院'));
+insert into major (name, college, year)
+values ('计算机科学与技术', (select id from college where college.name = '计算机科学与技术学院'), 2018);
+
+insert into major (name, college, year)
+values ('软件工程', (select id from college where college.name = '计算机科学与技术学院'), 2019);
+
+insert into major (name, college, year)
+values ('计算机科学与技术', (select id from college where college.name = '计算机科学与技术学院'), 2019);
+
 
 insert into clazz (name, major)
-values ('移动应用开发方向1802', (select id from major where major.name = '软件工程'));
+values ('移动应用开发方向1802', (select id from major where (major.name, major.year) = ('软件工程', 2018)));
 
 insert into clazz (name, major)
-values ('移动应用开发方向1801', (select id from major where major.name = '软件工程'));
+values ('移动应用开发方向1801', (select id from major where (major.name, major.year) = ('软件工程', 2018)));
 
 insert into student (id, name, clazz, password, balance, email)
 values ('201806061219', '王程飞', (select id from clazz where clazz.name = '移动应用开发方向1802'), '123456', 999999,
@@ -132,9 +151,10 @@ values ('G101010', 2019, 3, '9787-212-222-333', '123458');
 
 
 insert into second_hand_publish(id, person, book, price, exchange, status)
-values ('1234567', '201806060231', '9787-212-222-423', 12, 0, 1);
+values ('1234567', '201806060231', '9787-213-243-432', 12, 0, 1);
 insert into second_hand_publish(id, person, book, price, exchange, status)
-values ('1234567', '201806061201', '9787-212-222-423', 12, 1, 1);
+values ('1234568', '201806061201', '9787-213-243-432', 12, 1, 1);
 
 insert into ostp.second_hand_find (id, person, book, price, exchange, status)
 values ('af1e61d093eb44cc9fd96e81f0aeef05', '201806061108', '9787-212-222-333', 55, 0, 1);
+
