@@ -11,11 +11,11 @@ public interface SecondHandPublishMapper {
     @Insert("insert into second_hand_publish(person, book, price, exchange, status) values (#{person.id},#{book.id},#{price},#{exchange},#{status})")
     int insert(SecondHandPublish secondHandPublish);
 
-    @Update("update second_hand_publish set person = #{person.id},book = #{book.id},price = #{price},exchange = #{exchange},status = #{status} ")
+    @Update("update second_hand_publish set book = #{book.id},price = #{price},exchange = #{exchange},status = #{status} where person = #{person.id}")
     int update(SecondHandPublish secondHandPublish);
 
     @Delete("delete from second_hand_publish where book = #{book.id}")
-    int deleteByBoodId(Book book);
+    int deleteByBookId(Book book);
 //
     @Select("select * from second_hand_publish")
     List<SecondHandPublish> selectAll();
