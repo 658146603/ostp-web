@@ -1,6 +1,7 @@
 package top.ostp.web.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import top.ostp.web.model.Student;
 
 @Mapper
@@ -18,5 +19,13 @@ public interface StudentMapper {
     int changeMoney(@Param("student") Student student, @Param("money") int money);
 
     @Select("select * from student where id=#{id} limit 1")
+    @Results(
+            value = {
+                    @Result(
+                            property = "clazz", column = "clazz",
+                            one = @One(select = "top.ostp.web.mapper.ClazzMapper.selectById", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
     Student selectStudentById(String id);
 }

@@ -58,7 +58,7 @@ interface CourseOpenMapper {
         ]
     )
     @ResultType(CourseOpen::class)
-    fun selectByCourse(course: Course): List<CourseOpen>
+    fun selectByCourse(@Param("course") course: Course): List<CourseOpen>
 
     @Select("select * from course_open where book = #{book.isbn}")
     @Results(
@@ -78,7 +78,7 @@ interface CourseOpenMapper {
         ]
     )
     @ResultType(CourseOpen::class)
-    fun selectByBook(book: Book): List<CourseOpen>
+    fun selectByBook(@Param("book") book: Book): List<CourseOpen>
 
     @Select("select * from course_open where year = #{year} and semester = #{semester}")
     @Results(
@@ -98,7 +98,7 @@ interface CourseOpenMapper {
         ]
     )
     @ResultType(CourseOpen::class)
-    fun selectByYearSemester(year: Int, semester: Int): List<CourseOpen>
+    fun selectByYearSemester(@Param("year") year: Int, @Param("semester") semester: Int): List<CourseOpen>
 
     @Select("select * from course_open where teacher = #{teacher.id}")
     @Results(
@@ -118,7 +118,7 @@ interface CourseOpenMapper {
         ]
     )
     @ResultType(CourseOpen::class)
-    fun selectByTeacher(teacher: Teacher): List<CourseOpen>
+    fun selectByTeacher(@Param("teacher") teacher: Teacher): List<CourseOpen>
 
     @Select("select * from course_open where teacher = #{teacher.id} and year = #{year} and semester = #{semester}")
     @Results(
@@ -138,5 +138,9 @@ interface CourseOpenMapper {
         ]
     )
     @ResultType(CourseOpen::class)
-    fun selectByTeacherAndYearSemester(teacher: Teacher): List<CourseOpen>
+    fun selectByTeacherAndYearSemester(
+        @Param("teacher") teacher: Teacher,
+        @Param("year") year: Int,
+        @Param("semester") semester: Int
+    ): List<CourseOpen>
 }

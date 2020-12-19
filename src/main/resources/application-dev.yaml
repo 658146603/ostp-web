@@ -9,6 +9,12 @@ spring:
     username: dbuser
     password: dbpassword
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 10
+      idle-timeout: 30000
+      max-lifetime: 120000
+      connection-test-query: SELECT 1
 
 server:
   port: 8082
