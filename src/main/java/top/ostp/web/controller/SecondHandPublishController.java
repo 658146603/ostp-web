@@ -33,9 +33,10 @@ public class SecondHandPublishController {
     public ApiResponse<Object> deleteSecondHandPublish(Book book) {
         return secondHandPublishService.deleteByBookISBN(book);
     }
+
     @PostMapping(value = "/second/publish/update")
     @ResponseBody
-    public ApiResponse<Object> updateSecondHandPublish(SecondHandPublish secondHandPublish){
+    public ApiResponse<Object> updateSecondHandPublish(SecondHandPublish secondHandPublish) {
         return secondHandPublishService.update(secondHandPublish);
     }
 
@@ -47,7 +48,7 @@ public class SecondHandPublishController {
 
     @PostMapping(value = "/second/publish/select/{id}")
     @ResponseBody
-    public  ApiResponse<List<SecondHandPublish>> selectSecondHandPublish(@PathVariable String id){
+    public ApiResponse<List<SecondHandPublish>> selectSecondHandPublish(@PathVariable String id) {
         return secondHandPublishService.selectPublishByStudentId(id);
     }
 }

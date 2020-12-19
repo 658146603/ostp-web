@@ -1,27 +1,12 @@
 package top.ostp.web.model;
 
 public class SecondHandPublish {
+    private String id;
     private Student person;
     private Book book;
-
-    public Student getPerson() {
-        return person;
-    }
-
-    @Override
-    public String toString() {
-        return "SecondHandPublish{" +
-                "person=" + person +
-                ", book=" + book +
-                ", price=" + price +
-                ", exchange=" + exchange +
-                ", status=" + status +
-                '}';
-    }
-
-    public void setPerson(Student person) {
-        this.person = person;
-    }
+    private double price;
+    private long exchange;
+    private long status;
 
     public SecondHandPublish() {
     }
@@ -33,6 +18,24 @@ public class SecondHandPublish {
         this.exchange = exchange;
         this.status = status;
     }
+
+    public SecondHandPublish(String id, Student person, Book book, double price, long exchange, long status) {
+        this.id = id;
+        this.person = person;
+        this.book = book;
+        this.price = price;
+        this.exchange = exchange;
+        this.status = status;
+    }
+
+    public Student getPerson() {
+        return person;
+    }
+
+    public void setPerson(Student person) {
+        this.person = person;
+    }
+
 
     public Book getBook() {
         return book;
@@ -66,7 +69,23 @@ public class SecondHandPublish {
         this.status = status;
     }
 
-    private double price;
-    private long exchange;
-    private long status;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "SecondHandPublish{" +
+                "id='" + id + '\'' +
+                ", person=" + person +
+                ", book=" + book +
+                ", price=" + price +
+                ", exchange=" + exchange +
+                ", status=" + status +
+                '}';
+    }
 }
