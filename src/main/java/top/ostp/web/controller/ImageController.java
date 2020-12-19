@@ -6,10 +6,7 @@ import okhttp3.Response;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
@@ -49,6 +46,12 @@ public class ImageController {
             }
         }
         return bos.toByteArray();
+    }
+
+    @RequestMapping(value = "/image/get/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] getImageById(@PathVariable String id) throws IOException {
+        return getImage(id);
     }
 
     @RequestMapping(value = "/image/get", produces = MediaType.IMAGE_JPEG_VALUE)
