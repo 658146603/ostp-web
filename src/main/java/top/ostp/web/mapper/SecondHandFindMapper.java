@@ -1,13 +1,63 @@
 package top.ostp.web.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 import top.ostp.web.model.SecondHandFind;
+
+import java.util.List;
 
 @Mapper
 @Repository
 public interface SecondHandFindMapper {
-    @Insert("insert into second_hand_find(person, book, price, exchange, status) VALUES (#{person.id},#{book.id},#{price},#{exchange},#{status})")
+    @Insert("insert into second_hand_find(id, person, book, price, exchange, status)\n" +
+            "VALUES (#{id}, #{person.id}, #{book.id}, #{price}, #{exchange}, #{status})")
     int insert(SecondHandFind secondHandFind);
+
+    @Delete("delete\n" +
+            "from second_hand_find\n" +
+            "where id = #{id}")
+    int delete(SecondHandFind secondHandFind);
+
+    @Update("update second_hand_find\n" +
+            "set person=#{person.id},\n" +
+            "    book=#{book.id},\n" +
+            "    price=#{price},\n" +
+            "    exchange=#{exchange},\n" +
+            "    status=#{status}\n" +
+            "where id = #{id}")
+    int update(SecondHandFind secondHandFind);
+
+    @Select("select *\n" +
+            "from second_hand_find\n" +
+            "where id = #{id}")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    SecondHandFind select(String id);
+
+    @Select("select id, person, book, price, exchange, status\n" +
+            "from second_hand_find")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    List<SecondHandFind> selectAll();
 }

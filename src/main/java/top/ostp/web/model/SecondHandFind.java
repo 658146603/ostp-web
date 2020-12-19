@@ -2,23 +2,26 @@ package top.ostp.web.model;
 
 
 public class SecondHandFind {
-
+    private String id;
     private Student person;
     private Book book;
     private double price;
     private long exchange;
     private long status;
 
-    public SecondHandFind() {
-    }
-
-    public SecondHandFind(Student person, Book book, double price, long exchange, long status) {
+    public SecondHandFind(String id, Student person, Book book, double price, long exchange, long status) {
+        this.id = id;
         this.person = person;
         this.book = book;
         this.price = price;
         this.exchange = exchange;
         this.status = status;
     }
+
+
+    public SecondHandFind() {
+    }
+
 
     public Student getPerson() {
         return person;
@@ -64,4 +67,11 @@ public class SecondHandFind {
         this.status = status;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
