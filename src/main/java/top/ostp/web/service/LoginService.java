@@ -6,10 +6,12 @@ import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.mapper.TeacherMapper;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.Teacher;
+import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.util.EncryptProvider;
 
+@NoAuthority
 @Service
 public class LoginService {
     StudentMapper studentMapper;

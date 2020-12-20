@@ -4,7 +4,9 @@ import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Order(1)
@@ -66,10 +68,12 @@ public class CorsFilter implements Filter {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse res = (HttpServletResponse) response;
-        res.addHeader("Access-Control-Allow-Origin", "http://localhost:63343");
-        res.addHeader("Access-Control-Allow-Credentials", "true");
-        System.out.println("123");
+        HttpServletResponse resp = (HttpServletResponse) response;
+        resp.addHeader("Access-Control-Allow-Origin", "http://localhost:63343");
+        resp.addHeader("Access-Control-Allow-Credentials", "true");
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+        System.out.println("filter/session: " + session.getId());
         chain.doFilter(request, response);
     }
 
