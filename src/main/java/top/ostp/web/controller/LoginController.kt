@@ -2,6 +2,7 @@ package top.ostp.web.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.SessionAttributes
@@ -13,6 +14,7 @@ import top.ostp.web.model.common.Responses
 import top.ostp.web.model.common.Tokens.ok
 import top.ostp.web.service.LoginService
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @Controller
 @SessionAttributes(names = ["role"])
@@ -22,7 +24,7 @@ class LoginController {
 
     @PostMapping(path = ["/login"])
     @ResponseBody
-    fun login(id: String?, password: String?, request: HttpServletRequest): ApiResponse<Any> {
+    fun login(id: String?, password: String?, request: HttpServletRequest, res: HttpServletResponse): ApiResponse<Any> {
         val session = request.session
         println("login/session: ${session.id}")
         val response = loginService.login(id, password)
