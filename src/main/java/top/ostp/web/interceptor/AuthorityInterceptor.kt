@@ -1,5 +1,6 @@
 package top.ostp.web.interceptor
 
+import com.google.gson.Gson
 import com.mysql.cj.x.protobuf.MysqlxExpr
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
@@ -62,7 +63,7 @@ class AuthorityInterceptor : HandlerInterceptor {
             println("auth failed, role is $role")
             response?.contentType = "text/html;charset=UTF-8"
             response?.status = HttpServletResponse.SC_UNAUTHORIZED
-            response?.writer?.println(Responses.fail<Any>("权限校验失败"))
+            response?.writer?.println(Gson().toJson(Responses.fail<Any>("权限校验失败")))
             return false
         } else if (handler is HandlerMethod) {
             println("no auth needed")
