@@ -7,7 +7,7 @@ import top.ostp.web.mapper.TeacherMapper;
 import top.ostp.web.model.Teacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
-import top.ostp.web.util.Encrypt;
+import top.ostp.web.util.EncryptProvider;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class TeacherService {
     }
 
     public ApiResponse<Object> insert(Teacher teacher) {
-        teacher.setPassword(Encrypt.getSaltedPassword(teacher.getId(), teacher.getPassword()));
+        teacher.setPassword(EncryptProvider.getSaltedPassword(teacher.getId(), teacher.getPassword()));
         try {
             teacherMapper.insert(teacher);
             return Responses.ok();

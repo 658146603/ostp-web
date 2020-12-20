@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Encrypt {
+public class EncryptProvider {
     private static final String salt = "c2d98bb6-e75d-4be7-85d1-1b1e740ae9c8";
 
     private static String getSHA256(String str) {
