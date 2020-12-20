@@ -63,7 +63,7 @@ class LoginController {
 
     @PostMapping("/account/username")
     @ResponseBody
-    fun username(request: HttpServletRequest):ApiResponse<Any>{
+    fun username(request: HttpServletRequest): ApiResponse<Any> {
         val session = request.session
         return Responses.ok(session.getAttribute("role"))
     }

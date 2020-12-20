@@ -1,5 +1,6 @@
 package top.ostp.web.interceptor
 
+import com.mysql.cj.x.protobuf.MysqlxExpr
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
@@ -11,6 +12,8 @@ import top.ostp.web.model.annotations.AuthAdmin
 import top.ostp.web.model.annotations.AuthStudent
 import top.ostp.web.model.annotations.AuthTeacher
 import top.ostp.web.model.annotations.NoAuthority
+import top.ostp.web.model.common.ApiResponse
+import top.ostp.web.model.common.Responses
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -57,7 +60,9 @@ class AuthorityInterceptor : HandlerInterceptor {
             }
 
             println("auth failed, role is $role")
-
+            response?.contentType = "text/html;charset=UTF-8"
+            response?.status = HttpServletResponse.SC_UNAUTHORIZED
+            response?.writer?.println(Responses.fail<Any>("权限校验失败"))
             return false
         } else if (handler is HandlerMethod) {
             println("no auth needed")
