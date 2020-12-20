@@ -11,7 +11,6 @@ import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.util.EncryptProvider;
 
-@NoAuthority
 @Service
 public class LoginService {
     StudentMapper studentMapper;
