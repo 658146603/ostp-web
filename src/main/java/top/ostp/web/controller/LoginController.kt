@@ -30,11 +30,6 @@ class LoginController {
         val session = request.session
         println("login/session: ${session.id}")
         val response = loginService.login(id, password)
-<<<<<<< HEAD
-//        session.setAttribute("username","")
-=======
-        session.setAttribute("username", "")
->>>>>>> 96b0177297307dae83d9a7538417f85819f0d387
         if (response.code == ok.code && response.data != null) {
             session.setAttribute("username", id)
             when (response.data) {
@@ -68,11 +63,7 @@ class LoginController {
 
     @PostMapping("/account/username")
     @ResponseBody
-<<<<<<< HEAD
     fun username(request: HttpServletRequest):ApiResponse<Any>{
-=======
-    fun username(request: HttpServletRequest): ApiResponse<String> {
->>>>>>> 96b0177297307dae83d9a7538417f85819f0d387
         val session = request.session
         return Responses.ok(session.getAttribute("role"))
     }
