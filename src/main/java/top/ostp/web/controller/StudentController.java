@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.ostp.web.model.Student;
+import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.StudentService;
 
@@ -18,6 +19,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @AuthAdmin
     @PostMapping(path = "/student/insert")
     @ResponseBody
     public ApiResponse<Object> insert(Student student) {

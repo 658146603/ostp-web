@@ -6,10 +6,12 @@ import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.mapper.TeacherMapper;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.Teacher;
+import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
-import top.ostp.web.util.Encrypt;
+import top.ostp.web.util.EncryptProvider;
 
+@NoAuthority
 @Service
 public class LoginService {
     StudentMapper studentMapper;
@@ -26,7 +28,7 @@ public class LoginService {
     }
 
     public ApiResponse<Object> login(String id, String password) {
-        password = Encrypt.getSaltedPassword(id, password);
+        password = EncryptProvider.getSaltedPassword(id, password);
         Teacher teacher = teacherMapper.login(id, password);
         if (teacher != null) {
             return Responses.ok("教师登录成功", teacher);
