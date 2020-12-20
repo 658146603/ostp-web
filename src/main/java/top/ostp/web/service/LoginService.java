@@ -8,6 +8,7 @@ import top.ostp.web.model.Student;
 import top.ostp.web.model.Teacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
+import top.ostp.web.util.Encrypt;
 
 @Service
 public class LoginService {
@@ -25,6 +26,7 @@ public class LoginService {
     }
 
     public ApiResponse<Object> login(String id, String password) {
+        password = Encrypt.getSaltedPassword(id, password);
         Teacher teacher = teacherMapper.login(id, password);
         if (teacher != null) {
             return Responses.ok("教师登录成功", teacher);

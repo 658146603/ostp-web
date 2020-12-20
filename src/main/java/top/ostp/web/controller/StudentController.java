@@ -51,6 +51,6 @@ public class StudentController {
     @PostMapping(path = "/student/{id}/consume")
     @ResponseBody
     public ApiResponse<Object> consume(int money, @PathVariable String id) {
-        return studentService.useMoney(id,money);
+        return studentService.useMoney(id, money);
     }
 }

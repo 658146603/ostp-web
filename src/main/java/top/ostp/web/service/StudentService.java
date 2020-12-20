@@ -7,6 +7,7 @@ import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
+import top.ostp.web.util.Encrypt;
 
 @Service
 public class StudentService {
@@ -18,6 +19,7 @@ public class StudentService {
     }
 
     public ApiResponse<Object> addStudent(Student student) {
+        student.setPassword(Encrypt.getSaltedPassword(student.getId(), student.getPassword()));
         try {
             studentMapper.insert(student);
             return Responses.ok("插入成功");
@@ -36,6 +38,7 @@ public class StudentService {
     }
 
     public ApiResponse<Object> modifyStudent(Student student) {
+        student.setPassword(Encrypt.getSaltedPassword(student.getId(), student.getPassword()));
         int result = studentMapper.update(student);
         if (result == 1) {
             return Responses.ok("删除成功");
