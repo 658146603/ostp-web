@@ -11,6 +11,7 @@ import top.ostp.web.model.common.Responses;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SecondHandFindService {
@@ -48,15 +49,15 @@ public class SecondHandFindService {
         }
     }
 
-    public ApiResponse<Object> selectByStudentId(String id){
+    public ApiResponse<Object> selectByStudentId(String id) {
         List<SecondHandFind> bookList = secondHandFindMapper.selectBookByStudentId(id);
         List<Book> b1 = new ArrayList<>();
-        for(SecondHandFind se:bookList){
+        for (SecondHandFind se : bookList) {
             b1.add(se.getBook());
         }
-        if(bookList.size() > 0){
+        if (bookList.size() > 0) {
             return Responses.ok(b1);
-        }else {
+        } else {
             return Responses.fail("未找到该学生订阅的书籍");
         }
     }
@@ -64,6 +65,7 @@ public class SecondHandFindService {
 
     public ApiResponse<Object> insert(SecondHandFind secondHandFind) {
         try {
+            secondHandFind.setId(UUID.randomUUID().toString());
             secondHandFindMapper.insert(secondHandFind);
             return Responses.ok("插入成功");
         } catch (DuplicateKeyException e) {

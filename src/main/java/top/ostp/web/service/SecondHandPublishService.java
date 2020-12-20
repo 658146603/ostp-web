@@ -14,6 +14,7 @@ import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SecondHandPublishService {
@@ -22,27 +23,30 @@ public class SecondHandPublishService {
     BookMapper bookMapper;
 
     @Autowired
-    public void setStudentMapper(StudentMapper studentMapper){
+    public void setStudentMapper(StudentMapper studentMapper) {
         this.studentMapper = studentMapper;
     }
+
     @Autowired
     public void setSecondHandPublishMapper(SecondHandPublishMapper secondHandPublishMapper) {
         this.secondHandPublishMapper = secondHandPublishMapper;
     }
+
     @Autowired
-    public void setBookMapper(BookMapper bookMapper){
+    public void setBookMapper(BookMapper bookMapper) {
         this.bookMapper = bookMapper;
     }
 
-    public ApiResponse<Object> insert(String id,String person,String book,int price,int exchange,int status){
+    public ApiResponse<Object> insert(String person, String book, int price, int exchange, int status) {
         try {
+            String id = UUID.randomUUID().toString();
             Student student = studentMapper.selectStudentById(person);
             Book book1 = bookMapper.selectByISBN(book);
 
-            if(student == null || book1 == null){
+            if (student == null || book1 == null) {
                 return Responses.fail("参数错误");
             }
-            SecondHandPublish secondHandPublish = new SecondHandPublish(id,student,book1,price,exchange,status);
+            SecondHandPublish secondHandPublish = new SecondHandPublish(id, student, book1, price, exchange, status);
             int result = secondHandPublishMapper.insert(secondHandPublish);
             return Responses.ok();
         } catch (DuplicateKeyException e) {
@@ -69,18 +73,19 @@ public class SecondHandPublishService {
     public ApiResponse<List<SecondHandPublish>> selectPublishByStudentId(String id) {
         return Responses.ok(secondHandPublishMapper.selectPublishByStudentId(id));
     }
+
     public ApiResponse<SecondHandPublish> selectPublishByOrderId(String id) {
         return Responses.ok(secondHandPublishMapper.selectPublishByOrderId(id));
     }
 
-    public ApiResponse<Object> update(String id,String person,String book,int price,int exchange,int status) {
+    public ApiResponse<Object> update(String id, String person, String book, int price, int exchange, int status) {
         Student student = studentMapper.selectStudentById(person);
         Book book1 = bookMapper.selectByISBN(book);
 
-        if(student == null || book1 == null){
+        if (student == null || book1 == null) {
             return Responses.fail("参数错误");
         }
-        SecondHandPublish secondHandPublish = new SecondHandPublish(id,student,book1,price,exchange,status);
+        SecondHandPublish secondHandPublish = new SecondHandPublish(id, student, book1, price, exchange, status);
         try {
             int result = secondHandPublishMapper.update(secondHandPublish);
             return Responses.ok();
