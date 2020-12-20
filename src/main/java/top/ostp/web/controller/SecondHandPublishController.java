@@ -25,8 +25,8 @@ public class SecondHandPublishController {
 
     @PostMapping(value = "/second/publish/insert")
     @ResponseBody
-    public ApiResponse<Object> insertSecondHandPublish(String id,@RequestParam("person") String person,@RequestParam("book") String book,int price,int exchange,int status) {
-        return secondHandPublishService.insert(id,person,book,price,exchange,status);
+    public ApiResponse<Object> insertSecondHandPublish(@RequestParam("person") String person, @RequestParam("book") String book, int price, int exchange, int status) {
+        return secondHandPublishService.insert( person, book, price, exchange, status);
     }
 
     @PostMapping(value = "/second/publish/delete")
@@ -37,8 +37,8 @@ public class SecondHandPublishController {
 
     @PostMapping(value = "/second/publish/update")
     @ResponseBody
-    public ApiResponse<Object> updateSecondHandPublish(String id,@RequestParam("person") String person,@RequestParam("book") String book,int price,int exchange,int status) {
-        return secondHandPublishService.update(id,person,book,price,exchange,status);
+    public ApiResponse<Object> updateSecondHandPublish(String id, @RequestParam("person") String person, @RequestParam("book") String book, int price, int exchange, int status) {
+        return secondHandPublishService.update(id, person, book, price, exchange, status);
     }
 
     @PostMapping(value = "/second/publish/select/all")
@@ -52,9 +52,10 @@ public class SecondHandPublishController {
     public ApiResponse<SecondHandPublish> selectSecondHandPublishByOrderId(@PathVariable String id) {
         return secondHandPublishService.selectPublishByOrderId(id);
     }
+
     @PostMapping(value = "/second/publish/selectByStudent")
     @ResponseBody
-    public ApiResponse<List<SecondHandPublish>> selectSecondHandPublishByStudentId(String id){
+    public ApiResponse<List<SecondHandPublish>> selectSecondHandPublishByStudentId(String id) {
         return secondHandPublishService.selectPublishByStudentId(id);
     }
 }

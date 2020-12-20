@@ -1,8 +1,16 @@
 package top.ostp.web.interceptor
 
 import org.springframework.stereotype.Component
+import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.servlet.ModelAndView
+import top.ostp.web.model.Admin
+import top.ostp.web.model.Student
+import top.ostp.web.model.Teacher
+import top.ostp.web.model.annotations.AuthAdmin
+import top.ostp.web.model.annotations.AuthStudent
+import top.ostp.web.model.annotations.AuthTeacher
+import top.ostp.web.model.annotations.NoAuthority
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -14,6 +22,49 @@ class AuthorityInterceptor : HandlerInterceptor {
         response: HttpServletResponse?, handler: Any?,
     ): Boolean {
         println("interceptor/handler: $handler")
+
+        if (handler is HandlerMethod && handler.beanType.getAnnotation(NoAuthority::class.java) == null) {
+            val role = request?.session?.getAttribute("role")
+            when {
+                handler.method.isAnnotationPresent(AuthStudent::class.java) -> {
+                    if (Student::class.java == role?.javaClass) {
+                        println("auth success - student")
+                        return true
+                    }
+                }
+
+                handler.method.isAnnotationPresent(AuthTeacher::class.java) -> {
+                    if (Teacher::class.java == role?.javaClass) {
+                        println("auth success - teacher")
+                        return true
+                    }
+                }
+
+                handler.method.isAnnotationPresent(AuthAdmin::class.java) -> {
+                    if (Admin::class.java == role?.javaClass) {
+                        println("auth success - admin")
+                        return true
+                    }
+                }
+
+                handler.method.isAnnotationPresent(NoAuthority::class.java) -> {
+                    return true
+                }
+
+                else -> {
+                    TODO("既没有NoAuthority也没有权限控制")
+                }
+            }
+
+            println("auth failed, role is $role")
+
+            return false
+        } else if (handler is HandlerMethod) {
+            println("no auth needed")
+        } else {
+            println("非HandlerMethod调用，放行")
+        }
+
         return true
     }
 

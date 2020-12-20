@@ -8,13 +8,16 @@ import org.springframework.web.bind.annotation.SessionAttributes
 import top.ostp.web.model.Admin
 import top.ostp.web.model.Student
 import top.ostp.web.model.Teacher
+import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
 import top.ostp.web.model.common.Tokens.ok
 import top.ostp.web.service.LoginService
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.servlet.http.HttpSession
 
+@NoAuthority
 @Controller
 @SessionAttributes(names = ["role"])
 class LoginController {
@@ -27,9 +30,13 @@ class LoginController {
         val session = request.session
         println("login/session: ${session.id}")
         val response = loginService.login(id, password)
+<<<<<<< HEAD
 //        session.setAttribute("username","")
+=======
+        session.setAttribute("username", "")
+>>>>>>> 96b0177297307dae83d9a7538417f85819f0d387
         if (response.code == ok.code && response.data != null) {
-            session.setAttribute("username",id)
+            session.setAttribute("username", id)
             when (response.data) {
 
                 is Admin -> session.setAttribute("role", response.data)
@@ -46,15 +53,38 @@ class LoginController {
 
     @PostMapping("/account/status")
     @ResponseBody
-    fun status(request: HttpServletRequest): ApiResponse<String> {
+    fun status(request: HttpServletRequest): ApiResponse<Any> {
         val session = request.session
+
+        val role = session["role"]
         println("status/session: ${session.id}")
-        return Responses.ok("status/session: ${session.id}")
+
+        return if (role != null) {
+            Responses.ok(role)
+        } else {
+            Responses.fail()
+        }
     }
+
     @PostMapping("/account/username")
     @ResponseBody
+<<<<<<< HEAD
     fun username(request: HttpServletRequest):ApiResponse<Any>{
+=======
+    fun username(request: HttpServletRequest): ApiResponse<String> {
+>>>>>>> 96b0177297307dae83d9a7538417f85819f0d387
         val session = request.session
         return Responses.ok(session.getAttribute("role"))
     }
+
+    @PostMapping("/logout")
+    @ResponseBody
+    fun logout(request: HttpServletRequest): ApiResponse<String> {
+        request.session.invalidate()
+        return Responses.ok()
+    }
+}
+
+private operator fun HttpSession.get(attr: String): Any? {
+    return this.getAttribute(attr)
 }
