@@ -45,6 +45,16 @@ public class Book implements Serializable {
         return price;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "isbn='" + isbn + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", cover='" + cover + '\'' +
+                '}';
+    }
+
     public void setPrice(Long price) {
         this.price = price;
     }

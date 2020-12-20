@@ -29,4 +29,18 @@ public class SecondHandFindController {
         return secondHandFindService.select(id);
 
     }
+
+    @PostMapping(path = "/second/find/selectPerson")
+    @ResponseBody
+    public ApiResponse<Object> selectByPerson( String person){
+        return secondHandFindService.selectByStudentId(person);
+    }
+
+    @PostMapping(path = "/second/find/selectByBook")
+    @ResponseBody
+    public ApiResponse<Object> selectByBook(String isbn){
+        return secondHandFindService.selectByBook(isbn);
+    }
+
+
 }

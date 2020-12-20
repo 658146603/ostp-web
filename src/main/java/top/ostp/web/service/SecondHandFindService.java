@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.SecondHandFindMapper;
+import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,6 +38,29 @@ public class SecondHandFindService {
             return Responses.fail("未找到该记录");
         }
     }
+
+    public ApiResponse<Object> selectByBook(String isbn) {
+        SecondHandFind secondHandFind = secondHandFindMapper.selectByBook(isbn);
+        if (secondHandFind != null) {
+            return Responses.ok(secondHandFind);
+        } else {
+            return Responses.fail("未找到该记录");
+        }
+    }
+
+    public ApiResponse<Object> selectByStudentId(String id){
+        List<SecondHandFind> bookList = secondHandFindMapper.selectBookByStudentId(id);
+        List<Book> b1 = new ArrayList<>();
+        for(SecondHandFind se:bookList){
+            b1.add(se.getBook());
+        }
+        if(bookList.size() > 0){
+            return Responses.ok(b1);
+        }else {
+            return Responses.fail("未找到该学生订阅的书籍");
+        }
+    }
+
 
     public ApiResponse<Object> insert(SecondHandFind secondHandFind) {
         try {
