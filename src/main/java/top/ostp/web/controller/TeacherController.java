@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.ostp.web.model.Teacher;
+import top.ostp.web.model.annotations.AuthAdmin;
+import top.ostp.web.model.annotations.AuthStudent;
+import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.TeacherService;
 
@@ -19,30 +22,41 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
+    @AuthAdmin
     @PostMapping(value = "/teacher/insert")
     @ResponseBody
     public ApiResponse<Object> insertTeacher(Teacher teacher) {
         return teacherService.insert(teacher);
     }
 
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping(value = "/teacher/selectById")
     @ResponseBody
     public ApiResponse<Teacher> selectById(String id) {
         return teacherService.selectById(id);
     }
 
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping(value = "/teacher/selectByName")
     @ResponseBody
     public ApiResponse<List<Teacher>> selectByName(String name) {
         return teacherService.selectByName(name);
     }
 
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping(value = {"/teacher/selectAll", "teacher/list"})
     @ResponseBody
     public ApiResponse<List<Teacher>> selectAll() {
         return teacherService.selectAll();
     }
 
+    @AuthAdmin
     @PostMapping(value = "/teacher/deleteById")
     @ResponseBody
     public ApiResponse<Object> deleteById(Teacher teacher) {

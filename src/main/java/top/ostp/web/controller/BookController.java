@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.model.Book;
+import top.ostp.web.model.annotations.AuthAdmin;
+import top.ostp.web.model.annotations.AuthStudent;
+import top.ostp.web.model.annotations.AuthTeacher;
+import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.service.BookService;
@@ -23,39 +27,51 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    @AuthAdmin
     @PostMapping(value = "/book/insert")
     @ResponseBody
     public ApiResponse<Object> insertBook(Book book) {
         return bookService.insert(book);
     }
 
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping("/book/select")
     @ResponseBody
     public ApiResponse<Book> selectBook(String isbn) {
         return bookService.selectByISBN(isbn);
     }
 
+    @AuthAdmin
     @PostMapping("/book/delete")
     @ResponseBody
     public ApiResponse<Object> deleteBook(String isbn) {
         return bookService.deleteByISBN(isbn);
     }
 
+    @AuthAdmin
     @PostMapping("/book/update")
     @ResponseBody
     public ApiResponse<Object> updateBook(Book book) {
         return bookService.updateBook(book);
     }
 
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping("/book/list")
     @ResponseBody
     public ApiResponse<List<Book>> selectAll() {
         return bookService.selectAll();
     }
 
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping("/book/fuzzy")
     @ResponseBody
-    public ApiResponse<List<Book>> fuzzyQuery(String name){
+    public ApiResponse<List<Book>> fuzzyQuery(String name) {
         return bookService.fuzzyQuery(name);
     }
 }
