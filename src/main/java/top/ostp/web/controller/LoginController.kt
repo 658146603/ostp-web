@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.SessionAttributes
 import top.ostp.web.model.Admin
 import top.ostp.web.model.Student
 import top.ostp.web.model.Teacher
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpSession
 
 @NoAuthority
 @Controller
-@SessionAttributes(names = ["role"])
 class LoginController {
     @Autowired
     lateinit var loginService: LoginService
@@ -71,8 +69,8 @@ class LoginController {
     @PostMapping("/logout")
     @ResponseBody
     fun logout(request: HttpServletRequest): ApiResponse<String> {
-        request.session.invalidate()
-        return Responses.ok()
+        request.session.setAttribute("role", null)
+        return Responses.ok("logout success: ${request.session.getAttribute("role")}")
     }
 }
 
