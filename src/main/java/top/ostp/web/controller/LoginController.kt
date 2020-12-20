@@ -55,6 +55,6 @@ class LoginController {
     @ResponseBody
     fun username(request: HttpServletRequest):ApiResponse<String>{
         val session = request.session
-        return Responses.ok("${session.getAttribute("username")}")
+        return Responses.ok("${session.getAttribute("username")},${session.getAttribute("role")}")
     }
 }
