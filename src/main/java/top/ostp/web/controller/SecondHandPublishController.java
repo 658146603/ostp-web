@@ -27,6 +27,8 @@ public class SecondHandPublishController {
     }
 
     @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping(value = "/second/publish/insert")
     @ResponseBody
     public ApiResponse<Object> insertSecondHandPublish(@RequestParam("person") String person, @RequestParam("book") String book, int price, int exchange, int status) {
