@@ -18,6 +18,11 @@ class TeacherTests {
     lateinit var collegeMapper: CollegeMapper
 
     @Test
+    fun list() {
+        mapper.selectAll().forEach(::println)
+    }
+
+    @Test
     fun selectByName() {
         val teacher = mapper.selectByName("韩珊珊")
         println(teacher)

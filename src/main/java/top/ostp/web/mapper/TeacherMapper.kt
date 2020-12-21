@@ -2,7 +2,6 @@ package top.ostp.web.mapper
 
 import org.apache.ibatis.annotations.*
 import org.apache.ibatis.mapping.FetchType
-import org.intellij.lang.annotations.Language
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Teacher
 
