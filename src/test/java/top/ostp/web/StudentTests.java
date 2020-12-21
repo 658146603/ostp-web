@@ -5,7 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.ostp.web.mapper.ClazzMapper;
 import top.ostp.web.mapper.StudentMapper;
+import top.ostp.web.model.Book;
+import top.ostp.web.model.SecondHandPublish;
 import top.ostp.web.model.Student;
+import top.ostp.web.mapper.BookMapper;
+
+import java.util.List;
 
 @SpringBootTest
 public class StudentTests {
@@ -48,8 +53,10 @@ public class StudentTests {
     }
 
     @Test
-    public void selectById() {
-        Student student = studentMapper.selectStudentById("201806061219");
-        System.out.println(student);
+    public void selectByISBN() {
+
+
+//        Student student = studentMapper.selectStudentById("201806061219");
+//        System.out.println(student);
     }
 }

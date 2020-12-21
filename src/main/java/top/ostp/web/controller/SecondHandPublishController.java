@@ -70,6 +70,14 @@ public class SecondHandPublishController {
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
+    @PostMapping(value = "/second/publish/selectByISBN")
+    @ResponseBody
+    public  ApiResponse<List<SecondHandPublish>> selectSecondHanPublishByISBN(String isbn){
+        return secondHandPublishService.selectPublishByISBN(isbn);
+    }
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping(value = "/second/publish/selectByStudent")
     @ResponseBody
     public ApiResponse<List<SecondHandPublish>> selectSecondHandPublishByStudentId(String id) {

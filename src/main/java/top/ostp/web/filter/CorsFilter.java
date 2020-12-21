@@ -69,9 +69,9 @@ public class CorsFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse resp = (HttpServletResponse) response;
-        resp.addHeader("Access-Control-Allow-Origin", "http://localhost:63343");
-        resp.addHeader("Access-Control-Allow-Credentials", "true");
         HttpServletRequest req = (HttpServletRequest) request;
+        resp.addHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
+        resp.addHeader("Access-Control-Allow-Credentials", "true");
         HttpSession session = req.getSession();
         System.out.println("filter/session: " + session.getId());
         chain.doFilter(request, response);
