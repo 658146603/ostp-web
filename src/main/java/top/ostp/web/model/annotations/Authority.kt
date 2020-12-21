@@ -21,3 +21,8 @@ internal annotation class AuthStudent(val value: String = "")
 @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 @Inherited
 internal annotation class NoAuthority(val value: String = "")
+
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+@Inherited
+internal annotation class Blame(val value: String = "cht渣男挨打")
