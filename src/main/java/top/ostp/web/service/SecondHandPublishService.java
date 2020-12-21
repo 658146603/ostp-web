@@ -78,6 +78,10 @@ public class SecondHandPublishService {
         return Responses.ok(secondHandPublishMapper.selectPublishByOrderId(id));
     }
 
+    public ApiResponse<List<SecondHandPublish>> selectPublishByISBN(String isbn){
+        return Responses.ok(secondHandPublishMapper.selectPublishByISBN(isbn));
+    }
+
     public ApiResponse<Object> update(String id, String person, String book, int price, int exchange, int status) {
         Student student = studentMapper.selectStudentById(person);
         Book book1 = bookMapper.selectByISBN(book);

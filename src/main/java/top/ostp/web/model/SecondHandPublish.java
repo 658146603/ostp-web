@@ -3,10 +3,24 @@ package top.ostp.web.model;
 import lombok.*;
 
 
+@ToString
 public class SecondHandPublish {
     private String id;
     private Student person;
     private Book book;
+
+    @Override
+    public String toString() {
+        return "SecondHandPublish{" +
+                "id='" + id + '\'' +
+                ", person=" + person +
+                ", book=" + book +
+                ", price=" + price +
+                ", exchange=" + exchange +
+                ", status=" + status +
+                '}';
+    }
+
     private double price;
     private long exchange;
     private long status;

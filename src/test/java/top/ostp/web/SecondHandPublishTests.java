@@ -40,9 +40,12 @@ public class SecondHandPublishTests {
     }
     @Test
     public void selectPublishByStudentId(){
-        Student s = new Student();
-        s.setId("201806061108");
-        List<SecondHandPublish> secondHandPublishes = secondHandPublishMapper.selectPublishByStudentId("201806061108");
+        Book book = new Book();
+        book.setIsbn("9787-645-424-231");
+        List<SecondHandPublish> secondHandPublishes = secondHandPublishMapper.selectPublishByISBN("9787-645-424-231");
+//        Student s = new Student();
+//        s.setId("201806061108");
+//        List<SecondHandPublish> secondHandPublishes = secondHandPublishMapper.selectPublishByStudentId("201806061108");
         for (SecondHandPublish s1:secondHandPublishes) {
             System.out.println(s1.toString());
         }
