@@ -27,10 +27,14 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    @NoAuthority
+    //TODO  测试完删除
     @AuthAdmin
     @PostMapping(value = "/book/insert")
     @ResponseBody
-    public ApiResponse<Object> insertBook(Book book) {
+    public ApiResponse<Object> insertBook(String isbn,Long price,String cover,String name) {
+        Book book = new Book(isbn,name,price,cover);
+
         return bookService.insert(book);
     }
 

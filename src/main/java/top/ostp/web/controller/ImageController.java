@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
@@ -66,7 +67,9 @@ public class ImageController {
         inputStream.read(bytes, 0, inputStream.available());
         return bytes;
     }
-
+    @NoAuthority
+    //TODO delete
+    @AuthAdmin
     @PostMapping(value = "image/put")
     @ResponseBody
     public ApiResponse<Object> putImage(@RequestParam("file") MultipartFile file) {
