@@ -1,7 +1,5 @@
 package top.ostp.web.model;
 
-import lombok.*;
-
 
 public class SecondHandPublish {
     private String id;

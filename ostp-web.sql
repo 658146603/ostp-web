@@ -80,6 +80,7 @@ create table course_open
     book     varchar(32) not null,
     foreign key (book) references book (isbn),
     teacher  varchar(32) not null,
+    received integer     not null,
     foreign key (teacher) references teacher (id)
 );
 
@@ -105,4 +106,18 @@ create table second_hand_find
     price    integer     not null,
     exchange boolean     not null default false,
     status   integer     not null
+);
+
+create table student_book_order
+(
+    id       integer     not null auto_increment primary key,
+    student  varchar(32) not null,
+    foreign key (student) references student (id),
+    book     varchar(32) not null,
+    foreign key (book) references book (isbn),
+    unique (student, book, year, semester),
+    price    integer     not null,
+    year     integer     not null,
+    semester integer     not null,
+    received integer     not null
 );

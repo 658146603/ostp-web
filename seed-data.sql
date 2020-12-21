@@ -162,3 +162,11 @@ values ('1234568', '201806061201', '9787-213-243-432', 12, 1, 1);
 insert into ostp.second_hand_find (id, person, book, price, exchange, status)
 values ('af1e61d093eb44cc9fd96e81f0aeef05', '201806061108', '9787-212-222-333', 55, 0, 1);
 
+insert into ostp.student_book_order (student, book, price, year, semester, received)
+values ('201806061219', '9787-212-222-333', 9999, 2019, 3, 0);
+insert into ostp.student_book_order (student, book, price, year, semester, received)
+values ('201806061108', '9787-212-222-333', 9999, 2019, 9, 0);
+insert into ostp.student_book_order (student, book, price, year, semester, received)
+values ('201806061201', '9787-212-233-344', 9999, 2019, 9, 0);
+insert into ostp.student_book_order (student, book, price, year, semester, received)
+values ('201806061108', '9787-212-233-344', 9999, 2019, 9, 0);
