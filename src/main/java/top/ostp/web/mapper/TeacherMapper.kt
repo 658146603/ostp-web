@@ -66,4 +66,17 @@ interface TeacherMapper {
         ]
     )
     fun selectById(id: String): Teacher?
+
+    @Results(
+        value = [
+            Result(
+                column = "college",
+                property = "college",
+                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+            )
+        ]
+    )
+    @ResultType(Teacher::class)
+    @Select("select * from teacher where name like concat('%', #{name}, '%')")
+    fun likeListByName(@Param("name") name: String): List<Teacher>
 }

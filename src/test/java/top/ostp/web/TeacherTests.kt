@@ -23,6 +23,11 @@ class TeacherTests {
     }
 
     @Test
+    fun fuzzy() {
+        mapper.likeListByName("松").forEach(::println)
+    }
+
+    @Test
     fun selectByName() {
         val teacher = mapper.selectByName("韩珊珊")
         println(teacher)

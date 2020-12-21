@@ -53,4 +53,8 @@ public class TeacherService {
         return Responses.ok(teacherMapper.selectAll());//TODO 抹去密码
     }
 
+
+    public ApiResponse<List<Teacher>> likeByName(String name) {
+        return Responses.ok(teacherMapper.likeListByName(name));
+    }
 }

@@ -57,6 +57,15 @@ public class TeacherController {
     }
 
     @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
+    @PostMapping(value = {"/teacher/fuzzy"})
+    @ResponseBody
+    public ApiResponse<List<Teacher>> likeListByName(String name) {
+        return teacherService.likeByName(name);
+    }
+
+    @AuthAdmin
     @PostMapping(value = "/teacher/deleteById")
     @ResponseBody
     public ApiResponse<Object> deleteById(Teacher teacher) {
