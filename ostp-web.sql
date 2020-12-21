@@ -108,6 +108,15 @@ create table second_hand_find
     status   integer     not null
 );
 
+create table admin
+(
+    id       varchar(32) not null primary key,
+    password varchar(64) not null,
+    su       boolean     not null,
+    college  integer     null,
+    foreign key (college) references college (id)
+);
+
 create table student_book_order
 (
     id       integer     not null auto_increment primary key,

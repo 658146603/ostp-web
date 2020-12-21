@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody
 import top.ostp.web.model.Admin
 import top.ostp.web.model.Student
 import top.ostp.web.model.Teacher
-import top.ostp.web.model.annotations.Blame
 import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
@@ -73,8 +72,10 @@ class LoginController {
         request.session.setAttribute("role", null)
         return Responses.ok("logout success: ${request.session.getAttribute("role")}")
     }
+
+    private operator fun HttpSession.get(attr: String): Any? {
+        return this.getAttribute(attr)
+    }
+
 }
 
-private operator fun HttpSession.get(attr: String): Any? {
-    return this.getAttribute(attr)
-}

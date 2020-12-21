@@ -38,7 +38,6 @@ public class StudentService {
     }
 
     public ApiResponse<Object> modifyStudent(Student student) {
-        student.setPassword(EncryptProvider.getSaltedPassword(student.getId(), student.getPassword()));
         int result = studentMapper.update(student);
         if (result == 1) {
             return Responses.ok("删除成功");
