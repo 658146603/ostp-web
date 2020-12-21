@@ -12,6 +12,9 @@ interface CourseMapper {
     @Insert("insert into course (id, major, name) values (#{id}, #{major.id}, #{name});")
     fun insert(course: Course): Int
 
+    @Insert("insert into course (id, major, name) values (#{id}, #{major}, #{name});")
+    fun insertByVal(@Param("id") id: String, @Param("major") major: Long, @Param("name") name: String): Int
+
 
     @Delete("delete from course where id = #{id}")
     fun delete(course: Course): Int
