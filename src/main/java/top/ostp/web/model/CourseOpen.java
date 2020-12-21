@@ -7,6 +7,7 @@ public class CourseOpen {
     private int semester;
     private Book book;
     private Teacher teacher;
+    private int received;
 
     public CourseOpen(Course course, int year, int semester, Book book, Teacher teacher) {
         this.course = course;
@@ -76,8 +77,25 @@ public class CourseOpen {
         this.teacher = teacher;
     }
 
+    public int getReceived() {
+        return received;
+    }
 
+    public void setReceived(int received) {
+        this.received = received;
+    }
+
+
+    @Override
     public String toString() {
-        return "CourseOpen(id=" + this.getId() + ", course=" + this.getCourse() + ", year=" + this.getYear() + ", semester=" + this.getSemester() + ", book=" + this.getBook() + ", teacher=" + this.getTeacher() + ")";
+        return "CourseOpen{" +
+                "id=" + id +
+                ", course=" + course +
+                ", year=" + year +
+                ", semester=" + semester +
+                ", book=" + book +
+                ", teacher=" + teacher +
+                ", received=" + received +
+                '}';
     }
 }

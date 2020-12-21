@@ -1,9 +1,5 @@
 package top.ostp.web.model;
 
-import lombok.*;
-
-
-@ToString
 public class SecondHandPublish {
     private String id;
     private Student person;

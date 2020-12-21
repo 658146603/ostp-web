@@ -28,4 +28,13 @@ class CourseService {
         val course = courseMapper.selectById(c) ?: return Responses.fail("Course [$c] Not Found")
         return Responses.ok(course)
     }
+
+    fun addCourse(id: String, m: Long, name: String): ApiResponse<Any> {
+        val major = majorMapper.selectById(m) ?: return Responses.fail("Major [$m] Not Found")
+        return if(courseMapper.insertByVal(id, major.id, name) > 0) {
+            Responses.ok()
+        } else {
+            Responses.fail("Insert $id, $m, $name Failed")
+        }
+    }
 }

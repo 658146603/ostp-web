@@ -27,41 +27,38 @@ class AuthorityInterceptor : HandlerInterceptor {
 
             val role = request?.session?.getAttribute("role")
             when {
-                handler.method.isAnnotationPresent(AuthStudent::class.java) -> {
-                    if (Student::class.java == role?.javaClass) {
-                        println("auth success - student")
-                        return true
-                    }
+                handler.method.isAnnotationPresent(AuthStudent::class.java) && Student::class.java == role?.javaClass -> {
+                    println("auth success - student")
+                    return true
                 }
 
-                handler.method.isAnnotationPresent(AuthTeacher::class.java) -> {
-                    if (Teacher::class.java == role?.javaClass) {
-                        println("auth success - teacher")
-                        return true
-                    }
+                handler.method.isAnnotationPresent(AuthTeacher::class.java) && Teacher::class.java == role?.javaClass -> {
+                    println("auth success - teacher")
+                    return true
                 }
 
-                handler.method.isAnnotationPresent(AuthAdmin::class.java) -> {
-                    if (Admin::class.java == role?.javaClass) {
-                        println("auth success - admin")
-                        return true
-                    }
+                handler.method.isAnnotationPresent(AuthAdmin::class.java) && Admin::class.java == role?.javaClass -> {
+                    println("auth success - admin")
+                    return true
                 }
 
                 handler.method.isAnnotationPresent(NoAuthority::class.java) -> {
                     return true
                 }
 
+                handler.method.isAnnotationPresent(AuthStudent::class.java) || handler.method.isAnnotationPresent(AuthTeacher::class.java)
+                        || handler.method.isAnnotationPresent(AuthAdmin::class.java) -> {
+                    println("auth failed, role is $role")
+                    response?.contentType = "text/html;charset=UTF-8"
+                    response?.status = HttpServletResponse.SC_UNAUTHORIZED
+                    response?.writer?.println(Gson().toJson(Responses.fail<Any>("权限校验失败")))
+                    return false
+                }
+
                 else -> {
                     TODO("既没有NoAuthority也没有权限控制")
                 }
             }
-
-            println("auth failed, role is $role")
-            response?.contentType = "text/html;charset=UTF-8"
-            response?.status = HttpServletResponse.SC_UNAUTHORIZED
-            response?.writer?.println(Gson().toJson(Responses.fail<Any>("权限校验失败")))
-            return false
         } else if (handler is HandlerMethod) {
             handler.beanType.getAnnotation(Blame::class.java)?.let { println(it.value) }
             println("no auth needed")

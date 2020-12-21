@@ -1,6 +1,5 @@
 package top.ostp.web.mapper
 
-import com.mysql.cj.log.Log
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
@@ -12,7 +11,7 @@ import top.ostp.web.model.Teacher
 @Repository
 interface CourseOpenMapper {
 
-    @Insert("insert into course_open (course, year, semester, book, teacher) values (#{course.id}, #{year}, #{semester}, #{book.isbn}, #{teacher.id})")
+    @Insert("insert into course_open (course, year, semester, book, teacher, received) values (#{course.id}, #{year}, #{semester}, #{book.isbn}, #{teacher.id}, 0)")
     fun insert(courseOpen: CourseOpen): Int
 
     @Delete("delete from course_open where (course, year, semester) = (#{course.id}, #{year}, #{semester})")
@@ -145,6 +144,12 @@ interface CourseOpenMapper {
     fun selectByTeacherAndYearSemester(
         @Param("teacher") teacher: Teacher,
         @Param("year") year: Int,
-        @Param("semester") semester: Int
+        @Param("semester") semester: Int,
     ): List<CourseOpen>
+
+    @Update("update course_open set received = 1 where id = #{id}")
+    fun requestBook(id: Int): Int
+
+    @Update("update course_open set received = 0 where id = #{id}")
+    fun giveUpBook(id: Int): Int
 }
