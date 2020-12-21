@@ -7,5 +7,9 @@ data class Teacher(
     var password: String,
     var email: String
 ) {
+    fun erasePassword(): Teacher {
+        return Teacher(id, name, college, "", email)
+    }
+
     constructor() : this("", "", null, "", "")
 }

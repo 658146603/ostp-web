@@ -20,6 +20,10 @@ public class Student {
     public Student() {
     }
 
+    public Student erasePassword() {
+        return new Student(id, name, clazz, "", balance, email);
+    }
+
     public String getId() {
         return this.id;
     }

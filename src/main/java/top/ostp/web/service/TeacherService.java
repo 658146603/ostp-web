@@ -10,6 +10,7 @@ import top.ostp.web.model.common.Responses;
 import top.ostp.web.util.EncryptProvider;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TeacherService {
@@ -32,11 +33,11 @@ public class TeacherService {
     }
 
     public ApiResponse<List<Teacher>> selectByName(String name) {
-        return Responses.ok(teacherMapper.selectByName(name));
+        return Responses.ok(teacherMapper.selectByName(name)); //TODO 抹去密码
     }
 
     public ApiResponse<Teacher> selectById(String id) {
-        return Responses.ok(teacherMapper.selectById(id));
+        return Responses.ok(Objects.requireNonNull(teacherMapper.selectById(id)).erasePassword());
     }
 
     public ApiResponse<Object> deleteById(Teacher teacher) {
@@ -49,7 +50,7 @@ public class TeacherService {
     }
 
     public ApiResponse<List<Teacher>> selectAll() {
-        return Responses.ok(teacherMapper.selectAll());
+        return Responses.ok(teacherMapper.selectAll());//TODO 抹去密码
     }
 
 }

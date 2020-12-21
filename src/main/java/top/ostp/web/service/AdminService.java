@@ -47,7 +47,7 @@ public class AdminService {
     public ApiResponse<Object> select(String id) {
         Admin admin = adminMapper.select(id);
         if (admin != null) {
-            return Responses.ok(admin);
+            return Responses.ok(admin.erasePassword());
         } else {
             return Responses.fail("未找到");
         }

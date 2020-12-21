@@ -12,4 +12,8 @@ public class Admin {
     String password;
     int su;
     College college;
+
+    public Admin erasePassword() {
+        return new Admin(id, "", su, college);
+    }
 }
