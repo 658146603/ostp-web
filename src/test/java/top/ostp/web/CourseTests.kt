@@ -17,9 +17,9 @@ class CourseTests {
         val major0 = majorMapper.selectByName("软件工程").firstOrNull()!!
         val major1 = majorMapper.selectByName("计算机科学与技术").firstOrNull()!!
 
-        courseMapper.insert(Course("G101010", major0, "数据结构0"))
-        courseMapper.insert(Course("G101011", major0, "数据结构1"))
-        courseMapper.insert(Course("G101012", major1, "数据结构0"))
+        println(courseMapper.insert(Course("G101030", major0, "数据结构0")))
+        println(courseMapper.insert(Course("G101031", major0, "数据结构1")))
+        println(courseMapper.insert(Course("G101032", major1, "数据结构0")))
 
     }
 
@@ -43,11 +43,10 @@ class CourseTests {
     @Test fun update() {
         val course0 = courseMapper.selectByName("数据结构0").firstOrNull()!!
         course0.name = "数据结构"
-        courseMapper.update(course0)
+        println(courseMapper.update(course0))
     }
 
     @Test fun delete() {
-        val course0 = courseMapper.selectByName("数据结构1").firstOrNull()!!
-        courseMapper.delete(course0)
+        println(courseMapper.deleteById("G101032"))
     }
 }

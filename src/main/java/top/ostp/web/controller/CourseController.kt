@@ -30,4 +30,18 @@ class CourseController {
     @PostMapping(path = ["/course/list/by/major"])
     @ResponseBody
     fun listByMajor(major: Long): ApiResponse<List<Course>> = courseService.listByMajor(major)
+
+    @AuthAdmin
+    @PostMapping(path = ["/course/add"])
+    @ResponseBody
+    fun addCourse(id: String, major: Long, name: String): ApiResponse<Any> {
+        return courseService.addCourse(id, major, name)
+    }
+
+    @AuthAdmin
+    @PostMapping(path = ["/course/delete"])
+    @ResponseBody
+    fun deleteCourse(id: String): ApiResponse<Any> {
+        return courseService.deleteCourse(id)
+    }
 }

@@ -31,10 +31,18 @@ class CourseService {
 
     fun addCourse(id: String, m: Long, name: String): ApiResponse<Any> {
         val major = majorMapper.selectById(m) ?: return Responses.fail("Major [$m] Not Found")
-        return if(courseMapper.insertByVal(id, major.id, name) > 0) {
-            Responses.ok()
+        return if (courseMapper.insertByVal(id, major.id, name) > 0) {
+            Responses.ok("Insert Success")
         } else {
-            Responses.fail("Insert $id, $m, $name Failed")
+            Responses.fail("Insert Course $id, $m, $name Failed")
+        }
+    }
+
+    fun deleteCourse(id: String): ApiResponse<Any> {
+        return if (courseMapper.deleteById(id) > 0) {
+            return Responses.ok("Delete Success")
+        } else {
+            Responses.fail("Delete Course $id Failed")
         }
     }
 }

@@ -17,6 +17,7 @@ POST http://localhost:8082/major/by/year
 Content-Type: application/x-www-form-urlencoded
 
 year=2019
+
 ###
 POST http://localhost:8082/course_open/list
 Content-Type: application/x-www-form-urlencoded

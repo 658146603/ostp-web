@@ -19,6 +19,9 @@ interface CourseMapper {
     @Delete("delete from course where id = #{id}")
     fun delete(course: Course): Int
 
+    @Delete("delete from course where id = #{id}")
+    fun deleteById(id: String): Int
+
 
     @Update("update course set name = #{name} where id = #{id}")
     fun update(course: Course): Int

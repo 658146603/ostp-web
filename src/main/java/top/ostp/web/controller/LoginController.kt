@@ -55,15 +55,19 @@ class LoginController {
         return if (role != null) {
             Responses.ok(role)
         } else {
-            Responses.fail()
+            Responses.fail("未登录")
         }
     }
 
     @PostMapping("/account/username")
     @ResponseBody
     fun username(request: HttpServletRequest): ApiResponse<Any> {
-        val session = request.session
-        return Responses.ok(session.getAttribute("role"))
+        val role = request.session["role"]
+        return if (role != null) {
+            Responses.ok(role)
+        } else {
+            Responses.fail("未登录")
+        }
     }
 
     @PostMapping("/logout")
