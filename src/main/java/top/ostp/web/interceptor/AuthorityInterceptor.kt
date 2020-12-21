@@ -1,7 +1,6 @@
 package top.ostp.web.interceptor
 
 import com.google.gson.Gson
-import com.mysql.cj.x.protobuf.MysqlxExpr
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
@@ -9,11 +8,7 @@ import org.springframework.web.servlet.ModelAndView
 import top.ostp.web.model.Admin
 import top.ostp.web.model.Student
 import top.ostp.web.model.Teacher
-import top.ostp.web.model.annotations.AuthAdmin
-import top.ostp.web.model.annotations.AuthStudent
-import top.ostp.web.model.annotations.AuthTeacher
-import top.ostp.web.model.annotations.NoAuthority
-import top.ostp.web.model.common.ApiResponse
+import top.ostp.web.model.annotations.*
 import top.ostp.web.model.common.Responses
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -28,6 +23,8 @@ class AuthorityInterceptor : HandlerInterceptor {
         println("interceptor/handler: $handler")
 
         if (handler is HandlerMethod && handler.beanType.getAnnotation(NoAuthority::class.java) == null) {
+            handler.beanType.getAnnotation(Blame::class.java)?.let { println(it.value) }
+
             val role = request?.session?.getAttribute("role")
             when {
                 handler.method.isAnnotationPresent(AuthStudent::class.java) -> {
@@ -66,6 +63,7 @@ class AuthorityInterceptor : HandlerInterceptor {
             response?.writer?.println(Gson().toJson(Responses.fail<Any>("权限校验失败")))
             return false
         } else if (handler is HandlerMethod) {
+            handler.beanType.getAnnotation(Blame::class.java)?.let { println(it.value) }
             println("no auth needed")
         } else {
             println("非HandlerMethod调用，放行")
