@@ -8,6 +8,7 @@ import top.ostp.web.model.Course
 import top.ostp.web.model.annotations.AuthAdmin
 import top.ostp.web.model.annotations.AuthStudent
 import top.ostp.web.model.annotations.AuthTeacher
+import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.service.CourseService
 
@@ -43,5 +44,12 @@ class CourseController {
     @ResponseBody
     fun deleteCourse(id: String): ApiResponse<Any> {
         return courseService.deleteCourse(id)
+    }
+
+    @NoAuthority
+    @PostMapping(path = ["/course/fuzzy"])
+    @ResponseBody
+    fun fuzzyQuery(name: String):ApiResponse<Any>{
+        return courseService.fuzzyQuery(name)
     }
 }

@@ -29,7 +29,7 @@ class CourseOpenService {
         val c = courseMapper.selectById(course)
         val b = bookMapper.selectByISBN(book)
         val t = teacherMapper.selectById(teacher)
-        if (c == null || b == null || t == null || year < 0 || semester !in arrayOf(3, 6, 9)) {
+        if (c == null || b == null || t == null || year < 0 || semester !in arrayOf(1,2,3)) {
             return Responses.fail("参数错误")
         }
 

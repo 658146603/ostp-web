@@ -45,4 +45,9 @@ class CourseService {
             Responses.fail("Delete Course $id Failed")
         }
     }
+
+    fun fuzzyQuery(name: String): ApiResponse<Any> {
+        val courseList = courseMapper.fuzzyQuery(name) ?: return Responses.fail("course not found")
+        return Responses.ok(courseList)
+    }
 }

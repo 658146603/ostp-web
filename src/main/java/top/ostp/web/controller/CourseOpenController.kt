@@ -9,6 +9,7 @@ import top.ostp.web.model.CourseOpen
 import top.ostp.web.model.annotations.AuthAdmin
 import top.ostp.web.model.annotations.AuthStudent
 import top.ostp.web.model.annotations.AuthTeacher
+import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.service.CourseOpenService
 
@@ -17,7 +18,7 @@ class CourseOpenController {
 
     @Autowired
     lateinit var service: CourseOpenService
-
+    @NoAuthority
     @AuthAdmin
     @PostMapping(path = ["/course_open/insert"])
     @ResponseBody
@@ -35,6 +36,7 @@ class CourseOpenController {
     @PostMapping(path = ["/course_open/list"])
     @ResponseBody
     fun list(): ApiResponse<List<CourseOpen>> = service.listAll()
+
 
 
 }
