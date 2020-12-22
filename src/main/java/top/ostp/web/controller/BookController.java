@@ -13,6 +13,7 @@ import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
+import top.ostp.web.model.complex.BookAdvice;
 import top.ostp.web.service.BookService;
 
 import java.util.List;
@@ -36,6 +37,13 @@ public class BookController {
         Book book = new Book(isbn,name,price,cover);
 
         return bookService.insert(book);
+    }
+
+    @NoAuthority // TODO: 测试完删除
+    @PostMapping(value = "/book/search")
+    @ResponseBody
+    public ApiResponse<List<Book>> selectByQueryParameters(String name, String course) {
+        return bookService.selectByQueryParameters(name, course);
     }
 
     @AuthAdmin

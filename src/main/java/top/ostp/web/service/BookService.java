@@ -7,6 +7,7 @@ import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
+import top.ostp.web.model.complex.BookAdvice;
 
 import java.util.List;
 
@@ -63,5 +64,9 @@ public class BookService {
 
     public ApiResponse<List<Book>> selectAll() {
         return Responses.ok(bookMapper.selectAll());
+    }
+
+    public ApiResponse<List<Book>> selectByQueryParameters(String name, String course) {
+        return Responses.ok(bookMapper.selectByQueryParameters(name, course));
     }
 }
