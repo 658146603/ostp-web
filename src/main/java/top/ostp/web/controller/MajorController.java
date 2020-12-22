@@ -27,10 +27,22 @@ public class MajorController {
         return majorService.insert(major);
     }
 
-    @PostMapping("/major/select")
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
+    @PostMapping("/major/fetch_all")
     @ResponseBody
     public ApiResponse<Object> selectAllByCollegeId(int id) {
         return majorService.selectAllByCollegeId(id);
+    }
+
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
+    @PostMapping("/major/get")
+    @ResponseBody
+    public ApiResponse<Object> get(int id){
+        return majorService.selectById(id);
     }
 
     @AuthAdmin

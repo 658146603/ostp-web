@@ -63,4 +63,13 @@ public class CollegeService {
     public ApiResponse<List<College>> fuzzy(String name) {
         return Responses.ok(collegeMapper.likeByName(name));
     }
+
+    public ApiResponse<College> selectByMajorId(int id) {
+        College result = collegeMapper.selectByMajorId(id);
+        if (result == null) {
+            return Responses.fail();
+        } else {
+            return Responses.ok(result);
+        }
+    }
 }

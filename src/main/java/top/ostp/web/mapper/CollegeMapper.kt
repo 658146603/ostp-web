@@ -22,6 +22,9 @@ interface CollegeMapper {
     @Select("select * from college where id = #{id} limit 1")
     fun selectById(id: Long): College?
 
+    @Select("select college.* from college, major where college.id = major.college and major.id = #{id}")
+    fun selectByMajorId(id: Long): College?
+
     @Select("select * from college")
     @ResultType(College::class)
     fun selectAll(): List<College>

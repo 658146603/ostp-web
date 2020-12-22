@@ -69,4 +69,13 @@ public class MajorService {
         List<Major> majors = majorMapper.selectAllByCollegeId(collegeId);
         return Responses.ok(majors);
     }
+
+    public ApiResponse<Object> selectById(int id) {
+        Major major = majorMapper.selectById(id);
+        if (major == null) {
+            return Responses.fail();
+        } else {
+            return Responses.ok(major);
+        }
+    }
 }

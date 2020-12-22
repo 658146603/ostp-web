@@ -48,6 +48,15 @@ public class CollegeController {
     }
 
     @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
+    @PostMapping(value = "/college/get_major")
+    @ResponseBody
+    public ApiResponse<College> getCollegeFromMajorId(int id) {
+        return collegeService.selectByMajorId(id);
+    }
+
+    @AuthAdmin
     @PostMapping(value = "college/delete")
     @ResponseBody
     public ApiResponse<Object> deleteCollege(int id) {

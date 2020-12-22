@@ -50,4 +50,16 @@ interface ClazzMapper {
     )
     @ResultType(Clazz::class)
     fun selectByName(name: String): List<Clazz>
+
+    @Select("select * from clazz where major = #{id}")
+    @Results(
+        value = [
+            Result(
+                property = "major", column = "major",
+                one = One(select = "top.ostp.web.mapper.MajorMapper.selectById")
+            )
+        ]
+    )
+    @ResultType(Clazz::class)
+    fun selectAllByMajorId(id: Int): List<Clazz>
 }
