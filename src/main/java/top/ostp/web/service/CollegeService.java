@@ -8,6 +8,8 @@ import top.ostp.web.model.College;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
+import java.util.List;
+
 @Service
 public class CollegeService {
     CollegeMapper collegeMapper;
@@ -55,5 +57,9 @@ public class CollegeService {
 
     public ApiResponse<Object> selectAll() {
         return Responses.ok(collegeMapper.selectAll());
+    }
+
+    public ApiResponse<List<College>> fuzzy(String name) {
+        return Responses.ok(collegeMapper.likeByName(name));
     }
 }

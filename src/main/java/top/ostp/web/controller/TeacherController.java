@@ -41,6 +41,15 @@ public class TeacherController {
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
+    @PostMapping(value = "/teacher/duplicate")
+    @ResponseBody
+    public ApiResponse<Boolean> duplicate(String id) {
+        return teacherService.checkDuplicate(id);
+    }
+
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping(value = "/teacher/selectByName")
     @ResponseBody
     public ApiResponse<List<Teacher>> selectByName(String name) {
@@ -71,4 +80,6 @@ public class TeacherController {
     public ApiResponse<Object> deleteById(Teacher teacher) {
         return teacherService.deleteById(teacher);
     }
+
+
 }

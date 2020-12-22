@@ -10,7 +10,6 @@ import top.ostp.web.model.common.Responses;
 import top.ostp.web.util.EncryptProvider;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TeacherService {
@@ -37,7 +36,20 @@ public class TeacherService {
     }
 
     public ApiResponse<Teacher> selectById(String id) {
-        return Responses.ok(Objects.requireNonNull(teacherMapper.selectById(id)).erasePassword());
+        Teacher teacher = teacherMapper.selectById(id);
+        if (teacher != null) {
+            return Responses.ok(teacher.erasePassword());
+        }
+        return Responses.fail("teacher " + id + " not found");
+    }
+
+    public ApiResponse<Boolean> checkDuplicate(String id) {
+        Teacher teacher = teacherMapper.selectById(id);
+        if (teacher != null) {
+            return Responses.ok(true);
+        } else {
+            return Responses.ok(false);
+        }
     }
 
     public ApiResponse<Object> deleteById(Teacher teacher) {

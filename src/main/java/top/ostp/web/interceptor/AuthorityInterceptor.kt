@@ -1,6 +1,7 @@
 package top.ostp.web.interceptor
 
 import com.google.gson.Gson
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
@@ -23,9 +24,14 @@ class AuthorityInterceptor : HandlerInterceptor {
         println("interceptor/handler: $handler")
 
         if (handler is HandlerMethod && handler.beanType.getAnnotation(NoAuthority::class.java) == null) {
+            if (handler.beanType == BasicErrorController::class.java) {
+                return true
+            }
+
             handler.beanType.getAnnotation(Blame::class.java)?.let { println(it.value) }
 
             val role = request?.session?.getAttribute("role")
+
             when {
                 handler.method.isAnnotationPresent(AuthStudent::class.java) && Student::class.java == role?.javaClass -> {
                     println("auth success - student")

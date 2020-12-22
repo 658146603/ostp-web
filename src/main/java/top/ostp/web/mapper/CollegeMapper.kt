@@ -1,8 +1,8 @@
 package top.ostp.web.mapper
 
 import org.apache.ibatis.annotations.*
-import top.ostp.web.model.College
 import org.springframework.stereotype.Repository
+import top.ostp.web.model.College
 
 @Mapper
 @Repository
@@ -25,4 +25,8 @@ interface CollegeMapper {
     @Select("select * from college")
     @ResultType(College::class)
     fun selectAll(): List<College>
+
+    @Select("select * from college where name like concat('%', #{name}, '%')")
+    @ResultType(College::class)
+    fun likeByName(@Param("name") name: String): List<College>
 }
