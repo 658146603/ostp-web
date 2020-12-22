@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandPublish;
 import top.ostp.web.model.Student;
-import top.ostp.web.model.annotations.AuthAdmin;
-import top.ostp.web.model.annotations.AuthStudent;
-import top.ostp.web.model.annotations.AuthTeacher;
+import top.ostp.web.model.annotations.*;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.SecondHandPublishService;
 
 import java.util.List;
-
+@Blame("hhr 感冒了 编程环境逐渐恶劣")
 @Controller(value = "/secondHandPublish")
 public class SecondHandPublishController {
     SecondHandPublishService secondHandPublishService;
@@ -25,7 +23,7 @@ public class SecondHandPublishController {
     public void setSecondHandPublishService(SecondHandPublishService secondHandPublishService) {
         this.secondHandPublishService = secondHandPublishService;
     }
-
+    @NoAuthority
     @AuthAdmin
     @AuthStudent
     @AuthTeacher

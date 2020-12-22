@@ -3,9 +3,12 @@ package top.ostp.web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.mapper.SecondHandFindMapper;
+import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
+import top.ostp.web.model.Student;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
@@ -16,6 +19,17 @@ import java.util.UUID;
 @Service
 public class SecondHandFindService {
     SecondHandFindMapper secondHandFindMapper;
+    StudentMapper studentMapper;
+    BookMapper bookMapper;
+    @Autowired
+    public void setBookMapper(BookMapper bookMapper) {
+        this.bookMapper = bookMapper;
+    }
+    @Autowired
+    public void setStudentMapper(StudentMapper studentMapper) {
+        this.studentMapper = studentMapper;
+    }
+
 
     @Autowired
     public void setSecondHandFindMapper(SecondHandFindMapper secondHandFindMapper) {
@@ -29,6 +43,24 @@ public class SecondHandFindService {
         } else {
             return Responses.ok(secondHandFinds);
         }
+    }
+
+    public ApiResponse<Object> insert(String person,String book,int price,int exchange,int status){
+        try {
+            String id = UUID.randomUUID().toString();
+            Student student = studentMapper.selectStudentById(person);
+            Book book1= bookMapper.selectByISBN(book);
+            if(student == null || book1 == null){
+                return Responses.fail("参数错误");
+            }
+            SecondHandFind secondHandFind = new SecondHandFind(id,student,book1,price,exchange,status);
+            int result = secondHandFindMapper.insert(secondHandFind);
+            return Responses.ok();
+
+        }catch (DuplicateKeyException e){
+            e.printStackTrace();
+        }
+        return Responses.fail("主键重复");
     }
 
     public ApiResponse<Object> select(String id) {

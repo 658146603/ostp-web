@@ -5,6 +5,7 @@ import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
+import top.ostp.web.model.annotations.Blame;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Repository
 public interface SecondHandFindMapper {
     @Insert("insert into second_hand_find(id, person, book, price, exchange, status)\n" +
-            "VALUES (#{id}, #{person.id}, #{book.id}, #{price}, #{exchange}, #{status})")
+            "VALUES (#{id}, #{person.id}, #{book.isbn}, #{price}, #{exchange}, #{status})")
     int insert(SecondHandFind secondHandFind);
 
     @Delete("delete\n" +
@@ -22,7 +23,7 @@ public interface SecondHandFindMapper {
 
     @Update("update second_hand_find\n" +
             "set person=#{person.id},\n" +
-            "    book=#{book.id},\n" +
+            "    book=#{book.idbn},\n" +
             "    price=#{price},\n" +
             "    exchange=#{exchange},\n" +
             "    status=#{status}\n" +
