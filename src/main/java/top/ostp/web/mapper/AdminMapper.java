@@ -39,4 +39,7 @@ public interface AdminMapper {
             }
     )
     Admin select(String id);
+
+    @Update("update admin set password=#{password} where id=#{admin.id} and password=#{admin.password}")
+    int updatePassword(@Param("admin") Admin admin, @Param("password") String password);
 }

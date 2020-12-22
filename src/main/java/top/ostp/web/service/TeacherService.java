@@ -76,4 +76,15 @@ public class TeacherService {
     public ApiResponse<List<Teacher>> likeByName(String name) {
         return Responses.ok(teacherMapper.likeListByName(name));
     }
+
+    public ApiResponse<Object> updatePassword(Teacher teacher, String password) {
+        teacher.setPassword(EncryptProvider.getSaltedPassword(teacher.getId(), teacher.getPassword()));
+        password = EncryptProvider.getSaltedPassword(teacher.getId(), password);
+        int status = teacherMapper.updatePassword(teacher, password);
+        if (status == 1) {
+            return Responses.ok("密码修改成功");
+        } else {
+            return Responses.fail("错误");
+        }
+    }
 }

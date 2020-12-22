@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.ostp.web.model.Student;
 import top.ostp.web.model.Teacher;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
+import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.TeacherService;
 
@@ -72,5 +74,10 @@ public class TeacherController {
         return teacherService.deleteById(teacher);
     }
 
-
+    @PostMapping(value = "/teacher/update/password")
+    @ResponseBody
+    @NoAuthority
+    public ApiResponse<Object> updatePassword(String id, String password0, String password) {
+        return teacherService.updatePassword(new Teacher(id, "", null, password0, ""), password);
+    }
 }

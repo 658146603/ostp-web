@@ -29,63 +29,66 @@ interface TeacherMapper {
 
     @Select("select * from teacher where id = #{id} and password = #{password} limit 1")
     @Results(
-        value = [
-            Result(
-                column = "college",
-                property = "college",
-                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
-            )
-        ]
+            value = [
+                Result(
+                        column = "college",
+                        property = "college",
+                        one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+                )
+            ]
     )
     fun login(@Param("id") id: String, @Param("password") password: String): Teacher?
 
     @Select("select id, name, college, password, email from teacher")
     @Results(
-        value = [
-            Result(
-                column = "college",
-                property = "college",
-                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
-            )
-        ]
+            value = [
+                Result(
+                        column = "college",
+                        property = "college",
+                        one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+                )
+            ]
     )
     fun selectAll(): List<Teacher>
 
 
     @Select("select id, name, college, password, email from teacher where name = #{name}")
     @Results(
-        value = [
-            Result(
-                column = "college",
-                property = "college",
-                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
-            )
-        ]
+            value = [
+                Result(
+                        column = "college",
+                        property = "college",
+                        one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+                )
+            ]
     )
     fun selectByName(name: String): List<Teacher>
 
     @Select("select id, name, college, password, email from teacher where id = #{id} limit 1")
     @Results(
-        value = [
-            Result(
-                column = "college",
-                property = "college",
-                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
-            )
-        ]
+            value = [
+                Result(
+                        column = "college",
+                        property = "college",
+                        one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+                )
+            ]
     )
     fun selectById(id: String): Teacher?
 
     @Results(
-        value = [
-            Result(
-                column = "college",
-                property = "college",
-                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
-            )
-        ]
+            value = [
+                Result(
+                        column = "college",
+                        property = "college",
+                        one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+                )
+            ]
     )
     @ResultType(Teacher::class)
     @Select("select * from teacher where name like concat('%', #{name}, '%')")
     fun likeListByName(@Param("name") name: String): List<Teacher>
+
+    @Update("update teacher set password=#{password} where id=#{teacher.id} and password=#{password}")
+    fun updatePassword(@Param("teacher") teacher: Teacher, @Param("password") password: String): Int
 }

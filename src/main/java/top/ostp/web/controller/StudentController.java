@@ -5,10 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.ostp.web.model.Admin;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
+import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.StudentService;
 
@@ -67,5 +69,12 @@ public class StudentController {
     @ResponseBody
     public ApiResponse<Object> consume(int money, @PathVariable String id) {
         return studentService.useMoney(id, money);
+    }
+
+    @PostMapping(value = "/student/update/password")
+    @ResponseBody
+    @AuthStudent
+    public ApiResponse<Object> updatePassword(String id, String password0, String password) {
+        return studentService.updatePassword(new Student(id, "", null, password0, 0, ""), password);
     }
 }
