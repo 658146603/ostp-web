@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.TeacherMapper;
+import top.ostp.web.model.Student;
 import top.ostp.web.model.Teacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
@@ -68,5 +69,16 @@ public class TeacherService {
 
     public ApiResponse<List<Teacher>> likeByName(String name) {
         return Responses.ok(teacherMapper.likeListByName(name));
+    }
+
+    public ApiResponse<Object> updatePassword(Teacher teacher, String password) {
+        teacher.setPassword(EncryptProvider.getSaltedPassword(teacher.getId(), teacher.getPassword()));
+        password = EncryptProvider.getSaltedPassword(teacher.getId(), password);
+        int status = teacherMapper.updatePassword(teacher, password);
+        if (status == 1) {
+            return Responses.ok("密码修改成功");
+        } else {
+            return Responses.fail("错误");
+        }
     }
 }

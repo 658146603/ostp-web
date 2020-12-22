@@ -39,4 +39,7 @@ public interface StudentMapper {
             }
     )
     Student login(@Param("id") String id, @Param("password") String password);
+
+    @Update("update student set password=#{password} where id=#{student.id} and password=#{student.password}")
+    int updatePassword(@Param("student") Student student, @Param("password") String password);
 }

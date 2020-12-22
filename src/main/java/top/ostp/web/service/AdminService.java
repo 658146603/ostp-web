@@ -52,4 +52,15 @@ public class AdminService {
             return Responses.fail("未找到");
         }
     }
+
+    public ApiResponse<Object> updatePassword(Admin admin, String password) {
+        admin.setPassword(EncryptProvider.getSaltedPassword(admin.getId(), admin.getPassword()));
+        password = EncryptProvider.getSaltedPassword(admin.getId(), password);
+        int status = adminMapper.updatePassword(admin, password);
+        if (status == 1) {
+            return Responses.ok("密码修改成功");
+        } else {
+            return Responses.fail("错误");
+        }
+    }
 }
