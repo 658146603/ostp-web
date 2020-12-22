@@ -50,4 +50,18 @@ public class LoginService {
         }
         return Responses.fail("用户名或密码错误");
     }
+
+    public ApiResponse<Boolean> checkDuplicate(String id) {
+        if (id == null || id.isEmpty()) {
+            return Responses.ok(true);
+        }
+        Teacher teacher = teacherMapper.selectById(id);
+        Student student = studentMapper.selectStudentById(id);
+        Admin admin = adminMapper.select(id);
+        if (teacher == null && student == null && admin == null) {
+            return Responses.ok(false);
+        } else {
+            return Responses.ok(true);
+        }
+    }
 }

@@ -25,8 +25,8 @@ public class TeacherController {
     @AuthAdmin
     @PostMapping(value = "/teacher/insert")
     @ResponseBody
-    public ApiResponse<Object> insertTeacher(Teacher teacher) {
-        return teacherService.insert(teacher);
+    public ApiResponse<Object> insertTeacher(String id, String name, Long college, String password, String email) {
+        return teacherService.insert(id, name, college, password, email);
     }
 
     @AuthAdmin
@@ -36,15 +36,6 @@ public class TeacherController {
     @ResponseBody
     public ApiResponse<Teacher> selectById(String id) {
         return teacherService.selectById(id);
-    }
-
-    @AuthAdmin
-    @AuthStudent
-    @AuthTeacher
-    @PostMapping(value = "/teacher/duplicate")
-    @ResponseBody
-    public ApiResponse<Boolean> duplicate(String id) {
-        return teacherService.checkDuplicate(id);
     }
 
     @AuthAdmin

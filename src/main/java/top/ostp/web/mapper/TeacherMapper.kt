@@ -12,6 +12,15 @@ interface TeacherMapper {
     @Insert("insert into teacher (id, name, college, password, email) values (#{id}, #{name}, #{college.id}, #{password}, #{email})")
     fun insert(teacher: Teacher): Int
 
+    @Insert("insert into teacher (id, name, college, password, email) values (#{id}, #{name}, #{college}, #{password}, #{email})")
+    fun insertByVal(
+        @Param("id") id: String,
+        @Param("name") name: String,
+        @Param("college") college: Long,
+        @Param("password") password: String,
+        @Param("email") email: String,
+    ): Int
+
     @Delete("delete from teacher where id = #{id}")
     fun delete(teacher: Teacher): Int
 

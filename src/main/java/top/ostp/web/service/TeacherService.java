@@ -3,7 +3,9 @@ package top.ostp.web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import top.ostp.web.mapper.CollegeMapper;
 import top.ostp.web.mapper.TeacherMapper;
+import top.ostp.web.model.College;
 import top.ostp.web.model.Teacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
@@ -14,16 +16,30 @@ import java.util.List;
 @Service
 public class TeacherService {
     TeacherMapper teacherMapper;
+    CollegeMapper collegeMapper;
 
     @Autowired
     public void setTeacherMapper(TeacherMapper teacherMapper) {
         this.teacherMapper = teacherMapper;
     }
 
-    public ApiResponse<Object> insert(Teacher teacher) {
-        teacher.setPassword(EncryptProvider.getSaltedPassword(teacher.getId(), teacher.getPassword()));
+    @Autowired
+    public void setCollegeMapper(CollegeMapper collegeMapper) {
+        this.collegeMapper = collegeMapper;
+    }
+
+    public ApiResponse<Object> insert(String id, String name, Long college, String password, String email) {
+        if (id.isEmpty() || name.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            return Responses.fail("参数存在空值");
+        }
+
+        password = EncryptProvider.getSaltedPassword(id, password);
+        College c = collegeMapper.selectById(college);
+        if (c == null) {
+            return Responses.fail("College ["+college+"] Not Found");
+        }
         try {
-            teacherMapper.insert(teacher);
+            teacherMapper.insertByVal(id, name, college, password, email);
             return Responses.ok();
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
@@ -41,15 +57,6 @@ public class TeacherService {
             return Responses.ok(teacher.erasePassword());
         }
         return Responses.fail("teacher " + id + " not found");
-    }
-
-    public ApiResponse<Boolean> checkDuplicate(String id) {
-        Teacher teacher = teacherMapper.selectById(id);
-        if (teacher != null) {
-            return Responses.ok(true);
-        } else {
-            return Responses.ok(false);
-        }
     }
 
     public ApiResponse<Object> deleteById(Teacher teacher) {

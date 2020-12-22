@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.ResponseBody
 import top.ostp.web.model.Admin
 import top.ostp.web.model.Student
 import top.ostp.web.model.Teacher
+import top.ostp.web.model.annotations.AuthAdmin
+import top.ostp.web.model.annotations.AuthStudent
+import top.ostp.web.model.annotations.AuthTeacher
 import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
@@ -75,6 +78,13 @@ class LoginController {
     fun logout(request: HttpServletRequest): ApiResponse<String> {
         request.session.setAttribute("role", null)
         return Responses.ok("logout success: ${request.session.getAttribute("role")}")
+    }
+
+
+    @PostMapping(value = ["/account/duplicate"])
+    @ResponseBody
+    fun duplicate(id: String): ApiResponse<Boolean> {
+        return loginService.checkDuplicate(id)
     }
 
     private operator fun HttpSession.get(attr: String): Any? {

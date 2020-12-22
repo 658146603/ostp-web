@@ -20,7 +20,7 @@ interface CollegeMapper {
     fun selectByName(name: String): College?
 
     @Select("select * from college where id = #{id} limit 1")
-    fun selectById(id: Int): College?
+    fun selectById(id: Long): College?
 
     @Select("select * from college")
     @ResultType(College::class)
