@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.StudentMapper;
+import top.ostp.web.model.Admin;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
@@ -96,6 +97,17 @@ public class StudentService {
             return Responses.ok("消费成功");
         } else {
             return Responses.fail("消费失败");
+        }
+    }
+
+    public ApiResponse<Object> updatePassword(Student student, String password) {
+        student.setPassword(EncryptProvider.getSaltedPassword(student.getId(), student.getPassword()));
+        password = EncryptProvider.getSaltedPassword(student.getId(), password);
+        int status = studentMapper.updatePassword(student, password);
+        if (status == 1) {
+            return Responses.ok("密码修改成功");
+        } else {
+            return Responses.fail("错误");
         }
     }
 }

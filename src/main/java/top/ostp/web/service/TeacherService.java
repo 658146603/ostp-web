@@ -3,28 +3,43 @@ package top.ostp.web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import top.ostp.web.mapper.CollegeMapper;
 import top.ostp.web.mapper.TeacherMapper;
+import top.ostp.web.model.College;
 import top.ostp.web.model.Teacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.util.EncryptProvider;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class TeacherService {
     TeacherMapper teacherMapper;
+    CollegeMapper collegeMapper;
 
     @Autowired
     public void setTeacherMapper(TeacherMapper teacherMapper) {
         this.teacherMapper = teacherMapper;
     }
 
-    public ApiResponse<Object> insert(Teacher teacher) {
-        teacher.setPassword(EncryptProvider.getSaltedPassword(teacher.getId(), teacher.getPassword()));
+    @Autowired
+    public void setCollegeMapper(CollegeMapper collegeMapper) {
+        this.collegeMapper = collegeMapper;
+    }
+
+    public ApiResponse<Object> insert(String id, String name, Long college, String password, String email) {
+        if (id.isEmpty() || name.isEmpty() || password.isEmpty() || email.isEmpty()) {
+            return Responses.fail("参数存在空值");
+        }
+
+        password = EncryptProvider.getSaltedPassword(id, password);
+        College c = collegeMapper.selectById(college);
+        if (c == null) {
+            return Responses.fail("College ["+college+"] Not Found");
+        }
         try {
-            teacherMapper.insert(teacher);
+            teacherMapper.insertByVal(id, name, college, password, email);
             return Responses.ok();
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
@@ -37,7 +52,11 @@ public class TeacherService {
     }
 
     public ApiResponse<Teacher> selectById(String id) {
-        return Responses.ok(Objects.requireNonNull(teacherMapper.selectById(id)).erasePassword());
+        Teacher teacher = teacherMapper.selectById(id);
+        if (teacher != null) {
+            return Responses.ok(teacher.erasePassword());
+        }
+        return Responses.fail("teacher " + id + " not found");
     }
 
     public ApiResponse<Object> deleteById(Teacher teacher) {
@@ -56,5 +75,16 @@ public class TeacherService {
 
     public ApiResponse<List<Teacher>> likeByName(String name) {
         return Responses.ok(teacherMapper.likeListByName(name));
+    }
+
+    public ApiResponse<Object> updatePassword(Teacher teacher, String password) {
+        teacher.setPassword(EncryptProvider.getSaltedPassword(teacher.getId(), teacher.getPassword()));
+        password = EncryptProvider.getSaltedPassword(teacher.getId(), password);
+        int status = teacherMapper.updatePassword(teacher, password);
+        if (status == 1) {
+            return Responses.ok("密码修改成功");
+        } else {
+            return Responses.fail("错误");
+        }
     }
 }

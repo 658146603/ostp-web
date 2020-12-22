@@ -11,6 +11,8 @@ import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.CollegeService;
 
+import java.util.List;
+
 @Controller(value = "/college")
 public class CollegeController {
     CollegeService collegeService;
@@ -50,5 +52,14 @@ public class CollegeController {
     @ResponseBody
     public ApiResponse<Object> selectAllCollege() {
         return collegeService.selectAll();
+    }
+
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
+    @PostMapping(value = "college/fuzzy")
+    @ResponseBody
+    public ApiResponse<List<College>> fuzzy(String name) {
+        return collegeService.fuzzy(name);
     }
 }

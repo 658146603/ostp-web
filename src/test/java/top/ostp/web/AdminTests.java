@@ -8,6 +8,8 @@ import top.ostp.web.mapper.AdminMapper;
 import top.ostp.web.mapper.CollegeMapper;
 import top.ostp.web.model.Admin;
 import top.ostp.web.model.College;
+import top.ostp.web.service.AdminService;
+import top.ostp.web.service.LoginService;
 import top.ostp.web.util.EncryptProvider;
 
 import java.util.Collection;
@@ -15,6 +17,8 @@ import java.util.Collection;
 @SpringBootTest
 public class AdminTests {
     AdminMapper adminMapper;
+    AdminService adminService;
+    LoginService loginService;
     CollegeMapper collegeMapper;
 
     @Autowired
@@ -25,6 +29,16 @@ public class AdminTests {
     @Autowired
     public void setCollegeMapper(CollegeMapper collegeMapper) {
         this.collegeMapper = collegeMapper;
+    }
+
+    @Autowired
+    public void setLoginService(LoginService loginService) {
+        this.loginService = loginService;
+    }
+
+    @Autowired
+    public void setAdminService(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @Test
@@ -64,5 +78,12 @@ public class AdminTests {
         System.out.println(EncryptProvider.getSaltedPassword("0001", "123456"));
         System.out.println(EncryptProvider.getSaltedPassword("0002", "123456"));
         System.out.println(EncryptProvider.getSaltedPassword("0003", "123456"));
+    }
+
+    @Test
+    void updatePassword() {
+        Admin admin = (Admin) loginService.login("0003", "12345").getData();
+        assert admin != null;
+        assert adminService.updatePassword(admin, "123456").getCode() == 200;
     }
 }

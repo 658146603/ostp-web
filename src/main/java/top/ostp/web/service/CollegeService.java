@@ -59,4 +59,8 @@ public class CollegeService {
     public ApiResponse<Object> selectAll() {
         return Responses.ok(collegeMapper.selectAll());
     }
+
+    public ApiResponse<List<College>> fuzzy(String name) {
+        return Responses.ok(collegeMapper.likeByName(name));
+    }
 }
