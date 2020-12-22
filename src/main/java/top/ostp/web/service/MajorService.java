@@ -64,4 +64,9 @@ public class MajorService {
             return Responses.fail("删除失败");
         }
     }
+
+    public ApiResponse<Object> selectAllByCollegeId(int collegeId) {
+        List<Major> majors = majorMapper.selectAllByCollegeId(collegeId);
+        return Responses.ok(majors);
+    }
 }

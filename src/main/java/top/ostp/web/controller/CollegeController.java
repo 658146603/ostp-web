@@ -39,6 +39,15 @@ public class CollegeController {
     }
 
     @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
+    @PostMapping(value = "/college/get")
+    @ResponseBody
+    public ApiResponse<College> getCollege(int id) {
+        return collegeService.selectById(id);
+    }
+
+    @AuthAdmin
     @PostMapping(value = "college/delete")
     @ResponseBody
     public ApiResponse<Object> deleteCollege(int id) {

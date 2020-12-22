@@ -21,6 +21,18 @@ interface MajorMapper {
     @ResultType(Major::class)
     fun selectAll(): List<Major>
 
+
+    @Select("select * from major where major.college = #{collegeId}")
+    @Results(
+        value = [
+            Result(
+                property = "college", column = "college",
+                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+            )
+        ]
+    )
+    fun selectAllByCollegeId(collegeId: Int): List<Major>
+
     @Select("select * from major where id = #{id} limit 1")
     @Results(
         value = [
