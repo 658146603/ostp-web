@@ -78,6 +78,22 @@ interface BookOrderMapper {
         ]
     )
     @ResultType(StudentBookOrder::class)
+    @Select("select * from student_book_order where student = #{student}")
+    fun selectByStudent(@Param("student") student: String): List<StudentBookOrder>
+
+    @Results(
+        value = [
+            Result(
+                property = "student", column = "student",
+                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            )
+        ]
+    )
+    @ResultType(StudentBookOrder::class)
     @Select("select * from student_book_order where student = #{student} and year = #{year} and book = #{book}")
     fun selectByYearSemesterAndBook(
         @Param("book") book: String,
