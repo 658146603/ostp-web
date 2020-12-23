@@ -10,6 +10,7 @@ import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -66,7 +67,28 @@ public class BookService {
         return Responses.ok(bookMapper.selectAll());
     }
 
-    public ApiResponse<List<Book>> selectByQueryParameters(String name, String course) {
-        return Responses.ok(bookMapper.selectByQueryParameters(name, course));
+    public List<BookAdvice> selectByQueryParameters(String name, String course) {
+        if (name.equals("") && course.equals("")) {
+            return bookMapper.selectAll().stream()
+                    .map((book) -> selectXByISBN(book.getIsbn()))
+                    .collect(Collectors.toList());
+        } else if(course.equals("")) {
+            return bookMapper.fuzzyQuery(name).stream()
+                    .map((book) -> selectXByISBN(book.getIsbn()))
+                    .collect(Collectors.toList());
+        } else {
+            return bookMapper.selectByQueryParameters(name, course).stream()
+                    .map((book) -> selectXByISBN(book.getIsbn()))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    public BookAdvice selectXByISBN(String isbn) {
+        Book book = bookMapper.selectByISBN(isbn);
+        if (book == null){
+            return null;
+        } else {
+            return new BookAdvice(book, bookMapper.selectRelatedCoursesByISBN(isbn));
+        }
     }
 }

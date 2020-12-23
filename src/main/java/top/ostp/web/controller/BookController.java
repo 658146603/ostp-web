@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.model.Book;
@@ -42,8 +43,8 @@ public class BookController {
     @NoAuthority // TODO: 测试完删除
     @PostMapping(value = "/book/search")
     @ResponseBody
-    public ApiResponse<List<Book>> selectByQueryParameters(String name, String course) {
-        return bookService.selectByQueryParameters(name, course);
+    public ApiResponse<List<BookAdvice>> selectByQueryParameters(@RequestParam(defaultValue = "") String name,@RequestParam(defaultValue = "") String course) {
+        return Responses.ok(bookService.selectByQueryParameters(name, course));
     }
 
     @AuthAdmin
@@ -53,6 +54,14 @@ public class BookController {
     @ResponseBody
     public ApiResponse<Book> selectBook(String isbn) {
         return bookService.selectByISBN(isbn);
+    }
+
+    @NoAuthority
+    @PostMapping("/book/select_x")
+    @ResponseBody
+    public ApiResponse<BookAdvice> selectBookX(String isbn) {
+        BookAdvice result = bookService.selectXByISBN(isbn);
+        return Responses.ok(result);
     }
 
     @AuthAdmin

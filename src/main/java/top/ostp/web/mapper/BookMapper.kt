@@ -23,12 +23,17 @@ interface BookMapper {
     fun insert(record: Book): Int
 
 
-    @Select("select book.* from book, course_open, course where book.isbn = course_open.book and course_open.course = course.id and book.name like concat('%',#{name},'%') and course.name like concat('%',#{course},'%')")
+
+    @Select("select book.* from book left join course_open co on book.isbn = co.book left join course cou on co.course = cou.id where book.name like concat('%', #{name}, '%') and course.name like concat('%', #{name}, '%')")
     @ResultType(Book::class)
     fun selectByQueryParameters(name: String, course: String): List<Book>
 
     @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
     fun selectByISBN(isbn: String): Book?
+
+
+    @Select("select distinct cou.name from book left join course_open co on book.isbn = co.book left join course cou on co.course = cou.id where book.isbn = #{isbn}")
+    fun selectRelatedCoursesByISBN(isbn: String): List<String>
 
     @Update("update book set name = #{name,jdbcType=VARCHAR}, price = #{price,jdbcType=DECIMAL} where isbn = #{isbn,jdbcType=VARCHAR}")
     fun updateByISBN(record: Book): Int

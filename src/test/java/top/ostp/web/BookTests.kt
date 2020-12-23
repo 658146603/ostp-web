@@ -3,13 +3,17 @@ package top.ostp.web
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.util.Assert
 import top.ostp.web.mapper.BookMapper
 import top.ostp.web.model.Book
+import top.ostp.web.service.BookService
 
 @SpringBootTest
 class BookTests {
     @Autowired
     lateinit var bookMapper: BookMapper
+    @Autowired
+    lateinit var bookService: BookService
 
     @Test
     fun insertBook() {
@@ -40,6 +44,19 @@ class BookTests {
         if (book != null) {
             bookMapper.updateByISBN(book)
         }
+    }
+
+    @Test
+    fun selectXBook() {
+        val bookAdvice = bookService.selectXByISBN("9787-212-222-331")
+        Assert.notNull(bookAdvice, "bookAdvice为null")
+    }
+
+    @Test
+    fun selectByQueryParameters() {
+        val result = bookService.selectByQueryParameters("", "")
+        print(result)
+        assert(result.isNotEmpty())
     }
 
     @Test
