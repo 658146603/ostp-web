@@ -83,6 +83,8 @@ interface CourseOpenMapper {
     @ResultType(CourseOpen::class)
     fun selectByBook(@Param("book") book: Book): List<CourseOpen>
 
+
+
     @Select("select * from course_open where year = #{year} and semester = #{semester}")
     @Results(
         value = [
@@ -152,4 +154,24 @@ interface CourseOpenMapper {
 
     @Update("update course_open set received = 0 where id = #{id}")
     fun giveUpBook(id: Int): Int
+
+    @Select("select co.* from course_open co left join course c on c.id = co.course left join major m on c.major = m.id left join clazz c2 on m.id = c2.major left join student s on c2.id = s.clazz where s.id = #{studentId} and book = #{isbn}")
+    @Results(
+        value = [
+            Result(
+                property = "course", column = "course",
+                one = One(select = "top.ostp.web.mapper.CourseMapper.selectById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            ),
+            Result(
+                property = "teacher", column = "teacher",
+                one = One(select = "top.ostp.web.mapper.TeacherMapper.selectById")
+            )
+        ]
+    )
+    @ResultType(CourseOpen::class)
+    fun selectByBookAndStudent(isbn: String, studentId: String): List<CourseOpen>
 }

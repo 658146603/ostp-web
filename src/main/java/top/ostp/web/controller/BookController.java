@@ -17,6 +17,7 @@ import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
 import top.ostp.web.service.BookService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -40,13 +41,20 @@ public class BookController {
         return bookService.insert(book);
     }
 
-    @AuthAdmin
-    @AuthTeacher
-    @AuthStudent // TODO: 测试完删除
-    @PostMapping(value = "/book/search")
+    @AuthStudent
+    @PostMapping(value = "/book/search_stu")
     @ResponseBody
-    public ApiResponse<List<BookAdvice>> selectByQueryParameters(@RequestParam(defaultValue = "") String name,@RequestParam(defaultValue = "") String course) {
-        return Responses.ok(bookService.selectByQueryParameters(name, course));
+    public ApiResponse<List<BookAdvice>> searchOfStudent(@RequestParam(defaultValue = "") String name,@RequestParam(defaultValue = "") String course, HttpServletRequest request) {
+        String studentId = (String) request.getSession().getAttribute("username");
+        return Responses.ok(bookService.searchOfStudent(name, course, studentId));
+    }
+
+    @AuthStudent
+    @PostMapping(value = "/book/order_stu")
+    @ResponseBody
+    public ApiResponse<Object> orderStudent(String isbn, HttpServletRequest request) {
+        String studentId = (String) request.getSession().getAttribute("username");
+        return bookService.orderBookStu(isbn, studentId);
     }
 
     @AuthAdmin

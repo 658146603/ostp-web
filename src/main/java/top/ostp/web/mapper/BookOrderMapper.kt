@@ -3,6 +3,7 @@ package top.ostp.web.mapper
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
+import top.ostp.web.model.Student
 import top.ostp.web.model.StudentBookOrder
 
 @Mapper
@@ -66,23 +67,6 @@ interface BookOrderMapper {
     ): List<StudentBookOrder>
 
 
-
-    @Results(
-        value = [
-            Result(
-                property = "student", column = "student",
-                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
-            ),
-            Result(
-                property = "book", column = "book",
-                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
-            )
-        ]
-    )
-    @ResultType(StudentBookOrder::class)
-    @Select("select * from student_book_order where student = #{student}")
-    fun selectByStudent(@Param("student") student: String): List<StudentBookOrder>
-
     @Results(
         value = [
             Result(
@@ -112,12 +96,31 @@ interface BookOrderMapper {
         ]
     )
     @ResultType(StudentBookOrder::class)
+    @Select("select * from student_book_order where book = #{isbn} and student = #{studentId}")
+    fun selectByBookAndStudent(isbn: String, studentId: String): StudentBookOrder?
+
+
+    @Results(
+        value = [
+            Result(
+                property = "student", column = "student",
+                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            )
+        ]
+    )
+    @ResultType(StudentBookOrder::class)
     @Select("select * from student_book_order where student = #{student} and year = #{year} and book = #{book}")
     fun selectByYearSemesterAndBook(
         @Param("book") book: String,
         @Param("year") year: Int,
         @Param("semester") semester: Int,
     ): List<StudentBookOrder>
+
+
 
     @Results(
         value = [
@@ -148,5 +151,6 @@ interface BookOrderMapper {
 
     @Update("update student_book_order set received = 1 where id = #{order}")
     fun received(order: Int): Int
+
 
 }
