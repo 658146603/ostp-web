@@ -3,6 +3,7 @@ package top.ostp.web.mapper
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
+import top.ostp.web.model.CourseOpen
 import top.ostp.web.model.complex.BookAdvice
 
 @Mapper
@@ -34,6 +35,9 @@ interface BookMapper {
 
     @Select("select distinct cou.name from book left join course_open co on book.isbn = co.book left join course cou on co.course = cou.id where book.isbn = #{isbn}")
     fun selectRelatedCoursesByISBN(isbn: String): List<String>
+
+    @Select("select course_open.* from book left join course_open on book.isbn = course_open.book where book.isbn = #{isbn}")
+    fun selectRelatedCourseOpensByISBN(isbn: String): List<CourseOpen>
 
     @Update("update book set name = #{name,jdbcType=VARCHAR}, price = #{price,jdbcType=DECIMAL} where isbn = #{isbn,jdbcType=VARCHAR}")
     fun updateByISBN(record: Book): Int

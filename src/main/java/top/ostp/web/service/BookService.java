@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.BookMapper;
+import top.ostp.web.mapper.BookOrderMapper;
+import top.ostp.web.mapper.CourseOpenMapper;
 import top.ostp.web.model.Book;
+import top.ostp.web.model.StudentBookOrder;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
@@ -15,10 +18,22 @@ import java.util.stream.Collectors;
 @Service
 public class BookService {
     BookMapper bookMapper;
+    CourseOpenMapper courseOpenMapper;
+    BookOrderMapper bookOrderMapper;
 
     @Autowired
     public void setBookMapper(BookMapper bookMapper) {
         this.bookMapper = bookMapper;
+    }
+
+    @Autowired
+    public void setCourseOpenMapper(CourseOpenMapper courseOpenMapper){
+        this.courseOpenMapper = courseOpenMapper;
+    }
+
+    @Autowired
+    public void setBookOrderMapper(BookOrderMapper bookOrderMapper){
+        this.bookOrderMapper = bookOrderMapper;
     }
 
     public ApiResponse<Object> insert(Book book) {
@@ -88,7 +103,7 @@ public class BookService {
         if (book == null){
             return null;
         } else {
-            return new BookAdvice(book, bookMapper.selectRelatedCoursesByISBN(isbn));
+            return new BookAdvice(book, courseOpenMapper.selectByBook(book), bookOrderMapper.selectByBook(book));
         }
     }
 }
