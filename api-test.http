@@ -13,7 +13,7 @@ Content-Type: application/x-www-form-urlencoded
 POST http://localhost:8082/book/search
 Content-Type: application/x-www-form-urlencoded
 
-name=C
+course=K
 
 ###
 

@@ -24,7 +24,7 @@ interface BookMapper {
 
 
 
-    @Select("select book.* from book left join course_open co on book.isbn = co.book left join course cou on co.course = cou.id where book.name like concat('%', #{name}, '%') and course.name like concat('%', #{name}, '%')")
+    @Select("select distinct book.* from book left join course_open co on book.isbn = co.book left join course cou on co.course = cou.id where book.name like concat('%', #{name}, '%') and cou.name like concat('%', #{course}, '%')")
     @ResultType(Book::class)
     fun selectByQueryParameters(name: String, course: String): List<Book>
 

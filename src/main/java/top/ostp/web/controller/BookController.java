@@ -40,7 +40,9 @@ public class BookController {
         return bookService.insert(book);
     }
 
-    @NoAuthority // TODO: 测试完删除
+    @AuthAdmin
+    @AuthTeacher
+    @AuthStudent // TODO: 测试完删除
     @PostMapping(value = "/book/search")
     @ResponseBody
     public ApiResponse<List<BookAdvice>> selectByQueryParameters(@RequestParam(defaultValue = "") String name,@RequestParam(defaultValue = "") String course) {
