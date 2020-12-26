@@ -8,6 +8,7 @@ import top.ostp.web.model.Major;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
+import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.MajorService;
 
@@ -32,6 +33,7 @@ public class MajorController {
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
+    @NoAuthority //TODO 删除
     @PostMapping("/major/fetch_all")
     @ResponseBody
     public ApiResponse<Object> selectAllByCollegeId(int id) {
@@ -43,7 +45,7 @@ public class MajorController {
     @AuthTeacher
     @PostMapping("/major/get")
     @ResponseBody
-    public ApiResponse<Object> get(int id){
+    public ApiResponse<Object> get(int id) {
         return majorService.selectById(id);
     }
 

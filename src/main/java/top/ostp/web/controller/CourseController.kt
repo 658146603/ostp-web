@@ -33,6 +33,7 @@ class CourseController {
     fun listByMajor(major: Long): ApiResponse<List<Course>> = courseService.listByMajor(major)
 
     @AuthAdmin
+    @NoAuthority //TODO 删除
     @PostMapping(path = ["/course/add"])
     @ResponseBody
     fun addCourse(id: String, major: Long, name: String): ApiResponse<Any> {
