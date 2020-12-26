@@ -14,6 +14,7 @@ import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.SecondHandFindService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -69,6 +70,12 @@ public class SecondHandFindController {
         return secondHandFindService.insert(person, book, price, exchange, status);
     }
 
-
+    @AuthStudent
+    @PostMapping(value = "/second/find/cancel")
+    @ResponseBody
+    public ApiResponse<Object> cancel(String id, HttpServletRequest request){
+        String studentId = (String) request.getSession().getAttribute("username");
+        return secondHandFindService.cancel(id, studentId);
+    }
 
 }

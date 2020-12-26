@@ -33,6 +33,7 @@ public class SecondHandPublishController {
         return secondHandPublishService.insert(person, book, price, exchange);
     }
 
+    @Deprecated()
     @AuthAdmin
     @PostMapping(value = "/second/publish/delete")
     @ResponseBody
@@ -110,4 +111,14 @@ public class SecondHandPublishController {
         return secondHandPublishService.purchase(id, studentId);
     }
 
+    /**
+     * 取消一个publish，要求其status为0
+     */
+    @AuthStudent
+    @PostMapping("/second/publish/cancel")
+    @ResponseBody
+    public ApiResponse<Object> cancel(String id, HttpServletRequest request){
+        String studentId = (String) request.getSession().getAttribute("username");
+        return secondHandPublishService.cancel(id, studentId);
+    }
 }
