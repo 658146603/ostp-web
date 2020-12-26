@@ -6,15 +6,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandPublish;
-import top.ostp.web.model.Student;
-import top.ostp.web.model.annotations.*;
+import top.ostp.web.model.annotations.AuthAdmin;
+import top.ostp.web.model.annotations.AuthStudent;
+import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.SecondHandPublishService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
 @Controller(value = "/secondHandPublish")
 public class SecondHandPublishController {
     SecondHandPublishService secondHandPublishService;
@@ -71,7 +72,7 @@ public class SecondHandPublishController {
     @AuthTeacher
     @PostMapping(value = "/second/publish/selectByISBN")
     @ResponseBody
-    public  ApiResponse<List<SecondHandPublish>> selectSecondHanPublishByISBN(String isbn){
+    public ApiResponse<List<SecondHandPublish>> selectSecondHanPublishByISBN(String isbn) {
         return secondHandPublishService.selectPublishByISBN(isbn);
     }
 
@@ -85,7 +86,7 @@ public class SecondHandPublishController {
     @AuthStudent
     @PostMapping("/second/publish/buyList")
     @ResponseBody
-    public ApiResponse<List<SecondHandPublish>> searchBuyList(String name, String publisher,  HttpServletRequest request) {
+    public ApiResponse<List<SecondHandPublish>> searchBuyList(String name, String publisher, HttpServletRequest request) {
         String id = (String) request.getSession().getAttribute("username");
         return secondHandPublishService.searchBuyList(name, id, publisher);
     }
@@ -100,13 +101,14 @@ public class SecondHandPublishController {
 
     /**
      * 购买一本书籍
+     *
      * @param id 购买的订单号
      * @return 返回值
      */
     @AuthStudent
     @PostMapping("/second/publish/purchase")
     @ResponseBody
-    public ApiResponse<Object> purchase(String id, HttpServletRequest request){
+    public ApiResponse<Object> purchase(String id, HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandPublishService.purchase(id, studentId);
     }
@@ -117,7 +119,7 @@ public class SecondHandPublishController {
     @AuthStudent
     @PostMapping("/second/publish/cancel")
     @ResponseBody
-    public ApiResponse<Object> cancel(String id, HttpServletRequest request){
+    public ApiResponse<Object> cancel(String id, HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandPublishService.cancel(id, studentId);
     }
@@ -128,7 +130,7 @@ public class SecondHandPublishController {
     @AuthStudent
     @PostMapping(value = "/second/publish/changeStatusOk")
     @ResponseBody
-    public ApiResponse<Object> changeStatusOk(String id, HttpServletRequest request){
+    public ApiResponse<Object> changeStatusOk(String id, HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandPublishService.changeStatusOk(id, studentId);
     }

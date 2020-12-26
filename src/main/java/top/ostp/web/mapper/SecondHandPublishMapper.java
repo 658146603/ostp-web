@@ -2,10 +2,7 @@ package top.ostp.web.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
-import top.ostp.web.model.Book;
-import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.SecondHandPublish;
-import top.ostp.web.model.Student;
 
 import java.util.List;
 
@@ -99,7 +96,8 @@ public interface SecondHandPublishMapper {
 
     /**
      * 查找某个人的可购买列表，是没有交易的，且状态是购买的
-     * @param name 书名
+     *
+     * @param name      书名
      * @param studentId 学生的id
      * @return 求购列表
      */
@@ -127,12 +125,13 @@ public interface SecondHandPublishMapper {
                     )
             }
     )
-    List<SecondHandPublish> selectBuyListByNamePublisherExceptStudent(String name, String studentId, String publisher);
+    List<SecondHandPublish> selectBuyListByNamePublisherExceptStudent(@Param("name") String name, @Param("studentId") String studentId, @Param("publisher") String publisher);
 
 
     /**
      * 查找某个人的可交换列表，是没有交易的，且状态是购买的
-     * @param name 书名
+     *
+     * @param name      书名
      * @param studentId 学生的id
      * @return 可交换列表
      */
@@ -160,5 +159,5 @@ public interface SecondHandPublishMapper {
                     )
             }
     )
-    List<SecondHandPublish> selectExchangeListByNamePublisherExceptStudent(String name, String studentId, String publisher);
+    List<SecondHandPublish> selectExchangeListByNamePublisherExceptStudent(@Param("name") String name, @Param("studentId") String studentId, @Param("publisher") String publisher);
 }

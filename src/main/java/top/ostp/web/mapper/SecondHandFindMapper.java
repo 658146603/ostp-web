@@ -3,10 +3,7 @@ package top.ostp.web.mapper;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
-import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
-import top.ostp.web.model.annotations.Blame;
 
 import java.util.List;
 
@@ -131,5 +128,5 @@ public interface SecondHandFindMapper {
                     )
             }
     )
-    List<SecondHandFind> selectBuyListByStudentAndBook(String studentId, String isbn);
+    List<SecondHandFind> selectBuyListByStudentAndBook(@Param("studentId") String studentId, @Param("isbn") String isbn);
 }

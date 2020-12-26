@@ -2,7 +2,10 @@ package top.ostp.web.mapper
 
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
-import top.ostp.web.model.*
+import top.ostp.web.model.Book
+import top.ostp.web.model.Course
+import top.ostp.web.model.CourseOpen
+import top.ostp.web.model.Teacher
 
 @Mapper
 @Repository
@@ -79,7 +82,6 @@ interface CourseOpenMapper {
     )
     @ResultType(CourseOpen::class)
     fun selectByBook(@Param("book") book: Book): List<CourseOpen>
-
 
 
     @Select("select * from course_open where year = #{year} and semester = #{semester}")
@@ -177,5 +179,5 @@ interface CourseOpenMapper {
         ]
     )
     @ResultType(CourseOpen::class)
-    fun selectByBookAndStudent(isbn: String, studentId: String): List<CourseOpen>
+    fun selectByBookAndStudent(@Param("isbn") isbn: String, @Param("studentId") studentId: String): List<CourseOpen>
 }

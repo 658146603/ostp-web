@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
 import top.ostp.web.model.CourseOpen
-import top.ostp.web.model.complex.BookAdvice
 
 @Mapper
 @Repository
@@ -30,7 +29,7 @@ interface BookMapper {
         where course.name like concat('%', #{course}, '%')
     """)
     @ResultType(Book::class)
-    fun selectByNameAndCourse(name: String, course: String): List<Book>
+    fun selectByNameAndCourse(@Param("name") name: String, @Param("course") course: String): List<Book>
 
     @Select("""
     select distinct book.* from (select * from book where book.name like concat('%', #{name}, '%')) book
@@ -44,7 +43,11 @@ interface BookMapper {
             );
     """)
     @ResultType(Book::class)
-    fun selectByStudentNameAndCourse(studentId: String, name:String, course: String): List<Book>
+    fun selectByStudentNameAndCourse(
+        @Param("studentId") studentId: String,
+        @Param("name") name: String,
+        @Param("course") course: String,
+    ): List<Book>
 
     @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
     fun selectByISBN(isbn: String): Book?
@@ -60,5 +63,5 @@ interface BookMapper {
     fun updateByISBN(record: Book): Int
 
     @Select("select * from book where name like concat('%',#{name},'%') limit 10")
-    fun fuzzyQuery(name:String): List<Book>
+    fun fuzzyQuery(name: String): List<Book>
 }
