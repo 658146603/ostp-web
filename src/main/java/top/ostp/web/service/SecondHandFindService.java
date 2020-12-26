@@ -136,4 +136,25 @@ public class SecondHandFindService {
             return Responses.fail("数据库修改失败");
         }
     }
+
+    public ApiResponse<Object> changeStatusOk(String id, String studentId) {
+        Student student = studentMapper.selectStudentById(studentId);
+        SecondHandFind secondHandFind = secondHandFindMapper.select(id);
+        if (secondHandFind == null){
+            return Responses.fail("没有该发布的书本");
+        }
+        if (!student.getId().equals(secondHandFind.getPerson().getId())){
+            return Responses.fail("不能修改其他用户的数据");
+        }
+        if (secondHandFind.getStatus() == 0){
+            return Responses.fail("不能修改未完成的订单");
+        }
+        if (secondHandFind.getStatus() == 1){
+            secondHandFind.setStatus(2);
+        } else {
+            secondHandFind.setStatus(1);
+        }
+        secondHandFindMapper.update(secondHandFind);
+        return Responses.ok(secondHandFindMapper.select(id));
+    }
 }

@@ -197,4 +197,25 @@ public class SecondHandPublishService {
             return Responses.fail("数据库修改失败");
         }
     }
+
+    public ApiResponse<Object> changeStatusOk(String id, String studentId) {
+        Student student = studentMapper.selectStudentById(studentId);
+        SecondHandPublish secondHandPublish = secondHandPublishMapper.selectPublishByOrderId(id);
+        if (secondHandPublish == null){
+            return Responses.fail("没有该发布的书本");
+        }
+        if (!student.getId().equals(secondHandPublish.getPerson().getId())){
+            return Responses.fail("不能修改其他用户的数据");
+        }
+        if (secondHandPublish.getStatus() == 0){
+            return Responses.fail("不能修改未完成的订单");
+        }
+        if (secondHandPublish.getStatus() == 1){
+            secondHandPublish.setStatus(2);
+        } else {
+            secondHandPublish.setStatus(1);
+        }
+        secondHandPublishMapper.update(secondHandPublish);
+        return Responses.ok(secondHandPublishMapper.selectPublishByOrderId(id));
+    }
 }

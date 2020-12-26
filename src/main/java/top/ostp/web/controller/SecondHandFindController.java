@@ -70,12 +70,26 @@ public class SecondHandFindController {
         return secondHandFindService.insert(person, book, price, exchange, status);
     }
 
+    /**
+     * 取消一个find，要求其status为0
+     */
     @AuthStudent
     @PostMapping(value = "/second/find/cancel")
     @ResponseBody
     public ApiResponse<Object> cancel(String id, HttpServletRequest request){
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandFindService.cancel(id, studentId);
+    }
+
+    /**
+     * 改变一个订单的状态，要求其status不为0，主要用于确认订单和取消确认订单
+     */
+    @AuthStudent
+    @PostMapping(value = "/second/find/changeStatusOk")
+    @ResponseBody
+    public ApiResponse<Object> changeStatusOk(String id, HttpServletRequest request){
+        String studentId = (String) request.getSession().getAttribute("username");
+        return secondHandFindService.changeStatusOk(id, studentId);
     }
 
 }

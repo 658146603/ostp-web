@@ -121,4 +121,15 @@ public class SecondHandPublishController {
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandPublishService.cancel(id, studentId);
     }
+
+    /**
+     * 改变一个订单的状态，要求其status不为0，主要用于确认订单和取消确认订单
+     */
+    @AuthStudent
+    @PostMapping(value = "/second/publish/changeStatusOk")
+    @ResponseBody
+    public ApiResponse<Object> changeStatusOk(String id, HttpServletRequest request){
+        String studentId = (String) request.getSession().getAttribute("username");
+        return secondHandPublishService.changeStatusOk(id, studentId);
+    }
 }
