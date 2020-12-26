@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody
 import top.ostp.web.model.Admin
 import top.ostp.web.model.Student
 import top.ostp.web.model.Teacher
-import top.ostp.web.model.annotations.AuthAdmin
-import top.ostp.web.model.annotations.AuthStudent
-import top.ostp.web.model.annotations.AuthTeacher
 import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
@@ -33,16 +30,7 @@ class LoginController {
         val response = loginService.login(id, password)
         if (response.code == ok.code && response.data != null) {
             session.setAttribute("username", id)
-            when (response.data) {
-
-                is Admin -> session.setAttribute("role", response.data)
-
-                is Teacher -> session.setAttribute("role", response.data)
-
-                is Student -> session.setAttribute("role", response.data)
-
-                else -> TODO()
-            }
+            session["role"] = response.data
         }
         return response
     }
@@ -52,10 +40,11 @@ class LoginController {
     fun status(request: HttpServletRequest): ApiResponse<Any> {
         val session = request.session
 
-        val role = session["role"]
+        var role = session["role"]
         println("status/session: ${session.id}")
-
         return if (role != null) {
+            role = loginService.findById(role)
+            session["role"] = role
             Responses.ok(role)
         } else {
             Responses.fail("未登录")
@@ -65,8 +54,10 @@ class LoginController {
     @PostMapping("/account/username")
     @ResponseBody
     fun username(request: HttpServletRequest): ApiResponse<Any> {
-        val role = request.session["role"]
+        var role = request.session["role"]
         return if (role != null) {
+            role = loginService.findById(role)
+            request.session["role"] = role
             Responses.ok(role)
         } else {
             Responses.fail("未登录")
@@ -91,5 +82,8 @@ class LoginController {
         return this.getAttribute(attr)
     }
 
+    private operator fun HttpSession.set(attr: String, value: Any?) {
+        this.setAttribute(attr, value);
+    }
 }
 

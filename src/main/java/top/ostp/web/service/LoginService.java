@@ -51,6 +51,19 @@ public class LoginService {
         return Responses.fail("用户名或密码错误");
     }
 
+    public Object findById(Object role) {
+        if (role instanceof Teacher) {
+            return teacherMapper.selectById(((Teacher) role).getId());
+        }
+        if (role instanceof Student) {
+            return studentMapper.selectStudentById(((Student) role).getId());
+        }
+        if (role instanceof Admin) {
+            return adminMapper.select(((Admin) role).getId());
+        }
+        return null;
+    }
+
     public ApiResponse<Boolean> checkDuplicate(String id) {
         if (id == null || id.isEmpty()) {
             return Responses.ok(true);

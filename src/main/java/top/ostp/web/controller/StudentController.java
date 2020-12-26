@@ -53,18 +53,14 @@ public class StudentController {
         return studentService.modifyStudent(student);
     }
 
-    @AuthAdmin
     @AuthStudent
-    @AuthTeacher
     @PostMapping(path = "/student/{id}/charge")
     @ResponseBody
     public ApiResponse<Object> charge(int money, @PathVariable String id) {
         return studentService.charge(id, money);
     }
 
-    @AuthAdmin
     @AuthStudent
-    @AuthTeacher
     @PostMapping(path = "/student/{id}/consume")
     @ResponseBody
     public ApiResponse<Object> consume(int money, @PathVariable String id) {

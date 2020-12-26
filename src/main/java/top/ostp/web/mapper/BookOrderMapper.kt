@@ -3,7 +3,6 @@ package top.ostp.web.mapper
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
-import top.ostp.web.model.Student
 import top.ostp.web.model.StudentBookOrder
 
 @Mapper

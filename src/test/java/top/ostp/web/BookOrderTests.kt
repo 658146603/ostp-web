@@ -26,6 +26,9 @@ class BookOrderTests {
 
         println("id 6:")
         println(bookOrderMapper.selectById(6))
+
+        println("select by book and student")
+        println(bookOrderMapper.selectByBookAndStudent("9787-213-243-432", "201806061201"))
     }
 
     @Test

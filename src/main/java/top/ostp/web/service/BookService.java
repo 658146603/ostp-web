@@ -154,7 +154,7 @@ public class BookService {
         // 获取增强模型
         BookAdvice bookAdvice = selectXByISBNOfStudent(isbn, studentId);
         if (bookAdvice.getCourseOpens().isEmpty()) {
-            return Responses.fail("你无法订阅这本书，英文没有相关的开课");
+            return Responses.fail("你无法订阅这本书，因为没有相关的开课");
         } else {
             CourseOpen courseOpen = bookAdvice.getCourseOpens().get(0);
             Optional<StudentBookOrder> order = bookAdvice.getOrders().stream().filter((o) -> o.getStudent().getId().equals(studentId)).findAny();
