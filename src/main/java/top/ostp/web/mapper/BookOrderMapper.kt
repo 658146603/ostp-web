@@ -97,7 +97,7 @@ interface BookOrderMapper {
     )
     @ResultType(StudentBookOrder::class)
     @Select("select * from student_book_order where book = #{isbn} and student = #{studentId}")
-    fun selectByBookAndStudent(isbn: String, studentId: String): StudentBookOrder?
+    fun selectByBookAndStudent(isbn: String, studentId: String): List<StudentBookOrder>
 
 
     @Results(

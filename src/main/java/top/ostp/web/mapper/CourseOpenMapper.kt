@@ -2,10 +2,7 @@ package top.ostp.web.mapper
 
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
-import top.ostp.web.model.Book
-import top.ostp.web.model.Course
-import top.ostp.web.model.CourseOpen
-import top.ostp.web.model.Teacher
+import top.ostp.web.model.*
 
 @Mapper
 @Repository
@@ -155,7 +152,14 @@ interface CourseOpenMapper {
     @Update("update course_open set received = 0 where id = #{id}")
     fun giveUpBook(id: Int): Int
 
-    @Select("select co.* from course_open co left join course c on c.id = co.course left join major m on c.major = m.id left join clazz c2 on m.id = c2.major left join student s on c2.id = s.clazz where s.id = #{studentId} and book = #{isbn}")
+    @Select("""
+        select course_open.* from (select * from course_open where book = #{isbn}) course_open
+            left join course on course_open.course = course.id
+            left join major on course.major = major.id
+            left join clazz on major.id = clazz.major
+            left join student on clazz.id = student.clazz
+            where student.id = #{studentId}
+    """)
     @Results(
         value = [
             Result(

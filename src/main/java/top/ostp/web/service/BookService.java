@@ -112,33 +112,21 @@ public class BookService {
     public List<BookAdvice> searchOfStudent(String name, String course, String studentId) {
         if (name.equals("") && course.equals("")) {
             return bookMapper.selectAll().stream()
-                    .map((book) -> selectXByISBNOfStudent(book.getIsbn(), studentId))
+                    .map((book) -> selectXByISBNOfStudent(book, studentId))
                     .collect(Collectors.toList());
         } else if(course.equals("")) {
             return bookMapper.fuzzyQuery(name).stream()
-                    .map((book) -> selectXByISBNOfStudent(book.getIsbn(), studentId))
+                    .map((book) -> selectXByISBNOfStudent(book, studentId))
                     .collect(Collectors.toList());
         } else {
             return bookMapper.selectByQueryParameters(name, course).stream()
-                    .map((book) -> selectXByISBNOfStudent(book.getIsbn(), studentId))
+                    .map((book) -> selectXByISBNOfStudent(book, studentId))
                     .collect(Collectors.toList());
         }
     }
 
-    public BookAdvice selectXByISBNOfStudent(String isbn, String studentId) {
-        BookAdvice bookAdvice = selectXByISBN(isbn);
-        Student student = studentMapper.selectStudentById(studentId);
-        if (!bookAdvice.getCourseOpens().isEmpty()){
-            bookAdvice.setCourseOpens(bookAdvice.getCourseOpens().stream().filter(
-                    courseOpen -> courseOpen.getCourse().getMajor().getId() == student.getClazz().getMajor().getId())
-                    .collect(Collectors.toList()));
-        }
-        if (!bookAdvice.getOrders().isEmpty()) {
-            bookAdvice.setOrders(bookAdvice.getOrders().stream().filter(
-                    order-> order.getStudent().getId().equals(studentId))
-                    .collect(Collectors.toList()));
-        }
-        return bookAdvice;
+    public BookAdvice selectXByISBNOfStudent(Book book, String studentId) {
+        return new BookAdvice(book, courseOpenMapper.selectByBookAndStudent(book.getIsbn(), studentId), bookOrderMapper.selectByBookAndStudent(book.getIsbn(), studentId));
     }
 
     public BookAdvice selectXByISBN(String isbn) {
@@ -152,7 +140,8 @@ public class BookService {
 
     public ApiResponse<Object> orderBookStu(String isbn, String studentId){
         // 获取增强模型
-        BookAdvice bookAdvice = selectXByISBNOfStudent(isbn, studentId);
+        Book book = bookMapper.selectByISBN(isbn);
+        BookAdvice bookAdvice = selectXByISBNOfStudent(book, studentId);
         if (bookAdvice.getCourseOpens().isEmpty()) {
             return Responses.fail("你无法订阅这本书，英文没有相关的开课");
         } else {
@@ -161,10 +150,8 @@ public class BookService {
             if (order.isEmpty()) {
                 bookOrderMapper.addBookOrder(studentId, bookAdvice.getBook().getIsbn(), bookAdvice.getBook().getPrice().intValue(), courseOpen.getYear(), courseOpen.getSemester() );
             } else {
-                StudentBookOrder studentBookOrder = bookOrderMapper.selectByBookAndStudent(bookAdvice.getBook().getIsbn(), studentId);
-                if (studentBookOrder != null){
-                    bookOrderMapper.deleteBookOrder((int) studentBookOrder.getId());
-                }
+                Optional<StudentBookOrder> studentBookOrder = bookOrderMapper.selectByBookAndStudent(bookAdvice.getBook().getIsbn(), studentId).stream().findAny();
+                studentBookOrder.ifPresent(bookOrder -> bookOrderMapper.deleteBookOrder((int)bookOrder.getId()));
             }
             return Responses.ok("修改成功");
         }
