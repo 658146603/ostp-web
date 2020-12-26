@@ -131,5 +131,5 @@ public interface SecondHandFindMapper {
                     )
             }
     )
-    List<SecondHandFind> selectBuyListByStudentAndBook(String studentId, String isbn);
+    List<SecondHandFind> selectBuyListByStudentAndBook(@Param("studentId") String studentId, @Param("isbn") String isbn);
 }

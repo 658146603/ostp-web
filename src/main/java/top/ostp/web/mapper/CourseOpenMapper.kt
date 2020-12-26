@@ -81,7 +81,6 @@ interface CourseOpenMapper {
     fun selectByBook(@Param("book") book: Book): List<CourseOpen>
 
 
-
     @Select("select * from course_open where year = #{year} and semester = #{semester}")
     @Results(
         value = [
@@ -152,14 +151,16 @@ interface CourseOpenMapper {
     @Update("update course_open set received = 0 where id = #{id}")
     fun giveUpBook(id: Int): Int
 
-    @Select("""
+    @Select(
+        """
         select course_open.* from (select * from course_open where book = #{isbn}) course_open
             left join course on course_open.course = course.id
             left join major on course.major = major.id
             left join clazz on major.id = clazz.major
             left join student on clazz.id = student.clazz
             where student.id = #{studentId}
-    """)
+    """
+    )
     @Results(
         value = [
             Result(
@@ -177,5 +178,5 @@ interface CourseOpenMapper {
         ]
     )
     @ResultType(CourseOpen::class)
-    fun selectByBookAndStudent(isbn: String, studentId: String): List<CourseOpen>
+    fun selectByBookAndStudent(@Param("isbn") isbn: String, @Param("studentId") studentId: String): List<CourseOpen>
 }

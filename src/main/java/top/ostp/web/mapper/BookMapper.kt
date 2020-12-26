@@ -23,16 +23,19 @@ interface BookMapper {
     @Insert("insert into book (isbn, name, price, cover) values (#{isbn}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR})")
     fun insert(record: Book): Int
 
-    @Select("""
+    @Select(
+        """
     select book.* from (select * from book where book.name like concat('%', #{book}, '%')) book
         left join course_open on book.isbn = course_open.book
         left join course on course_open.course = course.id
         where course.name like concat('%', #{course}, '%')
-    """)
+    """
+    )
     @ResultType(Book::class)
-    fun selectByNameAndCourse(name: String, course: String): List<Book>
+    fun selectByNameAndCourse(@Param("name") name: String, @Param("course") course: String): List<Book>
 
-    @Select("""
+    @Select(
+        """
     select distinct book.* from (select * from book where book.name like concat('%', #{name}, '%')) book
         left join course_open on book.isbn = course_open.book
         left join course on course_open.course = course.id
@@ -42,9 +45,14 @@ interface BookMapper {
                 left join clazz on student.clazz = clazz.id
                 left join major on clazz.major = major.id
             );
-    """)
+    """
+    )
     @ResultType(Book::class)
-    fun selectByStudentNameAndCourse(studentId: String, name:String, course: String): List<Book>
+    fun selectByStudentNameAndCourse(
+        @Param("studentId") studentId: String,
+        @Param("name") name: String,
+        @Param("course") course: String
+    ): List<Book>
 
     @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
     fun selectByISBN(isbn: String): Book?
@@ -60,5 +68,5 @@ interface BookMapper {
     fun updateByISBN(record: Book): Int
 
     @Select("select * from book where name like concat('%',#{name},'%') limit 10")
-    fun fuzzyQuery(name:String): List<Book>
+    fun fuzzyQuery(name: String): List<Book>
 }

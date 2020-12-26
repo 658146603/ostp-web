@@ -80,6 +80,6 @@ interface CourseMapper {
 
     @ResultType(Course::class)
     @Select("select * from course where major=#{major} and name like concat('%',#{name},'%') limit 10")
-    fun fuzzyWithMajor(major: Int, name: String): List<Course>
+    fun fuzzyWithMajor(@Param("major") major: Int, @Param("name") name: String): List<Course>
 
 }
