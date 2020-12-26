@@ -3,6 +3,7 @@ package top.ostp.web.mapper;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import top.ostp.web.model.Book;
+import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.SecondHandPublish;
 import top.ostp.web.model.Student;
 
@@ -85,5 +86,60 @@ public interface SecondHandPublishMapper {
     )
     SecondHandPublish selectPublishByOrderId(String id);
 
+    /**
+     * 查找某个人的可购买列表，是没有交易的，且状态是购买的
+     * @param name 书名
+     * @param studentId 学生的id
+     * @return 求购列表
+     */
+    @Select("select second_hand_publish.* from second_hand_publish\n" +
+            "join" +
+            " (select * from book where book.name like concat('%', #{name}, '%')) book on book.isbn = second_hand_publish.book\n" +
+            "join (select * from student where student.name like concat('%', #{publisher}, '%')) student on second_hand_publish.person = student.id\n" +
+            "where second_hand_publish.exchange = 0\n" +
+            "  and second_hand_publish.status = 0\n" +
+            "  and second_hand_publish.person != #{studentId}\n" +
+            "order by book.name, student.id\n")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    List<SecondHandPublish> selectBuyListByNamePublisherExceptStudent(String name, String studentId, String publisher);
 
+
+    /**
+     * 查找某个人的可交换列表，是没有交易的，且状态是购买的
+     * @param name 书名
+     * @param studentId 学生的id
+     * @return 可交换列表
+     */
+    @Select("select second_hand_publish.* from second_hand_publish\n" +
+            "join" +
+            " (select * from book where book.name like concat('%', #{name}, '%')) book on book.isbn = second_hand_publish.book\n" +
+            "join (select * from student where student.name like concat('%', #{publisher}, '%')) student on second_hand_publish.person = student.id\n" +
+            "where second_hand_publish.exchange = 1\n" +
+            "  and second_hand_publish.status = 0\n" +
+            "  and second_hand_publish.person != #{studentId}\n" +
+            "order by book.name, student.id\n")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    List<SecondHandPublish> selectExchangeListByNamePublisherExceptStudent(String name, String studentId, String publisher);
 }

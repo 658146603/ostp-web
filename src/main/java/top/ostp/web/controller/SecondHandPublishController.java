@@ -13,6 +13,7 @@ import top.ostp.web.model.annotations.*;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.SecondHandPublishService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 @Blame("hhr 感冒了 编程环境逐渐恶劣")
 @Controller(value = "/secondHandPublish")
@@ -80,4 +81,22 @@ public class SecondHandPublishController {
     public ApiResponse<List<SecondHandPublish>> selectSecondHandPublishByStudentId(String id) {
         return secondHandPublishService.selectPublishByStudentId(id);
     }
+
+    @AuthStudent
+    @PostMapping("/second/publish/buyList")
+    @ResponseBody
+    public ApiResponse<List<SecondHandPublish>> searchBuyList(String name, String publisher,  HttpServletRequest request) {
+        String id = (String) request.getSession().getAttribute("username");
+        return secondHandPublishService.searchBuyList(name, id, publisher);
+    }
+
+    @AuthStudent
+    @PostMapping("/second/publish/exchangeList")
+    @ResponseBody
+    public ApiResponse<List<SecondHandPublish>> searchExchangeList(String name, String publisher, HttpServletRequest request) {
+        String id = (String) request.getSession().getAttribute("username");
+        return secondHandPublishService.searchExchangeList(name, id, publisher);
+    }
+
+
 }

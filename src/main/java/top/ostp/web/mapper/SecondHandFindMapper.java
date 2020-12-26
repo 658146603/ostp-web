@@ -94,15 +94,7 @@ public interface SecondHandFindMapper {
                     )
             }
     )
-//    @Select("select book.isbn from book,second_hand_find where book.isbn = second_hand_find.book and person = #{id} ")
-//        @Results(
-//            value = {
-//                    @Result(
-//                            property = "book", column = "book",
-//                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
-//                    )
-//
-//            }
-//    )
-    List<SecondHandFind> selectBookByStudentId(String id);
+    List<SecondHandFind> selectByStudentId(String id);
+
+
 }

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.ostp.web.mapper.SecondHandFindMapper;
-import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
 
 import java.util.List;
@@ -19,10 +18,16 @@ public class SecondHandFindTests {
     }
 
     @Test
+    public void findByPerson() {
+        List<SecondHandFind> secondHandFinds = secondHandFindMapper.selectByStudentId("201806061201");
+        secondHandFinds.forEach(System.out::println);
+    }
+
+    @Test
     public void insert() {
         SecondHandFind secondHandFind = new SecondHandFind();
         //TODO
-        List<SecondHandFind> b =  secondHandFindMapper.selectBookByStudentId("201806060231");
+        List<SecondHandFind> b =  secondHandFindMapper.selectByStudentId("201806060231");
         for (SecondHandFind b1:b
              ) {
             System.out.println(b1.toString());

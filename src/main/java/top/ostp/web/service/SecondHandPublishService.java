@@ -3,7 +3,6 @@ package top.ostp.web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import top.ostp.web.controller.StudentController;
 import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.mapper.SecondHandPublishMapper;
 import top.ostp.web.mapper.StudentMapper;
@@ -72,6 +71,14 @@ public class SecondHandPublishService {
 
     public ApiResponse<List<SecondHandPublish>> selectPublishByStudentId(String id) {
         return Responses.ok(secondHandPublishMapper.selectPublishByStudentId(id));
+    }
+
+    public ApiResponse<List<SecondHandPublish>> searchBuyList(String name, String studentId, String publisher) {
+        return Responses.ok(secondHandPublishMapper.selectBuyListByNamePublisherExceptStudent(name, studentId, publisher));
+    }
+
+    public ApiResponse<List<SecondHandPublish>> searchExchangeList(String name, String studentId, String publisher) {
+        return Responses.ok(secondHandPublishMapper.selectExchangeListByNamePublisherExceptStudent(name, studentId, publisher));
     }
 
     public ApiResponse<SecondHandPublish> selectPublishByOrderId(String id) {

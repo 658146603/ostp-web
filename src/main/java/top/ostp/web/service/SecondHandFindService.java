@@ -12,7 +12,6 @@ import top.ostp.web.model.Student;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,8 +83,9 @@ public class SecondHandFindService {
 
 
     public ApiResponse<List<SecondHandFind>> selectByStudentId(String id) {
-        return Responses.ok(secondHandFindMapper.selectBookByStudentId(id));
+        return Responses.ok(secondHandFindMapper.selectByStudentId(id));
     }
+
 
 
     public ApiResponse<Object> insert(SecondHandFind secondHandFind) {
