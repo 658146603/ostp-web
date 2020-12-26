@@ -78,4 +78,8 @@ public class MajorService {
             return Responses.ok(major);
         }
     }
+
+    public ApiResponse<List<Major>> fuzzyByWithCollegeByName(int college, String name) {
+        return Responses.ok(majorMapper.fuzzyWithCollege(college, name));
+    }
 }

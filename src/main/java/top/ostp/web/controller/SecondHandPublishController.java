@@ -15,7 +15,6 @@ import top.ostp.web.service.SecondHandPublishService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-@Blame("hhr 感冒了 编程环境逐渐恶劣")
 @Controller(value = "/secondHandPublish")
 public class SecondHandPublishController {
     SecondHandPublishService secondHandPublishService;

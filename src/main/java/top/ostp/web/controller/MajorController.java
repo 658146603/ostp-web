@@ -11,6 +11,8 @@ import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.MajorService;
 
+import java.util.List;
+
 @Controller
 public class MajorController {
     MajorService majorService;
@@ -75,5 +77,12 @@ public class MajorController {
     @ResponseBody
     public ApiResponse<Object> delete(Major major) {
         return majorService.delete(major);
+    }
+
+    @AuthAdmin
+    @PostMapping("/major/fuzzy")
+    @ResponseBody
+    public ApiResponse<List<Major>> fuzzyByWithCollegeByName(int college, String name) {
+        return majorService.fuzzyByWithCollegeByName(college, name);
     }
 }

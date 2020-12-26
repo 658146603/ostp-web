@@ -22,6 +22,19 @@ interface MajorMapper {
     fun selectAll(): List<Major>
 
 
+    @Results(
+        value = [
+            Result(
+                property = "college", column = "college",
+                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
+            )
+        ]
+    )
+    @ResultType(Major::class)
+    @Select("select * from major where college=#{college} and name like concat('%', #{name}, '%')")
+    fun fuzzyWithCollege(@Param("college") college: Int, @Param("name") name: String): List<Major>
+
+
     @Select("select * from major where major.college = #{collegeId}")
     @Results(
         value = [
