@@ -81,17 +81,10 @@ public class SecondHandFindService {
         }
     }
 
-    public ApiResponse<Object> selectByStudentId(String id) {
-        List<SecondHandFind> bookList = secondHandFindMapper.selectBookByStudentId(id);
-        List<Book> b1 = new ArrayList<>();
-        for (SecondHandFind se : bookList) {
-            b1.add(se.getBook());
-        }
-        if (bookList.size() > 0) {
-            return Responses.ok(b1);
-        } else {
-            return Responses.fail("未找到该学生订阅的书籍");
-        }
+
+
+    public ApiResponse<List<SecondHandFind>> selectByStudentId(String id) {
+        return Responses.ok(secondHandFindMapper.selectBookByStudentId(id));
     }
 
 
