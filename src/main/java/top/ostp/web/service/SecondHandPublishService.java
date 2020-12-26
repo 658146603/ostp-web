@@ -37,7 +37,7 @@ public class SecondHandPublishService {
         this.bookMapper = bookMapper;
     }
 
-    public ApiResponse<Object> insert(String person, String book, int price, int exchange, int status) {
+    public ApiResponse<Object> insert(String person, String book, int price, int exchange) {
         try {
             String id = UUID.randomUUID().toString();
             Student student = studentMapper.selectStudentById(person);
@@ -46,7 +46,7 @@ public class SecondHandPublishService {
             if (student == null || book1 == null) {
                 return Responses.fail("参数错误");
             }
-            SecondHandPublish secondHandPublish = new SecondHandPublish(id, student, book1, price, exchange, status);
+            SecondHandPublish secondHandPublish = new SecondHandPublish(id, student, book1, price, exchange, 0);
             int result = secondHandPublishMapper.insert(secondHandPublish);
             return Responses.ok();
         } catch (DuplicateKeyException e) {
@@ -78,7 +78,7 @@ public class SecondHandPublishService {
         return Responses.ok(secondHandPublishMapper.selectPublishByOrderId(id));
     }
 
-    public ApiResponse<List<SecondHandPublish>> selectPublishByISBN(String isbn){
+    public ApiResponse<List<SecondHandPublish>> selectPublishByISBN(String isbn) {
         return Responses.ok(secondHandPublishMapper.selectPublishByISBN(isbn));
     }
 
