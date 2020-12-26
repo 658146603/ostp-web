@@ -29,10 +29,13 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
-
             }
     )
     List<SecondHandPublish> selectAll();
@@ -45,16 +48,18 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
-
             }
     )
     List<SecondHandPublish> selectPublishByStudentId(String id);
 
 
-    @Select("select * from second_hand_publish where book = #{isbn} ")
     @Results(
             value = {
                     @Result(
@@ -62,10 +67,13 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
-
             }
     )
     List<SecondHandPublish> selectPublishByISBN(String isbn);
@@ -78,10 +86,13 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
-
             }
     )
     SecondHandPublish selectPublishByOrderId(String id);
@@ -104,6 +115,10 @@ public interface SecondHandPublishMapper {
             value = {
                     @Result(
                             property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "secondPerson", column = "secondPerson",
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
@@ -133,6 +148,10 @@ public interface SecondHandPublishMapper {
             value = {
                     @Result(
                             property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "secondPerson", column = "secondPerson",
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(

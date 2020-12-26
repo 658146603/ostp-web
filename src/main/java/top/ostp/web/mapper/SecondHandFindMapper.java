@@ -3,6 +3,7 @@ package top.ostp.web.mapper;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.annotations.Blame;
@@ -23,7 +24,7 @@ public interface SecondHandFindMapper {
 
     @Update("update second_hand_find\n" +
             "set person=#{person.id},\n" +
-            "    book=#{book.idbn},\n" +
+            "    book=#{book.isbn},\n" +
             "    price=#{price},\n" +
             "    exchange=#{exchange},\n" +
             "    status=#{status}\n" +
@@ -37,6 +38,10 @@ public interface SecondHandFindMapper {
             value = {
                     @Result(
                             property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "secondPerson", column = "secondPerson",
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
@@ -57,6 +62,10 @@ public interface SecondHandFindMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
@@ -71,6 +80,10 @@ public interface SecondHandFindMapper {
             value = {
                     @Result(
                             property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "secondPerson", column = "secondPerson",
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
@@ -89,6 +102,10 @@ public interface SecondHandFindMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
@@ -96,5 +113,22 @@ public interface SecondHandFindMapper {
     )
     List<SecondHandFind> selectByStudentId(String id);
 
-
+    @Select("select * from second_hand_find where person =#{studentId} and book = #{isbn} and exchange = 0 and status = 0")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    List<SecondHandFind> selectBuyListByStudentAndBook(String studentId, String isbn);
 }
