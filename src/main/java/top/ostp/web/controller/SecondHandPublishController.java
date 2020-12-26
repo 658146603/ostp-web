@@ -24,7 +24,7 @@ public class SecondHandPublishController {
     public void setSecondHandPublishService(SecondHandPublishService secondHandPublishService) {
         this.secondHandPublishService = secondHandPublishService;
     }
-    @NoAuthority
+
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
@@ -98,5 +98,17 @@ public class SecondHandPublishController {
         return secondHandPublishService.searchExchangeList(name, id, publisher);
     }
 
+    /**
+     * 购买一本书籍
+     * @param id 购买的订单号
+     * @return 返回值
+     */
+    @AuthStudent
+    @PostMapping("/second/publish/purchase")
+    @ResponseBody
+    public ApiResponse<Object> purchase(String id, HttpServletRequest request){
+        String studentId = (String) request.getSession().getAttribute("username");
+        return secondHandPublishService.purchase(id, studentId);
+    }
 
 }

@@ -3,6 +3,7 @@ package top.ostp.web.model;
 public class SecondHandPublish {
     private String id;
     private Student person;
+    private Student secondPerson;
     private Book book;
 
     @Override
@@ -35,6 +36,14 @@ public class SecondHandPublish {
 
     public void setPerson(Student person) {
         this.person = person;
+    }
+
+    public Student getSecondPerson() {
+        return secondPerson;
+    }
+
+    public void setSecondPerson(Student secondPerson) {
+        this.secondPerson = secondPerson;
     }
 
     public Book getBook() {

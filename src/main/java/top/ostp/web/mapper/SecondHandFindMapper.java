@@ -3,6 +3,7 @@ package top.ostp.web.mapper;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.annotations.Blame;
@@ -40,6 +41,10 @@ public interface SecondHandFindMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
@@ -54,6 +59,10 @@ public interface SecondHandFindMapper {
             value = {
                     @Result(
                             property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "secondPerson", column = "secondPerson",
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
@@ -74,6 +83,10 @@ public interface SecondHandFindMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
@@ -89,6 +102,10 @@ public interface SecondHandFindMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
+                            property = "secondPerson", column = "secondPerson",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
                             property = "book", column = "book",
                             one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
                     )
@@ -101,6 +118,10 @@ public interface SecondHandFindMapper {
             value = {
                     @Result(
                             property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "secondPerson", column = "secondPerson",
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
