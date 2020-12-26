@@ -154,14 +154,16 @@ interface CourseOpenMapper {
     @Update("update course_open set received = 0 where id = #{id}")
     fun giveUpBook(id: Int): Int
 
-    @Select("""
+    @Select(
+        """
         select course_open.* from (select * from course_open where book = #{isbn}) course_open
             left join course on course_open.course = course.id
             left join major on course.major = major.id
             left join clazz on major.id = clazz.major
             left join student on clazz.id = student.clazz
             where student.id = #{studentId}
-    """)
+    """
+    )
     @Results(
         value = [
             Result(

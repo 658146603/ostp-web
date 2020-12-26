@@ -98,7 +98,8 @@ interface BookOrderMapper {
     @Select("select * from student_book_order where book = #{isbn} and student = #{studentId}")
     fun selectByBookAndStudent(
         @Param("isbn") isbn: String,
-        @Param("studentId") studentId: String,
+        @Param("studentId") studentId: String
+    ,
     ): List<StudentBookOrder>
 
 

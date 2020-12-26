@@ -19,7 +19,7 @@ public interface StudentMapper {
     int changeMoney(@Param("student") Student student, @Param("money") int money);
 
     @Select("select id, name, balance from student where id = #{student}")
-    Student queryMoney(@Param("student")String student);
+    Student queryMoney(@Param("student") String student);
 
     @Select("select * from student where id=#{id} limit 1")
     @Results(
