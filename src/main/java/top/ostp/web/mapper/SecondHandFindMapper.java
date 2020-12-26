@@ -23,7 +23,7 @@ public interface SecondHandFindMapper {
 
     @Update("update second_hand_find\n" +
             "set person=#{person.id},\n" +
-            "    book=#{book.idbn},\n" +
+            "    book=#{book.isbn},\n" +
             "    price=#{price},\n" +
             "    exchange=#{exchange},\n" +
             "    status=#{status}\n" +
@@ -96,5 +96,18 @@ public interface SecondHandFindMapper {
     )
     List<SecondHandFind> selectByStudentId(String id);
 
-
+    @Select("select * from second_hand_find where person =#{studentId} and book = #{isbn} and exchange = 0 and status = 0")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    List<SecondHandFind> selectBuyListByStudentAndBook(String studentId, String isbn);
 }
