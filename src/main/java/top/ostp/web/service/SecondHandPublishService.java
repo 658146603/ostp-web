@@ -177,4 +177,24 @@ public class SecondHandPublishService {
 
 
     }
+
+    public ApiResponse<Object> cancel(String id, String studentId) {
+        Student student = studentMapper.selectStudentById(studentId);
+        SecondHandPublish secondHandPublish = secondHandPublishMapper.selectPublishByOrderId(id);
+        if (secondHandPublish == null){
+            return Responses.fail("没有该发布的书本");
+        }
+        if (!student.getId().equals(secondHandPublish.getPerson().getId())){
+            return Responses.fail("不能修改其他用户的数据");
+        }
+        if (secondHandPublish.getStatus() != 0) {
+            return Responses.fail("不能取消已完成的订单");
+        }
+        int result = secondHandPublishMapper.deleteByOrderId(id);
+        if (result > 0){
+            return Responses.ok();
+        } else {
+            return Responses.fail("数据库修改失败");
+        }
+    }
 }

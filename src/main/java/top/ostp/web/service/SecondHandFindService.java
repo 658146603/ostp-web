@@ -8,6 +8,7 @@ import top.ostp.web.mapper.SecondHandFindMapper;
 import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
+import top.ostp.web.model.SecondHandPublish;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
@@ -113,6 +114,26 @@ public class SecondHandFindService {
             return Responses.ok("更新成功");
         } else {
             return Responses.fail("更新失败");
+        }
+    }
+
+    public ApiResponse<Object> cancel(String id, String studentId) {
+        Student student = studentMapper.selectStudentById(studentId);
+        SecondHandFind secondHandFind = secondHandFindMapper.select(id);
+        if (secondHandFind == null){
+            return Responses.fail("没有该发布的书本");
+        }
+        if (!student.getId().equals(secondHandFind.getPerson().getId())){
+            return Responses.fail("不能修改其他用户的数据");
+        }
+        if (secondHandFind.getStatus() != 0) {
+            return Responses.fail("不能取消已完成的订单");
+        }
+        int result = secondHandFindMapper.delete(secondHandFind);
+        if (result > 0){
+            return Responses.ok();
+        } else {
+            return Responses.fail("数据库修改失败");
         }
     }
 }
