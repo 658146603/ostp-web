@@ -32,12 +32,14 @@ class CourseOpenService {
         if (c == null || b == null || t == null || year < 0 || semester !in arrayOf(1,2,3)) {
             return Responses.fail("参数错误")
         }
-
+        if (courseOpenMapper.selectByCourse(c).isNotEmpty()) {
+            return Responses.fail("重复开课")
+        }
         val courseOpen = CourseOpen(c, year, semester, b, t)
 
         return when (courseOpenMapper.insert(courseOpen)) {
-            1 -> Responses.ok("插入成功")
-            else -> Responses.fail("插入失败")
+            1 -> Responses.ok("开课成功")
+            else -> Responses.fail("开课失败, 请检查参数是否正确")
         }
     }
 
