@@ -13,8 +13,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface SecondHandFindMapper {
-    @Insert("insert into second_hand_find(id, person, book, price, exchange, status)\n" +
-            "VALUES (#{id}, #{person.id}, #{book.isbn}, #{price}, #{exchange}, #{status})")
+    @Insert("insert into second_hand_find(id, person, secondPerson, book, price, exchange, status)\n" +
+            "VALUES (#{id}, #{person.id}, #{secondPerson.id}, #{book.isbn}, #{price}, #{exchange}, #{status})")
     int insert(SecondHandFind secondHandFind);
 
     @Delete("delete\n" +
@@ -24,6 +24,7 @@ public interface SecondHandFindMapper {
 
     @Update("update second_hand_find\n" +
             "set person=#{person.id},\n" +
+            "    secondPerson=#{secondPerson.id},\n" +
             "    book=#{book.isbn},\n" +
             "    price=#{price},\n" +
             "    exchange=#{exchange},\n" +
