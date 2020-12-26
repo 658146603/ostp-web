@@ -93,11 +93,11 @@ public class BookService {
     }
 
     public List<BookAdvice> selectByQueryParameters(String name, String course) {
-        if (name.equals("") && course.equals("")) {
+        if ("".equals(name) && "".equals(course)) {
             return bookMapper.selectAll().stream()
                     .map((book) -> selectXByISBN(book.getIsbn()))
                     .collect(Collectors.toList());
-        } else if(course.equals("")) {
+        } else if("".equals(course)) {
             return bookMapper.fuzzyQuery(name).stream()
                     .map((book) -> selectXByISBN(book.getIsbn()))
                     .collect(Collectors.toList());
@@ -146,7 +146,9 @@ public class BookService {
     }
 
     public ApiResponse<List<StudentBookOrder>> orderListByStudentYearSemester(String student, int year, int semester) {
-        if (student == null) return Responses.fail(new ArrayList<>());
+        if (student == null) {
+            return Responses.fail(new ArrayList<>());
+        }
         return Responses.ok(bookOrderMapper.selectByYearSemesterAndStudent(student, year, semester));
     }
 }

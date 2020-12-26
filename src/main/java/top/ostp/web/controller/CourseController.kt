@@ -53,6 +53,14 @@ class CourseController {
         return courseService.fuzzyQuery(name)
     }
 
+    @AuthAdmin
+    @NoAuthority
+    @PostMapping(path = ["/course/select"])
+    @ResponseBody
+    fun selectById(id: String): ApiResponse<Course> {
+        return courseService.selectById(id);
+    }
+
     @NoAuthority
     @PostMapping(path = ["/course/fuzzy/by/major"])
     @ResponseBody
