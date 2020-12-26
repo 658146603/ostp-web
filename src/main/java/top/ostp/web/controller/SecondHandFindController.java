@@ -6,12 +6,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.SecondHandFindService;
+
+import java.util.List;
 
 @Controller
 public class SecondHandFindController {
@@ -41,12 +44,10 @@ public class SecondHandFindController {
 
     }
 
-    @AuthAdmin
     @AuthStudent
-    @AuthTeacher
-    @PostMapping(path = "/second/find/selectPerson")
+    @PostMapping(path = "/second/find/selectByStudent")
     @ResponseBody
-    public ApiResponse<Object> selectByPerson(String person) {
+    public ApiResponse<List<SecondHandFind>> selectByStudentId(String person) {
         return secondHandFindService.selectByStudentId(person);
     }
 

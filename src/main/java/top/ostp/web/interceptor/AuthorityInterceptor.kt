@@ -21,7 +21,7 @@ class AuthorityInterceptor : HandlerInterceptor {
         request: HttpServletRequest?,
         response: HttpServletResponse?, handler: Any?,
     ): Boolean {
-        println("interceptor/handler: $handler")
+//        println("interceptor/handler: $handler")
 
         if (handler is HandlerMethod && handler.beanType.getAnnotation(NoAuthority::class.java) == null) {
             if (handler.beanType == BasicErrorController::class.java) {
@@ -34,17 +34,17 @@ class AuthorityInterceptor : HandlerInterceptor {
 
             when {
                 handler.method.isAnnotationPresent(AuthStudent::class.java) && Student::class.java == role?.javaClass -> {
-                    println("auth success - student")
+//                    println("auth success - student")
                     return true
                 }
 
                 handler.method.isAnnotationPresent(AuthTeacher::class.java) && Teacher::class.java == role?.javaClass -> {
-                    println("auth success - teacher")
+//                    println("auth success - teacher")
                     return true
                 }
 
                 handler.method.isAnnotationPresent(AuthAdmin::class.java) && Admin::class.java == role?.javaClass -> {
-                    println("auth success - admin")
+//                    println("auth success - admin")
                     return true
                 }
 
@@ -67,9 +67,7 @@ class AuthorityInterceptor : HandlerInterceptor {
             }
         } else if (handler is HandlerMethod) {
             handler.beanType.getAnnotation(Blame::class.java)?.let { println(it.value) }
-            println("no auth needed")
-        } else {
-            println("非HandlerMethod调用，放行")
+//            println("no auth needed")
         }
 
         return true

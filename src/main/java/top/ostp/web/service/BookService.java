@@ -9,14 +9,13 @@ import top.ostp.web.mapper.CourseOpenMapper;
 import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.CourseOpen;
-import top.ostp.web.model.Student;
 import top.ostp.web.model.StudentBookOrder;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -103,26 +102,15 @@ public class BookService {
                     .map((book) -> selectXByISBN(book.getIsbn()))
                     .collect(Collectors.toList());
         } else {
-            return bookMapper.selectByQueryParameters(name, course).stream()
+            return bookMapper.selectByNameAndCourse(name, course).stream()
                     .map((book) -> selectXByISBN(book.getIsbn()))
                     .collect(Collectors.toList());
         }
     }
 
     public List<BookAdvice> searchOfStudent(String name, String course, String studentId) {
-        if (name.equals("") && course.equals("")) {
-            return bookMapper.selectAll().stream()
-                    .map((book) -> selectXByISBNOfStudent(book, studentId))
-                    .collect(Collectors.toList());
-        } else if(course.equals("")) {
-            return bookMapper.fuzzyQuery(name).stream()
-                    .map((book) -> selectXByISBNOfStudent(book, studentId))
-                    .collect(Collectors.toList());
-        } else {
-            return bookMapper.selectByQueryParameters(name, course).stream()
-                    .map((book) -> selectXByISBNOfStudent(book, studentId))
-                    .collect(Collectors.toList());
-        }
+        return bookMapper.selectByStudentNameAndCourse(studentId, name, course)
+                .stream().map((book)-> selectXByISBNOfStudent(book, studentId)).collect(Collectors.toList());
     }
 
     public BookAdvice selectXByISBNOfStudent(Book book, String studentId) {
@@ -155,5 +143,10 @@ public class BookService {
             }
             return Responses.ok("修改成功");
         }
+    }
+
+    public ApiResponse<List<StudentBookOrder>> orderListByStudentYearSemester(String student, int year, int semester) {
+        if (student == null) return Responses.fail(new ArrayList<>());
+        return Responses.ok(bookOrderMapper.selectByYearSemesterAndStudent(student, year, semester));
     }
 }
