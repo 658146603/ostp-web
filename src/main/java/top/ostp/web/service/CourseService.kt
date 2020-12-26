@@ -46,8 +46,12 @@ class CourseService {
         }
     }
 
-    fun fuzzyQuery(name: String): ApiResponse<Any> {
-        val courseList = courseMapper.fuzzyQuery(name) ?: return Responses.fail("course not found")
+    fun fuzzyQuery(name: String): ApiResponse<List<Course>> {
+        val courseList = courseMapper.fuzzyQuery(name)
         return Responses.ok(courseList)
+    }
+
+    fun fuzzyWithMajorByName(major: Int, name: String): ApiResponse<List<Course>> {
+        return Responses.ok(courseMapper.fuzzyWithMajor(major, name))
     }
 }

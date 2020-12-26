@@ -2,7 +2,6 @@ package top.ostp.web.mapper
 
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
-import top.ostp.web.model.Book
 import top.ostp.web.model.Course
 import top.ostp.web.model.Major
 
@@ -62,6 +61,7 @@ interface CourseMapper {
     )
     @ResultType(Course::class)
     fun selectByName(name: String): List<Course>
+
     @Select("select * from course where major = #{id}")
     @Results(
         value = [
@@ -73,8 +73,13 @@ interface CourseMapper {
     )
     @ResultType(Course::class)
     fun selectByMajor(major: Major): List<Course>
-    @ResultType(Book::class)
+
+    @ResultType(Course::class)
     @Select("select * from course where name like concat('%',#{name},'%') limit 10")
-    fun fuzzyQuery(name:String): List<Course>
+    fun fuzzyQuery(name: String): List<Course>
+
+    @ResultType(Course::class)
+    @Select("select * from course where major=#{major} and name like concat('%',#{name},'%') limit 10")
+    fun fuzzyWithMajor(major: Int, name: String): List<Course>
 
 }

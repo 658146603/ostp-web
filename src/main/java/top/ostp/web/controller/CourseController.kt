@@ -49,7 +49,14 @@ class CourseController {
     @NoAuthority
     @PostMapping(path = ["/course/fuzzy"])
     @ResponseBody
-    fun fuzzyQuery(name: String):ApiResponse<Any>{
+    fun fuzzyQuery(name: String): ApiResponse<List<Course>> {
         return courseService.fuzzyQuery(name)
+    }
+
+    @NoAuthority
+    @PostMapping(path = ["/course/fuzzy/by/major"])
+    @ResponseBody
+    fun fuzzyWithMajorByName(major: Int, name: String): ApiResponse<List<Course>> {
+        return courseService.fuzzyWithMajorByName(major, name)
     }
 }
