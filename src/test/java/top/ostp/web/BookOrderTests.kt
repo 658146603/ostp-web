@@ -45,4 +45,10 @@ class BookOrderTests {
     fun delete() {
         bookOrderMapper.deleteBookOrder(7)
     }
+
+    @Test
+    fun selectByBookAndStudent() {
+        val orders = bookOrderMapper.selectByBookAndStudent("9787-212-222-333", "201806061201")
+        println(orders)
+    }
 }
