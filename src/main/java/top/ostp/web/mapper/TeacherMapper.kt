@@ -91,4 +91,8 @@ interface TeacherMapper {
 
     @Update("update teacher set password=#{password} where id=#{teacher.id} and password=#{password}")
     fun updatePassword(@Param("teacher") teacher: Teacher, @Param("password") password: String): Int
+
+    @ResultType(Teacher::class)
+    @Select("select *from teacher where id=#{id} and email=#{email}")
+    fun checkEmail(@Param("id") id: String?, @Param("email") email: String?): Teacher?
 }
