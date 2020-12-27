@@ -9,6 +9,7 @@ import top.ostp.web.model.Clazz
 import top.ostp.web.model.annotations.AuthAdmin
 import top.ostp.web.model.annotations.AuthStudent
 import top.ostp.web.model.annotations.AuthTeacher
+import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
 import top.ostp.web.model.complex.ClassAdvice
@@ -25,7 +26,7 @@ class ClassController {
     @AuthTeacher
     @ResponseBody
     @PostMapping("/fetch_all")
-    fun selectAllByMajorId(id: Int) : ApiResponse<List<ClassAdvice>> {
+    fun selectAllByMajorId(id: Int): ApiResponse<List<ClassAdvice>> {
         return Responses.ok(classService.selectAllByMajorId(id))
     }
 
@@ -34,7 +35,14 @@ class ClassController {
     @AuthTeacher
     @PostMapping("/select")
     @ResponseBody
-    fun selectById(id: Int) : ApiResponse<Clazz?> {
+    fun selectById(id: Int): ApiResponse<Clazz?> {
         return Responses.ok(classService.selectById(id))
+    }
+
+    @NoAuthority //TODO 修改
+    @PostMapping("/insert")
+    @ResponseBody
+    fun insert(name: String, major: Long): ApiResponse<Any> {
+        return classService.insert(name, major)
     }
 }
