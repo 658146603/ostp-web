@@ -60,6 +60,7 @@ public class SecondHandFindController {
     public ApiResponse<Object> selectByBook(String isbn) {
         return secondHandFindService.selectByBook(isbn);
     }
+
     @NoAuthority
     @AuthAdmin
     @AuthStudent
@@ -90,6 +91,12 @@ public class SecondHandFindController {
     public ApiResponse<Object> changeStatusOk(String id, HttpServletRequest request){
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandFindService.changeStatusOk(id, studentId);
+    }
+
+    @AuthStudent
+    @PostMapping("/second/find/other_exchange/list")
+    public ApiResponse<List<SecondHandFind>> otherExchangeList(String otherId, String selfId) {
+        return secondHandFindService.selectByStudentIdNotExchanged(otherId, selfId);
     }
 
 }

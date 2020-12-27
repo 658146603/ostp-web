@@ -145,7 +145,7 @@ public interface SecondHandPublishMapper {
 
 
     /**
-     * 查找某个人的可交换列表，是没有交易的，且状态是购买的
+     * 查找某个人的可交换列表，是没有交易的，且状态是交换的
      *
      * @param name      书名
      * @param studentId 学生的id

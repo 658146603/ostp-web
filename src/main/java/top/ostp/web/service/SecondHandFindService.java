@@ -21,10 +21,12 @@ public class SecondHandFindService {
     SecondHandFindMapper secondHandFindMapper;
     StudentMapper studentMapper;
     BookMapper bookMapper;
+
     @Autowired
     public void setBookMapper(BookMapper bookMapper) {
         this.bookMapper = bookMapper;
     }
+
     @Autowired
     public void setStudentMapper(StudentMapper studentMapper) {
         this.studentMapper = studentMapper;
@@ -45,22 +47,26 @@ public class SecondHandFindService {
         }
     }
 
-    public ApiResponse<Object> insert(String person,String book,int price,int exchange,int status){
+    public ApiResponse<Object> insert(String person, String book, int price, int exchange, int status) {
         try {
             String id = UUID.randomUUID().toString();
             Student student = studentMapper.selectStudentById(person);
-            Book book1= bookMapper.selectByISBN(book);
-            if(student == null || book1 == null){
+            Book book1 = bookMapper.selectByISBN(book);
+            if (student == null || book1 == null) {
                 return Responses.fail("参数错误");
             }
-            SecondHandFind secondHandFind = new SecondHandFind(id,student,book1,price,exchange,status);
-            int result = secondHandFindMapper.insert(secondHandFind);
-            return Responses.ok();
+            SecondHandFind secondHandFind = new SecondHandFind(id, student, book1, price, exchange, status);
 
-        }catch (DuplicateKeyException e){
+            if (secondHandFindMapper.insert(secondHandFind) > 0) {
+                return Responses.ok("添加成功");
+            } else {
+                return Responses.fail("添加失败");
+            }
+
+        } catch (DuplicateKeyException e) {
             e.printStackTrace();
+            return Responses.fail("主键重复");
         }
-        return Responses.fail("主键重复");
     }
 
     public ApiResponse<Object> select(String id) {
@@ -82,11 +88,9 @@ public class SecondHandFindService {
     }
 
 
-
     public ApiResponse<List<SecondHandFind>> selectByStudentId(String id) {
         return Responses.ok(secondHandFindMapper.selectByStudentId(id));
     }
-
 
 
     public ApiResponse<Object> insert(SecondHandFind secondHandFind) {
@@ -120,17 +124,17 @@ public class SecondHandFindService {
     public ApiResponse<Object> cancel(String id, String studentId) {
         Student student = studentMapper.selectStudentById(studentId);
         SecondHandFind secondHandFind = secondHandFindMapper.select(id);
-        if (secondHandFind == null){
+        if (secondHandFind == null) {
             return Responses.fail("没有该发布的书本");
         }
-        if (!student.getId().equals(secondHandFind.getPerson().getId())){
+        if (!student.getId().equals(secondHandFind.getPerson().getId())) {
             return Responses.fail("不能修改其他用户的数据");
         }
         if (secondHandFind.getStatus() != 0) {
             return Responses.fail("不能取消已完成的订单");
         }
         int result = secondHandFindMapper.delete(secondHandFind);
-        if (result > 0){
+        if (result > 0) {
             return Responses.ok();
         } else {
             return Responses.fail("数据库修改失败");
@@ -140,13 +144,13 @@ public class SecondHandFindService {
     public ApiResponse<Object> changeStatusOk(String id, String studentId) {
         Student student = studentMapper.selectStudentById(studentId);
         SecondHandFind secondHandFind = secondHandFindMapper.select(id);
-        if (secondHandFind == null){
+        if (secondHandFind == null) {
             return Responses.fail("没有该发布的书本");
         }
-        if (!student.getId().equals(secondHandFind.getPerson().getId())){
+        if (!student.getId().equals(secondHandFind.getPerson().getId())) {
             return Responses.fail("不能修改其他用户的数据");
         }
-        if (secondHandFind.getStatus() == 0){
+        if (secondHandFind.getStatus() == 0) {
             return Responses.fail("不能修改未完成的订单");
         }
         // TODO: 确认是在这里加钱。请产品经理审阅
@@ -161,5 +165,15 @@ public class SecondHandFindService {
 
         secondHandFindMapper.update(secondHandFind);
         return Responses.ok(secondHandFindMapper.select(id));
+    }
+
+
+    public ApiResponse<List<SecondHandFind>> selectByStudentIdNotExchanged(String otherId, String selfId) {
+        Student other = studentMapper.selectStudentById(otherId);
+        Student self = studentMapper.selectStudentById(selfId);
+        if (self == null || other == null) {
+            return Responses.fail("用户不存在");
+        }
+        return Responses.ok(secondHandFindMapper.selectByStudentIdNotExchanged(otherId, selfId));
     }
 }
