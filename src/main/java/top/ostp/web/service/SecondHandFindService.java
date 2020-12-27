@@ -5,6 +5,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.mapper.SecondHandFindMapper;
+import top.ostp.web.mapper.SecondHandPublishMapper;
 import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Service
 public class SecondHandFindService {
     SecondHandFindMapper secondHandFindMapper;
+    SecondHandPublishMapper secondHandPublishMapper;
     StudentMapper studentMapper;
     BookMapper bookMapper;
 
@@ -32,11 +34,16 @@ public class SecondHandFindService {
         this.studentMapper = studentMapper;
     }
 
+    @Autowired
+    public void setSecondHandPublishMapper(SecondHandPublishMapper secondHandPublishMapper) {
+        this.secondHandPublishMapper = secondHandPublishMapper;
+    }
 
     @Autowired
     public void setSecondHandFindMapper(SecondHandFindMapper secondHandFindMapper) {
         this.secondHandFindMapper = secondHandFindMapper;
     }
+
 
     public ApiResponse<Object> selectAll() {
         List<SecondHandFind> secondHandFinds = secondHandFindMapper.selectAll();
@@ -78,8 +85,8 @@ public class SecondHandFindService {
         }
     }
 
-    public ApiResponse<Object> selectByBook(String isbn) {
-        SecondHandFind secondHandFind = secondHandFindMapper.selectByBook(isbn);
+    public ApiResponse<List<SecondHandFind>> selectByBook(String isbn) {
+        List<SecondHandFind> secondHandFind = secondHandFindMapper.selectByBook(isbn);
         if (secondHandFind != null) {
             return Responses.ok(secondHandFind);
         } else {
@@ -156,11 +163,11 @@ public class SecondHandFindService {
         // TODO: 确认是在这里加钱。请产品经理审阅
         // TODO: 存在多处 未明确定义的常量，请使用MagicConstant代替
         secondHandFind.setStatus(2);
-        if (secondHandFind.getExchange() == 0){
+        if (secondHandFind.getExchange() == 0) {
             // 购买则卖方加钱
             Student other = secondHandFind.getSecond().getPerson();
             // TODO: 统一所有有关钱的类型
-            studentMapper.changeMoney(other, (int)secondHandFind.getPrice());
+            studentMapper.changeMoney(other, (int) secondHandFind.getPrice());
         }
 
         secondHandFindMapper.update(secondHandFind);
@@ -175,5 +182,59 @@ public class SecondHandFindService {
             return Responses.fail("用户不存在");
         }
         return Responses.ok(secondHandFindMapper.selectByStudentIdNotExchanged(otherId, selfId));
+    }
+
+    public ApiResponse<Object> postExchange(String otherId, String selfId, String otherFindId, String otherPublishId) {
+        Student other = studentMapper.selectStudentById(otherId);
+        Student self = studentMapper.selectStudentById(selfId);
+        SecondHandPublish otherPublish = secondHandPublishMapper.select(otherPublishId);
+        SecondHandFind otherFind = secondHandFindMapper.select(otherFindId);
+        if (other != null && self != null && otherPublish != null && otherFind != null && otherFind.getStatus() == 0 && otherPublish.getStatus() == 0) {
+            SecondHandPublish selfPublish = secondHandPublishMapper.selectPublishByStudentAndISBNAndAvailable(selfId, otherFind.getBook().getIsbn());
+            if (selfPublish == null) {
+                //找不到发布订单则新建一个发布订单
+                selfPublish = new SecondHandPublish();
+                selfPublish.setId(UUID.randomUUID().toString());
+                selfPublish.setPerson(self);
+                selfPublish.setPrice(0);
+                selfPublish.setExchange(1);
+                selfPublish.setBook(otherFind.getBook());
+                selfPublish.setSecond(otherFind);
+                selfPublish.setStatus(1);
+                secondHandPublishMapper.insert(selfPublish);
+            } else {
+                selfPublish.setSecond(otherFind);
+                selfPublish.setStatus(1);
+                secondHandPublishMapper.update(selfPublish);
+            }
+
+            otherFind.setSecond(selfPublish);
+            otherFind.setStatus(1);
+            secondHandFindMapper.update(otherFind);
+
+            SecondHandFind selfFind = secondHandFindMapper.selectFindByStudentAndBookAndAvailable(selfId, otherPublish.getBook().getIsbn());
+            if (selfFind == null) {
+                selfFind = new SecondHandFind();
+                selfFind.setId(UUID.randomUUID().toString());
+                selfFind.setPerson(self);
+                selfFind.setPrice(0);
+                selfFind.setExchange(1);
+                selfFind.setBook(otherPublish.getBook());
+                selfFind.setSecond(otherPublish);
+                secondHandFindMapper.insert(selfFind);
+            } else {
+                selfFind.setSecond(otherPublish);
+                selfFind.setStatus(1);
+                secondHandFindMapper.update(selfFind);
+            }
+
+            otherPublish.setSecond(selfFind);
+            otherPublish.setStatus(1);
+            secondHandPublishMapper.update(otherPublish);
+
+            return Responses.ok("交换发起成功");
+        } else {
+            return Responses.fail("对方订单失效，请稍后重试");
+        }
     }
 }

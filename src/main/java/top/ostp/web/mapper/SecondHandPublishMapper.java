@@ -2,7 +2,6 @@ package top.ostp.web.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
-import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.SecondHandPublish;
 
 import java.util.List;
@@ -109,6 +108,24 @@ public interface SecondHandPublishMapper {
     )
     List<SecondHandPublish> selectPublishByISBN(String isbn);
 
+    @Select("select * from second_hand_publish where person = #{student} and book = #{isbn} and secondId is null and status = 0 and exchange = 1 limit 1")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandFindMapper.selectPart", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    SecondHandPublish selectPublishByStudentAndISBNAndAvailable(@Param("student") String student, @Param("isbn") String isbn);
 
     /**
      * 查找某个人的可购买列表，是没有交易的，且状态是购买的

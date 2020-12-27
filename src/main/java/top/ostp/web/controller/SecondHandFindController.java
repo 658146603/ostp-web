@@ -57,7 +57,7 @@ public class SecondHandFindController {
     @AuthTeacher
     @PostMapping(path = "/second/find/selectByBook")
     @ResponseBody
-    public ApiResponse<Object> selectByBook(String isbn) {
+    public ApiResponse<List<SecondHandFind>> selectByBook(String isbn) {
         return secondHandFindService.selectByBook(isbn);
     }
 
@@ -95,8 +95,17 @@ public class SecondHandFindController {
 
     @AuthStudent
     @PostMapping("/second/find/other_exchange/list")
+    @ResponseBody
     public ApiResponse<List<SecondHandFind>> otherExchangeList(String otherId, String selfId) {
         return secondHandFindService.selectByStudentIdNotExchanged(otherId, selfId);
+    }
+
+
+    @AuthStudent
+    @PostMapping("/second/find/post_exchange")
+    @ResponseBody
+    public ApiResponse<Object> postExchange(String otherId, String selfId, String otherFindId, String otherPublishId) {
+        return secondHandFindService.postExchange(otherId, selfId, otherFindId, otherPublishId);
     }
 
 }

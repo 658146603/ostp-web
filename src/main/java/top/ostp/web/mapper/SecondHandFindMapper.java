@@ -86,8 +86,8 @@ public interface SecondHandFindMapper {
                     )
             }
     )
-    SecondHandFind selectByBook(String isbn);
-
+    @ResultType(SecondHandFind.class)
+    List<SecondHandFind> selectByBook(String isbn);
 
     @Select("select id, person, book, price, exchange, status\n" +
             "from second_hand_find")
@@ -147,25 +147,38 @@ public interface SecondHandFindMapper {
     )
     List<SecondHandFind> selectBuyListByStudentAndBook(@Param("studentId") String studentId, @Param("isbn") String isbn);
 
+    @Select("select * from second_hand_find where person = #{studentId} and book = #{isbn} and secondId is null and exchange = 1 and status = 0 limit 1")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandPublishMapper.selectPart", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    SecondHandFind selectFindByStudentAndBookAndAvailable(@Param("studentId") String studentId, @Param("isbn") String isbn);
+
     /**
-     * 某个人的寻求尚未进行交换的寻求交换列表
+     * 某个人的寻求尚未进行交换的寻求交换列表，返回的是自己的发布交换列表
      *
      * @param otherId 对方学生的id
      * @param selfId  本人的id
-     * @return 寻求交换列表
+     * @return 发布交换列表
      */
     @Select("select second_hand_find.*\n" +
             "from second_hand_find\n" +
             "where second_hand_find.exchange = 1\n" +
             "  and second_hand_find.status = 0\n" +
-            "  and second_hand_find.person = #{otherId}\n" +
-            "  and second_hand_find.book in (\n" +
-            "    select book\n" +
-            "    from second_hand_publish\n" +
-            "    where second_hand_publish.person = #{selfId}\n" +
-            "      and second_hand_publish.exchange = 1\n" +
-            "      and second_hand_publish.status = 0\n" +
-            ")")
+            "  and second_hand_find.person = #{otherId}\n"
+    )
     @Results(
             value = {
                     @Result(
@@ -182,5 +195,5 @@ public interface SecondHandFindMapper {
                     )
             }
     )
-    public List<SecondHandFind> selectByStudentIdNotExchanged(@Param("otherId") String otherId, @Param("selfId") String selfId);
+    List<SecondHandFind> selectByStudentIdNotExchanged(@Param("otherId") String otherId, @Param("selfId") String selfId);
 }
