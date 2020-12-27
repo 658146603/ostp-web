@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import top.ostp.web.mapper.BookOrderMapper
+import top.ostp.web.service.BookOrderService
+import top.ostp.web.service.BookService
 
 @SpringBootTest
 class BookOrderTests {
@@ -51,4 +53,14 @@ class BookOrderTests {
         val orders = bookOrderMapper.selectByBookAndStudent("9787-212-222-333", "201806061201")
         println(orders)
     }
+
+
+    @Autowired
+    lateinit var bookOrderService: BookOrderService
+
+    @Test
+    fun test() {
+        bookOrderService.getBookOrderListByClazz(5, 2019, 3)
+    }
+
 }
