@@ -89,6 +89,10 @@ interface TeacherMapper {
     @Select("select * from teacher where name like concat('%', #{name}, '%')")
     fun likeListByName(@Param("name") name: String): List<Teacher>
 
-    @Update("update teacher set password=#{password} where id=#{teacher.id} and password=#{password}")
+    @Update("update teacher set password=#{password} where id=#{teacher.id}")
     fun updatePassword(@Param("teacher") teacher: Teacher, @Param("password") password: String): Int
+
+    @ResultType(Teacher::class)
+    @Select("select * from teacher where id=#{id} and email=#{email}")
+    fun checkEmail(@Param("id") id: String?, @Param("email") email: String?): Teacher?
 }

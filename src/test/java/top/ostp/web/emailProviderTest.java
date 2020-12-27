@@ -6,6 +6,6 @@ import top.ostp.web.util.EmailProvider;
 public class emailProviderTest {
     @Test
     void resetPassword() {
-        assert EmailProvider.resetPassword("https://huhaorui.com", "i@huhaorui.com");
+        assert EmailProvider.email("重置密码成功", "这是你的新密码", "i@huhaorui.com");
     }
 }

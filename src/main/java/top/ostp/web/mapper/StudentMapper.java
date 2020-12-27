@@ -45,4 +45,7 @@ public interface StudentMapper {
 
     @Update("update student set password=#{password} where id=#{student.id} and password=#{student.password}")
     int updatePassword(@Param("student") Student student, @Param("password") String password);
+
+    @Select("select * from student where id=#{id} and email=#{email}")
+    Student checkEmail(@Param("id") String id, @Param("email") String email);
 }

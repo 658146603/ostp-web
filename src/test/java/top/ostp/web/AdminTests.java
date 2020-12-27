@@ -78,6 +78,7 @@ public class AdminTests {
         System.out.println(EncryptProvider.getSaltedPassword("0001", "123456"));
         System.out.println(EncryptProvider.getSaltedPassword("0002", "123456"));
         System.out.println(EncryptProvider.getSaltedPassword("0003", "123456"));
+        System.out.println(EncryptProvider.getSaltedPassword("201806061219", "123456"));
     }
 
     @Test

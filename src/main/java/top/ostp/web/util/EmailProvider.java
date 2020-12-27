@@ -5,11 +5,12 @@ import okhttp3.*;
 import java.io.IOException;
 
 public class EmailProvider {
-    public static boolean resetPassword(String link, String to) {
-        String url = "https://mail.otsp.top/mail/reset";
+    public static boolean email(String subject, String content, String to) {
+        String url = "https://mail.otsp.top/mail/mail";
         OkHttpClient okHttpClient = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
-                .add("link", link)
+                .add("subject", subject)
+                .add("content", content)
                 .add("to", to)
                 .build();
         Request request = new Request.Builder().url(url).post(formBody).build();
