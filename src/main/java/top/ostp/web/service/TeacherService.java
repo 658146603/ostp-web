@@ -87,4 +87,8 @@ public class TeacherService {
             return Responses.fail("错误");
         }
     }
+
+    public List<Teacher> selectByCollegeId(int collegeId) {
+        return teacherMapper.selectByCollegeId(collegeId);
+    }
 }

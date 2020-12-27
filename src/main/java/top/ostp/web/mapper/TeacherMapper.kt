@@ -95,4 +95,7 @@ interface TeacherMapper {
     @ResultType(Teacher::class)
     @Select("select * from teacher where id=#{id} and email=#{email}")
     fun checkEmail(@Param("id") id: String?, @Param("email") email: String?): Teacher?
+
+    @Select("select * from teacher where college=#{collegeId}")
+    fun selectByCollegeId(collegeId: Int): List<Teacher>
 }

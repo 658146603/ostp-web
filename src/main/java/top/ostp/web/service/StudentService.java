@@ -9,6 +9,8 @@ import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.util.EncryptProvider;
 
+import java.util.List;
+
 @Service
 public class StudentService {
     StudentMapper studentMapper;
@@ -129,5 +131,9 @@ public class StudentService {
         } else {
             return Responses.fail("错误");
         }
+    }
+
+    public List<Student> selectByClazz(int id) {
+        return studentMapper.selectByClazz(id);
     }
 }
