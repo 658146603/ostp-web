@@ -12,7 +12,10 @@ import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
+import top.ostp.web.model.common.Responses;
 import top.ostp.web.service.StudentService;
+
+import java.util.List;
 
 @Controller
 public class StudentController {
@@ -73,4 +76,14 @@ public class StudentController {
     public ApiResponse<Object> updatePassword(String id, String password0, String password) {
         return studentService.updatePassword(new Student(id, "", null, password0, 0, ""), password);
     }
+
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
+    @PostMapping("/student/selectByClass")
+    @ResponseBody
+    public ApiResponse<List<Student>> selectByClazz(int id){
+        return Responses.ok(studentService.selectByClazz(id));
+    }
+
 }

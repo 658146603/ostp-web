@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import top.ostp.web.model.Student;
 
+import java.util.List;
+
 @Mapper
 public interface StudentMapper {
     @Insert("insert into student(id, name, clazz, password, balance, email) VALUES (#{id},#{name},#{clazz.id},#{password},#{balance},#{email})")
@@ -48,4 +50,8 @@ public interface StudentMapper {
 
     @Select("select * from student where id=#{id} and email=#{email}")
     Student checkEmail(@Param("id") String id, @Param("email") String email);
+
+    @Select("select * from student where clazz=#{id}")
+    List<Student> selectByClazz(int id);
+
 }
