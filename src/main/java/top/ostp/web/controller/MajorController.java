@@ -25,10 +25,11 @@ public class MajorController {
     }
 
     @AuthAdmin
+    @NoAuthority
     @PostMapping(path = "/major/insert")
     @ResponseBody
-    public ApiResponse<Object> insert(Major major) {
-        return majorService.insert(major);
+    public ApiResponse<Object> insert(String name, String college, String year) {
+        return majorService.insert(name, college, year);
     }
 
     @AuthAdmin

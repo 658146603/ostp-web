@@ -47,12 +47,14 @@ interface MajorMapper {
     )
     fun selectAllByCollegeId(collegeId: Int): List<Major>
 
-    @Select("""
+    @Select(
+        """
 select major.*,
     (select count(*) from clazz where clazz.major = major.id) classCount,
     (select count(*) from clazz join student on clazz.id = student.clazz where clazz.major = major.id) studentCount
     from major where major.college = #{collegeId};
-    """)
+    """
+    )
     fun selectAllExtendByCollegeId(collegeId: Int): List<MajorAdvice>
 
     @Select("select * from major where id = #{id} limit 1")
@@ -90,8 +92,8 @@ select major.*,
     @ResultType(Major::class)
     fun selectByName(name: String): List<Major>
 
-    @Insert("insert into major (name, college, year) values (#{name}, #{college.id}, #{year})")
-    fun insert(major: Major): Int
+    @Insert("insert into major (name, college, year) values (#{name}, #{college}, #{year})")
+    fun insert(name: String, college: String, year: String): Int
 
     @Update("update major set name = #{name} where id = #{id}")
     fun update(major: Major): Int
