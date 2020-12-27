@@ -34,8 +34,8 @@ interface CollegeMapper {
     @ResultType(College::class)
     fun likeByName(@Param("name") name: String): List<College>
 
-    @Select( """
-select college.*,
+    @Select(
+        """select college.*,
        (select count(*) from major where major.college = college.id)     majorCount,
        (select count(*) from teacher where teacher.college = college.id) teacherCount,
        (select count(*)
@@ -44,7 +44,8 @@ select college.*,
                  join student on clazz.id = student.clazz
         where major.college = college.id)                                studentCount
 from college;
-    """)
+    """
+    )
     @ResultType(CollegeAdvice::class)
     fun selectAllExtend(): List<CollegeAdvice>
 }

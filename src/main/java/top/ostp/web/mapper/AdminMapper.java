@@ -20,8 +20,8 @@ public interface AdminMapper {
     )
     Admin login(@Param("id") String id, @Param("password") String password);
 
-    @Insert("insert into admin(id, password, su, college) VALUES (#{admin.id},#{admin.password},#{admin.su},#{admin.college.id})")
-    int insert(@Param("admin") Admin admin);
+    @Insert("insert into admin(id, password, su, college) VALUES (#{id},#{password},0,#{college})")
+    int insert(@Param("id") String id, @Param("password") String password, @Param("college") String college);
 
     @Delete("delete from admin where id=#{admin.id}")
     int delete(@Param("admin") Admin admin);

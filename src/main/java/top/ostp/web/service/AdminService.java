@@ -18,10 +18,10 @@ public class AdminService {
         this.adminMapper = adminMapper;
     }
 
-    public ApiResponse<Object> insert(Admin admin) {
-        admin.setPassword(EncryptProvider.getSaltedPassword(admin.getId(), admin.getPassword()));
+    public ApiResponse<Object> insert(String id, String password, String college) {
+        password = EncryptProvider.getSaltedPassword(id, password);
         try {
-            adminMapper.insert(admin);
+            adminMapper.insert(id, password, college);
             return Responses.ok("插入成功");
         } catch (DuplicateKeyException e) {
             return Responses.fail("插入失败");

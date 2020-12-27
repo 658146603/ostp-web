@@ -32,6 +32,14 @@ public class CollegeController {
     }
 
     @AuthAdmin
+    @NoAuthority //TODO 删除
+    @PostMapping(path = "/college/insert/id")
+    @ResponseBody
+    public ApiResponse<College> insertCollegeThenReturnId(String name) {
+        return collegeService.insertAndGetId(name);
+    }
+
+    @AuthAdmin
     @AuthStudent
     @AuthTeacher
     @PostMapping(value = "/college/select")

@@ -27,8 +27,9 @@ public class AdminController {
     @PostMapping(value = "/admin/insert")
     @ResponseBody
     @AuthAdmin
-    public ApiResponse<Object> insert(Admin admin) {
-        return adminService.insert(admin);
+    @NoAuthority //TODO 删除
+    public ApiResponse<Object> insert(String id, String password, String college) {
+        return adminService.insert(id, password, college);
     }
 
     @PostMapping(value = "/admin/select")

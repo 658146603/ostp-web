@@ -31,6 +31,16 @@ public class CollegeService {
         return Responses.fail("主键重复");
     }
 
+    public ApiResponse<College> insertAndGetId(String name) {
+        collegeMapper.insertByName(name);
+        College college = collegeMapper.selectByName(name);
+        if (college != null)
+            return Responses.ok(college);
+        else {
+            return Responses.fail("创建失败");
+        }
+    }
+
     public ApiResponse<College> selectByName(String name) {
         return Responses.ok(collegeMapper.selectByName(name));
     }
