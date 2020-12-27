@@ -21,9 +21,9 @@ public class MajorService {
         this.majorMapper = majorMapper;
     }
 
-    public ApiResponse<Object> insert(Major major) {
+    public ApiResponse<Object> insert(String name, String college, String year) {
         try {
-            majorMapper.insert(major);
+            majorMapper.insert(name, college, year);
             return Responses.ok("插入成功");
         } catch (DuplicateKeyException e) {
             return Responses.fail("插入出错");
