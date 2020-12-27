@@ -46,18 +46,7 @@ class BookTests {
         }
     }
 
-    @Test
-    fun selectXBook() {
-        val bookAdvice = bookService.selectXByISBN("9787-212-222-331")
-        Assert.notNull(bookAdvice, "bookAdvice为null")
-    }
 
-    @Test
-    fun selectByQueryParameters() {
-        val result = bookService.selectByQueryParameters("", "")
-        print(result)
-        assert(result.isNotEmpty())
-    }
 
     @Test
     fun fuzzyQuery(){

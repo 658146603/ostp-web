@@ -50,8 +50,21 @@ interface BookMapper {
     fun selectByStudentNameAndCourse(
         @Param("studentId") studentId: String,
         @Param("name") name: String,
+        @Param("course") course: String,
+    ): List<Book>
+
+    @Select("""
+    select distinct book.* from (select * from book where book.name like concat('%', #{name} ,'%')) book
+        left join course_open on book.isbn = course_open.book
+        left join course on course_open.course = course.id
+    where course.name like concat('%', #{course} ,'%')
+        and course_open.teacher = #{teacherId};
+    """)
+    @ResultType(Book::class)
+    fun selectByTeacherNameAndCourse(
+        @Param("teacherId") teacherId: String,
+        @Param("name") name: String,
         @Param("course") course: String
-    ,
     ): List<Book>
 
     @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
