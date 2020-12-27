@@ -149,11 +149,16 @@ public class SecondHandFindService {
         if (secondHandFind.getStatus() == 0){
             return Responses.fail("不能修改未完成的订单");
         }
-        if (secondHandFind.getStatus() == 1){
-            secondHandFind.setStatus(2);
-        } else {
-            secondHandFind.setStatus(1);
+        // TODO: 确认是在这里加钱。请产品经理审阅
+        // TODO: 存在多处 未明确定义的常量，请使用MagicConstant代替
+        secondHandFind.setStatus(2);
+        if (secondHandFind.getExchange() == 0){
+            // 购买则卖方加钱
+            Student other = secondHandFind.getSecond().getPerson();
+            // TODO: 统一所有有关钱的类型
+            studentMapper.changeMoney(other, (int)secondHandFind.getPrice());
         }
+
         secondHandFindMapper.update(secondHandFind);
         return Responses.ok(secondHandFindMapper.select(id));
     }

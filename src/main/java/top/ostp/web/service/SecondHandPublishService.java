@@ -11,6 +11,7 @@ import top.ostp.web.model.Book;
 import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.SecondHandPublish;
 import top.ostp.web.model.Student;
+import top.ostp.web.model.annotations.Blame;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
@@ -165,7 +166,8 @@ public class SecondHandPublishService {
             secondHandPublishMapper.update(secondHandPublish);
             // 进行缴费
             studentMapper.changeMoney(student, - (int)secondHandPublish.getPrice());
-//            // 然后给另外一个人加前
+//            // 然后给另外一个人加钱
+            // TODO: 仅在买方确认后才会加钱，请产品经理审阅。
 //            studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
             // 进行链接
 

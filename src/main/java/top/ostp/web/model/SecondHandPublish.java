@@ -1,5 +1,7 @@
 package top.ostp.web.model;
 
+import org.intellij.lang.annotations.MagicConstant;
+
 public class SecondHandPublish {
     private String id;
     private Student person;
