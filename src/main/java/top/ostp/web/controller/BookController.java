@@ -49,6 +49,14 @@ public class BookController {
         return Responses.ok(bookService.searchOfStudent(name, course, studentId));
     }
 
+    @AuthTeacher
+    @PostMapping(value = "/book/search_teacher")
+    @ResponseBody
+    public ApiResponse<List<BookAdvice>> searchOfTeacher(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "") String course, HttpServletRequest request) {
+        String teacherId = (String) request.getSession().getAttribute("username");
+        return Responses.ok(bookService.searchOfTeacher(name, course, teacherId));
+    }
+
     @AuthStudent
     @PostMapping(value = "/book/order_stu")
     @ResponseBody
@@ -56,6 +64,8 @@ public class BookController {
         String studentId = (String) request.getSession().getAttribute("username");
         return bookService.orderBookStu(isbn, studentId);
     }
+
+    
 
     @AuthAdmin
     @AuthStudent
@@ -66,13 +76,6 @@ public class BookController {
         return bookService.selectByISBN(isbn);
     }
 
-    @NoAuthority
-    @PostMapping("/book/select_x")
-    @ResponseBody
-    public ApiResponse<BookAdvice> selectBookX(String isbn) {
-        BookAdvice result = bookService.selectXByISBN(isbn);
-        return Responses.ok(result);
-    }
 
     @AuthAdmin
     @PostMapping("/book/delete")

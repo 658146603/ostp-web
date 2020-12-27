@@ -15,6 +15,7 @@ import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -92,22 +93,6 @@ public class BookService {
         return Responses.ok(bookMapper.selectAll());
     }
 
-    public List<BookAdvice> selectByQueryParameters(String name, String course) {
-        if ("".equals(name) && "".equals(course)) {
-            return bookMapper.selectAll().stream()
-                    .map((book) -> selectXByISBN(book.getIsbn()))
-                    .collect(Collectors.toList());
-        } else if("".equals(course)) {
-            return bookMapper.fuzzyQuery(name).stream()
-                    .map((book) -> selectXByISBN(book.getIsbn()))
-                    .collect(Collectors.toList());
-        } else {
-            return bookMapper.selectByNameAndCourse(name, course).stream()
-                    .map((book) -> selectXByISBN(book.getIsbn()))
-                    .collect(Collectors.toList());
-        }
-    }
-
     public List<BookAdvice> searchOfStudent(String name, String course, String studentId) {
         return bookMapper.selectByStudentNameAndCourse(studentId, name, course)
                 .stream().map((book)-> selectXByISBNOfStudent(book, studentId)).collect(Collectors.toList());
@@ -117,13 +102,13 @@ public class BookService {
         return new BookAdvice(book, courseOpenMapper.selectByBookAndStudent(book.getIsbn(), studentId), bookOrderMapper.selectByBookAndStudent(book.getIsbn(), studentId));
     }
 
-    public BookAdvice selectXByISBN(String isbn) {
-        Book book = bookMapper.selectByISBN(isbn);
-        if (book == null){
-            return null;
-        } else {
-            return new BookAdvice(book, courseOpenMapper.selectByBook(book), bookOrderMapper.selectByBook(book));
-        }
+    public List<BookAdvice> searchOfTeacher(String name, String course, String teacherId) {
+        return bookMapper.selectByTeacherNameAndCourse(teacherId, name, course)
+                .stream().map((book)-> selectXByISBNOfTeacher(book, teacherId)).collect(Collectors.toList());
+    }
+
+    public BookAdvice selectXByISBNOfTeacher(Book book, String teacherId){
+        return new BookAdvice(book, courseOpenMapper.selectByBookAndTeacher(book.getIsbn(), teacherId), new LinkedList<>());
     }
 
     public ApiResponse<Object> orderBookStu(String isbn, String studentId){
