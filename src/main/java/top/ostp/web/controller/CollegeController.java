@@ -10,6 +10,7 @@ import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
+import top.ostp.web.model.complex.CollegeAdvice;
 import top.ostp.web.service.CollegeService;
 
 import java.util.List;
@@ -67,10 +68,9 @@ public class CollegeController {
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
-    @NoAuthority //TODO 删除！
     @PostMapping(value = "college/list")
     @ResponseBody
-    public ApiResponse<Object> selectAllCollege() {
+    public ApiResponse<List<CollegeAdvice>> selectAllCollege() {
         return collegeService.selectAll();
     }
 

@@ -8,6 +8,7 @@ import top.ostp.web.model.Book;
 import top.ostp.web.model.College;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
+import top.ostp.web.model.complex.CollegeAdvice;
 
 import java.util.List;
 
@@ -56,8 +57,8 @@ public class CollegeService {
         return Responses.ok(collegeMapper.selectById(id));
     }
 
-    public ApiResponse<Object> selectAll() {
-        return Responses.ok(collegeMapper.selectAll());
+    public ApiResponse<List<CollegeAdvice>> selectAll() {
+        return Responses.ok(collegeMapper.selectAllExtend());
     }
 
     public ApiResponse<List<College>> fuzzy(String name) {

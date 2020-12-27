@@ -34,4 +34,10 @@ class CollegeTests {
     fun deleteCollege() {
         mapper.selectByName("理学院")?.let { mapper.deleteById(it.id) }
     }
+
+
+    @Test
+    fun selectAllExtend() {
+        mapper.selectAllExtend().forEach(::println)
+    }
 }

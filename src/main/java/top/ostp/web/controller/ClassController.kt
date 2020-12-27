@@ -10,6 +10,7 @@ import top.ostp.web.model.annotations.AuthAdmin
 import top.ostp.web.model.annotations.AuthStudent
 import top.ostp.web.model.annotations.AuthTeacher
 import top.ostp.web.model.common.ApiResponse
+import top.ostp.web.model.complex.ClassAdvice
 import top.ostp.web.service.ClassService
 
 @Controller
@@ -23,7 +24,7 @@ class ClassController {
     @AuthTeacher
     @ResponseBody
     @PostMapping("/fetch_all")
-    fun selectAllByMajorId(id: Int) : ApiResponse<List<Clazz>> {
+    fun selectAllByMajorId(id: Int) : ApiResponse<List<ClassAdvice>> {
         return classService.selectAllByMajorId(id)
     }
 }

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*
 import org.apache.ibatis.mapping.FetchType
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Major
+import top.ostp.web.model.complex.MajorAdvice
 
 @Mapper
 @Repository
@@ -45,6 +46,14 @@ interface MajorMapper {
         ]
     )
     fun selectAllByCollegeId(collegeId: Int): List<Major>
+
+    @Select("""
+select major.*,
+    (select count(*) from clazz where clazz.major = major.id) classCount,
+    (select count(*) from clazz join student on clazz.id = student.clazz where clazz.major = major.id) studentCount
+    from major where major.college = #{collegeId};
+    """)
+    fun selectAllExtendByCollegeId(collegeId: Int): List<MajorAdvice>
 
     @Select("select * from major where id = #{id} limit 1")
     @Results(
