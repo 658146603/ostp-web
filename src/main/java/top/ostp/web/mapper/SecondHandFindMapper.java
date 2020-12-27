@@ -15,6 +15,10 @@ public interface SecondHandFindMapper {
             "VALUES (#{id}, #{person.id}, #{second.id}, #{book.isbn}, #{price}, #{exchange}, #{status})")
     int insert(SecondHandFind secondHandFind);
 
+    @Insert(value = "insert into second_hand_find(id, person, secondId, book, price, exchange, status)\n" +
+            "VALUES (#{id}, #{person.id}, #{second.id}, #{book.isbn}, #{price}, #{exchange}, #{status})")
+    int insertAll(SecondHandFind secondHandFind);
+
     @Delete("delete\n" +
             "from second_hand_find\n" +
             "where id = #{id}")

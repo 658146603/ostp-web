@@ -11,6 +11,9 @@ public interface SecondHandPublishMapper {
     @Insert("insert into second_hand_publish(id, person, secondId, book, price, exchange, status) values (#{id},#{person.id},#{second.id},#{book.isbn},#{price},#{exchange},0)")
     int insert(SecondHandPublish secondHandPublish);
 
+    @Insert("insert into second_hand_publish(id, person, secondId, book, price, exchange, status) values (#{id},#{person.id},#{second.id},#{book.isbn},#{price},#{exchange},#{status})")
+    int insertAll(SecondHandPublish secondHandPublish);
+
     @Update("update second_hand_publish set person=#{person.id},secondId=#{second.id},book = #{book.isbn},price = #{price},exchange = #{exchange},status = #{status} where id = #{id}")
     int update(SecondHandPublish secondHandPublish);
 
