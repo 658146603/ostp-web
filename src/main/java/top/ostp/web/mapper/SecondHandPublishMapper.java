@@ -9,10 +9,10 @@ import java.util.List;
 
 @Mapper
 public interface SecondHandPublishMapper {
-    @Insert("insert into second_hand_publish(id, person, secondId, book, price, exchange, status) values (#{id},#{person.id},#{second.id},#{book.isbn},#{price},#{exchange},0)")
+    @Insert("insert into second_hand_publish(id, person, secondId, book, price, exchange, status) values (#{id},#{person.id},#{second?.id},#{book.isbn},#{price},#{exchange},0)")
     int insert(SecondHandPublish secondHandPublish);
 
-    @Update("update second_hand_publish set person=#{person.id},secondId=#{second.id},book = #{book.isbn},price = #{price},exchange = #{exchange},status = #{status} where id = #{id}")
+    @Update("update second_hand_publish set person=#{person?.id},secondId=#{second.id},book = #{book.isbn},price = #{price},exchange = #{exchange},status = #{status} where id = #{id}")
     int update(SecondHandPublish secondHandPublish);
 
     @Delete("delete from second_hand_publish where id = #{id}")
