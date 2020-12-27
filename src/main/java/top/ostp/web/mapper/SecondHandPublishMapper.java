@@ -2,22 +2,56 @@ package top.ostp.web.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
+import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.SecondHandPublish;
 
 import java.util.List;
 
 @Mapper
 public interface SecondHandPublishMapper {
-    @Insert("insert into second_hand_publish(id, person, secondPerson, book, price, exchange, status) values (#{id},#{person.id},#{secondPerson.id},#{book.isbn},#{price},#{exchange},0)")
+    @Insert("insert into second_hand_publish(id, person, secondId, book, price, exchange, status) values (#{id},#{person.id},#{second.id},#{book.isbn},#{price},#{exchange},0)")
     int insert(SecondHandPublish secondHandPublish);
 
-    @Update("update second_hand_publish set person=#{person.id},secondPerson=#{secondPerson.id},book = #{book.isbn},price = #{price},exchange = #{exchange},status = #{status} where id = #{id}")
+    @Update("update second_hand_publish set person=#{person.id},secondId=#{second.id},book = #{book.isbn},price = #{price},exchange = #{exchange},status = #{status} where id = #{id}")
     int update(SecondHandPublish secondHandPublish);
 
     @Delete("delete from second_hand_publish where id = #{id}")
-    int deleteByOrderId(String id);
+    int delete(String id);
 
-    //
+    @Select("select * from second_hand_publish where id = #{id} limit 1")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandFindMapper.selectPart", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    SecondHandPublish select(String id);
+
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    @Select("select * from second_hand_publish where id = #{id}")
+    SecondHandPublish selectPart(String id);
+
     @Select("select * from second_hand_publish")
     @Results(
             value = {
@@ -26,8 +60,8 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
-                            property = "secondPerson", column = "secondPerson",
-                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandFindMapper.selectPart", fetchType = FetchType.EAGER)
                     ),
                     @Result(
                             property = "book", column = "book",
@@ -45,8 +79,8 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
-                            property = "secondPerson", column = "secondPerson",
-                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandFindMapper.selectPart", fetchType = FetchType.EAGER)
                     ),
                     @Result(
                             property = "book", column = "book",
@@ -56,7 +90,7 @@ public interface SecondHandPublishMapper {
     )
     List<SecondHandPublish> selectPublishByStudentId(String id);
 
-
+    @Select("select * from second_hand_publish where book = #{isbn}")
     @Results(
             value = {
                     @Result(
@@ -64,8 +98,8 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
-                            property = "secondPerson", column = "secondPerson",
-                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandFindMapper.selectPart", fetchType = FetchType.EAGER)
                     ),
                     @Result(
                             property = "book", column = "book",
@@ -75,24 +109,6 @@ public interface SecondHandPublishMapper {
     )
     List<SecondHandPublish> selectPublishByISBN(String isbn);
 
-    @Select("select * from second_hand_publish where id = #{id} limit 1")
-    @Results(
-            value = {
-                    @Result(
-                            property = "person", column = "person",
-                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
-                    ),
-                    @Result(
-                            property = "secondPerson", column = "secondPerson",
-                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
-                    ),
-                    @Result(
-                            property = "book", column = "book",
-                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
-                    )
-            }
-    )
-    SecondHandPublish selectPublishByOrderId(String id);
 
     /**
      * 查找某个人的可购买列表，是没有交易的，且状态是购买的
@@ -116,8 +132,8 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
-                            property = "secondPerson", column = "secondPerson",
-                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandFindMapper.selectPart", fetchType = FetchType.EAGER)
                     ),
                     @Result(
                             property = "book", column = "book",
@@ -150,8 +166,8 @@ public interface SecondHandPublishMapper {
                             one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
                     ),
                     @Result(
-                            property = "secondPerson", column = "secondPerson",
-                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                            property = "second", column = "secondId",
+                            one = @One(select = "top.ostp.web.mapper.SecondHandFindMapper.selectPart", fetchType = FetchType.EAGER)
                     ),
                     @Result(
                             property = "book", column = "book",

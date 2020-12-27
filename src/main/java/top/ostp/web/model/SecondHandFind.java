@@ -3,7 +3,7 @@ package top.ostp.web.model;
 public class SecondHandFind {
     private String id;
     private Student person;
-    private Student secondPerson;
+    private SecondHandPublish second;
     private Book book;
     private double price;
     private long exchange;
@@ -37,12 +37,12 @@ public class SecondHandFind {
         this.person = person;
     }
 
-    public Student getSecondPerson() {
-        return secondPerson;
+    public SecondHandPublish getSecond() {
+        return second;
     }
 
-    public void setSecondPerson(Student secondPerson) {
-        this.secondPerson = secondPerson;
+    public void setSecond(SecondHandPublish second) {
+        this.second = second;
     }
 
     public Book getBook() {

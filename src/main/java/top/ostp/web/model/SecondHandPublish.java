@@ -3,7 +3,7 @@ package top.ostp.web.model;
 public class SecondHandPublish {
     private String id;
     private Student person;
-    private Student secondPerson;
+    private SecondHandFind second;
     private Book book;
 
     @Override
@@ -38,12 +38,12 @@ public class SecondHandPublish {
         this.person = person;
     }
 
-    public Student getSecondPerson() {
-        return secondPerson;
+    public SecondHandFind getSecond() {
+        return second;
     }
 
-    public void setSecondPerson(Student secondPerson) {
-        this.secondPerson = secondPerson;
+    public void setSecond(SecondHandFind second) {
+        this.second = second;
     }
 
     public Book getBook() {

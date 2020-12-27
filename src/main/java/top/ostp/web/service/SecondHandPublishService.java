@@ -15,7 +15,6 @@ import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,7 +66,7 @@ public class SecondHandPublishService {
     public ApiResponse<Object> deleteByOrderId(String id) {
 //        SecondHandPublish = secondHandPublishMapper
 //        Book book1 = bookMapper.selectByISBN(book);
-        int result = secondHandPublishMapper.deleteByOrderId(id);
+        int result = secondHandPublishMapper.delete(id);
         if (result == 1) {
             return Responses.ok();
         } else {
@@ -92,7 +91,7 @@ public class SecondHandPublishService {
     }
 
     public ApiResponse<SecondHandPublish> selectPublishByOrderId(String id) {
-        return Responses.ok(secondHandPublishMapper.selectPublishByOrderId(id));
+        return Responses.ok(secondHandPublishMapper.select(id));
     }
 
     public ApiResponse<List<SecondHandPublish>> selectPublishByISBN(String isbn) {
@@ -118,7 +117,7 @@ public class SecondHandPublishService {
 
     public ApiResponse<Object> purchase(String id, String studentId) {
         Student student = studentMapper.selectStudentById(studentId);
-        SecondHandPublish secondHandPublish = secondHandPublishMapper.selectPublishByOrderId(id);
+        SecondHandPublish secondHandPublish = secondHandPublishMapper.select(id);
         if (secondHandPublish == null) {
             return Responses.fail("没有该订单");
         }
@@ -143,7 +142,7 @@ public class SecondHandPublishService {
             secondHandFind = wantList.get();
             secondHandFind.setStatus(1);
             secondHandFind.setPrice(secondHandPublish.getPrice());
-            secondHandFind.setSecondPerson(secondHandPublish.getPerson());
+            secondHandFind.setSecond(secondHandPublish);
             result = secondHandFindMapper.update(secondHandFind);
         } else {
             // else create a secondHandFind
@@ -154,18 +153,20 @@ public class SecondHandPublishService {
             secondHandFind.setStatus(1);
             secondHandFind.setPrice(secondHandPublish.getPrice());
             secondHandFind.setPerson(student);
-            secondHandFind.setSecondPerson(secondHandPublish.getPerson());
+            secondHandFind.setSecond(secondHandPublish);
             result = secondHandFindMapper.insert(secondHandFind);
+
         }
         if (result > 0) {
+
             // 提交更改
             secondHandPublish.setStatus(1);
-            secondHandPublish.setSecondPerson(student);
+            secondHandPublish.setSecond(secondHandFind);
             secondHandPublishMapper.update(secondHandPublish);
             // 进行缴费
             studentMapper.changeMoney(student, - (int)secondHandPublish.getPrice());
-            // 然后给另外一个人加前
-            studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
+//            // 然后给另外一个人加前
+//            studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
             // 进行链接
 
 
@@ -180,7 +181,7 @@ public class SecondHandPublishService {
 
     public ApiResponse<Object> cancel(String id, String studentId) {
         Student student = studentMapper.selectStudentById(studentId);
-        SecondHandPublish secondHandPublish = secondHandPublishMapper.selectPublishByOrderId(id);
+        SecondHandPublish secondHandPublish = secondHandPublishMapper.select(id);
         if (secondHandPublish == null){
             return Responses.fail("没有该发布的书本");
         }
@@ -190,7 +191,7 @@ public class SecondHandPublishService {
         if (secondHandPublish.getStatus() != 0) {
             return Responses.fail("不能取消已完成的订单");
         }
-        int result = secondHandPublishMapper.deleteByOrderId(id);
+        int result = secondHandPublishMapper.delete(id);
         if (result > 0){
             return Responses.ok();
         } else {
@@ -200,7 +201,7 @@ public class SecondHandPublishService {
 
     public ApiResponse<Object> changeStatusOk(String id, String studentId) {
         Student student = studentMapper.selectStudentById(studentId);
-        SecondHandPublish secondHandPublish = secondHandPublishMapper.selectPublishByOrderId(id);
+        SecondHandPublish secondHandPublish = secondHandPublishMapper.select(id);
         if (secondHandPublish == null){
             return Responses.fail("没有该发布的书本");
         }
@@ -216,6 +217,6 @@ public class SecondHandPublishService {
             secondHandPublish.setStatus(1);
         }
         secondHandPublishMapper.update(secondHandPublish);
-        return Responses.ok(secondHandPublishMapper.selectPublishByOrderId(id));
+        return Responses.ok(secondHandPublishMapper.select(id));
     }
 }
