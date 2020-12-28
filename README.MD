@@ -86,10 +86,19 @@
 ### 如何解决跨域
 
 + 配置一个过滤器，其中的几个重要参数做说明
- + Access-Control-Allow-Origin 就是允许指定的域名跨域。这里采用了直接把接受到的域名作为指定的域名
- + Access-Control-Allow-Credentials:true 是否允许后续请求携带认证信息（cookies）,该值只能是true,否则不返回，表示XHR是否接收cookies和发送cookies
++ Access-Control-Allow-Origin 就是允许指定的域名跨域。这里采用了直接把接受到的域名作为指定的域名
++ Access-Control-Allow-Credentials:true 是否允许后续请求携带认证信息（cookies）,该值只能是true,否则不返回，表示XHR是否接收cookies和发送cookies
 
 ## 拦截器
+
+### 拦截器的概念
+
++ 基于 java 的反射机制，代理模式实现
++ java里的拦截器是动态拦截Action调用的对象。它提供了一种机制可以使开发者可以定义在一个action执行的前后执行的代码，也可以在一个action执行前阻止其执行，同时也提供了一种可以提取action中可重用部分的方式。
++ 类似于Servlet开发中的过滤器Filter，用于对处理器进行预处理和后处理 实现HandlerInterceptor接口有三个方法，分别为在业务处理器处理请求之前被调用（preHandle()
+  ），在业务处理器处理完请求后（postHandle()），完全处理完请求后被调用（afterCompletion()）。
++ 拦截器采用责任链模式，在责任链模式里,很多对象由每一个对象对其下一个的引用而连接起来形成一条链。.责任链每一个节点，都可以继续调用下一个节点，也可以阻止流程继续执行。
++ 这个拦截器是在进controller之前做的，filter是在进行doService()这里也就是dispatchServlet
 
 ### 为什么要使用拦截器
 
@@ -98,8 +107,6 @@
 ### 如何去使用拦截器
 
 #### 实现HandlerInterceptor接口的方法
-
-
 
 ```mermaid
 graph TB
@@ -114,9 +121,12 @@ graph TB
   
  ```
 
-
 #### 实现WebMvcConfigurer接口并添加拦截器
 
-&emsp;&emsp;WebMvcConfigurer配置类其实是Spring内部的一种配置方式，采用JavaBean的形式来代替传统的xml配置文件形式进行针对框架个性化定制，可以自定义一些Handler，Interceptor，ViewResolver，MessageConverter。基于java-based方式的spring mvc配置，需要创建一个配置类并实现WebMvcConfigurer 接口；
+&emsp;&emsp;WebMvcConfigurer配置类其实是Spring内部的一种配置方式，采用JavaBean的形式来代替传统的xml配置文件形式进行针对框架个性化定制，可以自定义一些Handler，Interceptor，ViewResolver，MessageConverter。基于java-based方式的spring
+mvc配置，需要创建一个配置类并实现WebMvcConfigurer 接口；
 
+## 前后端分离
 
+### 如何实现前后端分离
+&emsp;&emsp;主要是两者之间通过HTTP通信，本项目前端采用的是Vue后端采用的是Spring Boot。前端通过调用后端的API来实现增删改查，前端通过使用fetch()方法来异步获取后端的资源。
