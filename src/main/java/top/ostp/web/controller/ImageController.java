@@ -3,6 +3,7 @@ package top.ostp.web.controller;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -70,6 +71,7 @@ public class ImageController {
         inputStream.read(bytes, 0, inputStream.available());
         return bytes;
     }
+
     @NoAuthority
     //TODO delete
     @AuthAdmin

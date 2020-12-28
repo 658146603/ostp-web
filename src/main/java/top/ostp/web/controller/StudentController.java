@@ -26,11 +26,12 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @NoAuthority //TODO 删除
     @AuthAdmin
     @PostMapping(path = "/student/insert")
     @ResponseBody
-    public ApiResponse<Object> insert(Student student) {
-        return studentService.addStudent(student);
+    public ApiResponse<Object> insert(String id, String name, String password, Long clazz, String email) {
+        return studentService.addStudent(id, name, password, clazz, email);
     }
 
     @AuthAdmin
@@ -82,7 +83,7 @@ public class StudentController {
     @AuthTeacher
     @PostMapping("/student/selectByClass")
     @ResponseBody
-    public ApiResponse<List<Student>> selectByClazz(int id){
+    public ApiResponse<List<Student>> selectByClazz(int id) {
         return Responses.ok(studentService.selectByClazz(id));
     }
 
