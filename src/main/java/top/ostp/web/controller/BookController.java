@@ -1,13 +1,14 @@
 package top.ostp.web.controller;
 
+import kotlin.Pair;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.model.Book;
+import top.ostp.web.model.Clazz;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
@@ -15,20 +16,34 @@ import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
+import top.ostp.web.service.BookOrderService;
 import top.ostp.web.service.BookService;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 
 
-@Controller(value = "/book")
+@Controller
 public class BookController {
     BookService bookService;
+
+    BookOrderService bookOrderService;
+
 
     @Autowired
     public void setBookService(BookService bookService) {
         this.bookService = bookService;
     }
+
+    @Autowired
+    public void setBookOrderService(BookOrderService bookOrderService) {
+        this.bookOrderService = bookOrderService;
+    }
+
 
     @NoAuthority
     //TODO  测试完删除
@@ -107,5 +122,21 @@ public class BookController {
     @ResponseBody
     public ApiResponse<List<Book>> fuzzyQuery(String name) {
         return bookService.fuzzyQuery(name);
+    }
+
+    @AuthAdmin
+    @RequestMapping("/book/order/export/{clazzId}")
+    @ResponseBody
+    public void exportBookOrderByClazz(@PathVariable int clazzId, boolean received, HttpServletResponse resp) {
+        Pair<Clazz, XSSFWorkbook> result = bookOrderService.getBookOrderListByClazz(clazzId, received);
+        var clazz = result.component1();
+        resp.setHeader("Content-Disposition", bookOrderService.getFileHeader(clazz));
+        resp.setHeader("Connection", "close");
+        resp.setHeader("Content-Type", "application/octet-stream");
+        try(ServletOutputStream stream = resp.getOutputStream()) {
+            result.component2().write(stream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

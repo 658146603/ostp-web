@@ -92,6 +92,19 @@ where year = #{year}
         @Param("semester") semester: Int,
     ): List<StudentBookOrder>
 
+    @Update("""
+update student_book_order
+set received=1
+where year = #{year}
+  and semester = #{semester}
+  and student in (select id from student where clazz = #{clazz})
+""")
+    fun setReceivedByClazz(
+        @Param("clazz") clazz: Long,
+        @Param("year") year: Int,
+        @Param("semester") semester: Int,
+    ): Int
+
     @Results(
         value = [
             Result(

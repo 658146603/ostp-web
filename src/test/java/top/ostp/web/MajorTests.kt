@@ -20,7 +20,7 @@ class MajorTests {
         val major = college?.let { Major("电子科学与技术1", it, 2020) }
 
         if (major != null) {
-            majorMapper.insert(major)
+//            majorMapper.insert(major)
         }
     }
 

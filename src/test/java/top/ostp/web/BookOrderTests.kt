@@ -60,7 +60,7 @@ class BookOrderTests {
 
     @Test
     fun test() {
-        bookOrderService.getBookOrderListByClazz(5, 2019, 3)
+        bookOrderService.getBookOrderListByClazz(5, false)
     }
 
 }
