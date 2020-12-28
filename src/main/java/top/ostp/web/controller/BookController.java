@@ -57,6 +57,13 @@ public class BookController {
         return Responses.ok(bookService.searchOfTeacher(name, course, teacherId));
     }
 
+    /**
+     * 学生订阅一本书
+     * TODO: 能够区分学年和学期 @@Alert
+     * @param isbn 书籍编号
+     * @param request 请求
+     * @return 操作的结果
+     */
     @AuthStudent
     @PostMapping(value = "/book/order_stu")
     @ResponseBody
@@ -65,7 +72,27 @@ public class BookController {
         return bookService.orderBookStu(isbn, studentId);
     }
 
-    
+    /**
+     * 教师订阅一本书
+     * @param isbn 书籍编号
+     * @param year 学年
+     * @param semester 学期
+     * @param request 请求
+     * @return 操作的结果
+     */
+    @AuthTeacher
+    @PostMapping(value = "/book/order_teacher")
+    @ResponseBody
+    public ApiResponse<?> orderTeacher(String isbn, Integer year, Integer semester, HttpServletRequest request) {
+        String teacherId = (String) request.getSession().getAttribute("username");
+        boolean result = bookService.orderBookTeacher(isbn, year, semester, teacherId);
+        if (result) {
+            return Responses.ok();
+        } else {
+            return Responses.fail();
+        }
+    }
+
 
     @AuthAdmin
     @AuthStudent

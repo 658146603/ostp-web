@@ -99,7 +99,7 @@ public class BookService {
     }
 
     public BookAdvice selectXByISBNOfStudent(Book book, String studentId) {
-        return new BookAdvice(book, courseOpenMapper.selectByBookAndStudent(book.getIsbn(), studentId), bookOrderMapper.selectByBookAndStudent(book.getIsbn(), studentId));
+        return new BookAdvice(book, courseOpenMapper.selectByBookAndStudent(book.getIsbn(), studentId), bookOrderMapper.selectByBookAndStudent(book.getIsbn(), studentId), false);
     }
 
     public List<BookAdvice> searchOfTeacher(String name, String course, String teacherId) {
@@ -108,7 +108,7 @@ public class BookService {
     }
 
     public BookAdvice selectXByISBNOfTeacher(Book book, String teacherId){
-        return new BookAdvice(book, courseOpenMapper.selectByBookAndTeacher(book.getIsbn(), teacherId), new LinkedList<>());
+        return new BookAdvice(book, courseOpenMapper.selectByBookAndTeacher(book.getIsbn(), teacherId), new LinkedList<>(), false);
     }
 
     public ApiResponse<Object> orderBookStu(String isbn, String studentId){
@@ -135,5 +135,11 @@ public class BookService {
             return Responses.fail(new ArrayList<>());
         }
         return Responses.ok(bookOrderMapper.selectByYearSemesterAndStudent(student, year, semester));
+    }
+
+    public boolean orderBookTeacher(String isbn, Integer year, Integer semester, String teacherId) {
+        Book book = bookMapper.selectByISBN(isbn);
+        BookAdvice bookAdvice = selectXByISBNOfTeacher(book, teacherId);
+        return false;
     }
 }
