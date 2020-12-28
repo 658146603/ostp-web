@@ -54,4 +54,12 @@ class ClassController {
     fun insert(name: String, major: Long): ApiResponse<Any> {
         return classService.insert(name, major)
     }
+
+    @NoAuthority //TODO 修改
+    @ResponseBody
+    @PostMapping("/fetch_college")
+    fun selectAllByCollegeId(id: Int): ApiResponse<List<Clazz>> {
+        return classService.selectByCollegeId(id)
+    }
+
 }

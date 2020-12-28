@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import top.ostp.web.mapper.StudentMapper;
+import top.ostp.web.model.Clazz;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
+import top.ostp.web.util.EmailProvider;
 import top.ostp.web.util.EncryptProvider;
 
 import java.util.List;
@@ -20,10 +22,21 @@ public class StudentService {
         this.studentMapper = studentMapper;
     }
 
-    public ApiResponse<Object> addStudent(Student student) {
+    public ApiResponse<Object> addStudent(String id, String name, String password, Long clazz_id, String email) {
+        Student student = new Student();
+        student.setId(id);
+        student.setPassword(EncryptProvider.getSaltedPassword(id, password));
+        student.setName(name);
+        student.setEmail(email);
+        Clazz clazz = new Clazz();
+        clazz.setId(clazz_id);
+        student.setClazz(clazz);
         student.setPassword(EncryptProvider.getSaltedPassword(student.getId(), student.getPassword()));
         try {
             studentMapper.insert(student);
+            new Thread(() -> {
+                EmailProvider.email("账号创建成功", name + " 同学你好！<br>你的账号是 " + id + "<br>你的密码是 " + password, email);
+            }).start();
             return Responses.ok("插入成功");
         } catch (DuplicateKeyException e) {
             return Responses.fail("插入失败");
@@ -109,7 +122,7 @@ public class StudentService {
             return Responses.fail("余额不足");
         }
 
-        int result = studentMapper.changeMoney(student, - money);
+        int result = studentMapper.changeMoney(student, -money);
         Student data = studentMapper.queryMoney(id);
         if (result == 1) {
             if (balance - money != data.getBalance()) {

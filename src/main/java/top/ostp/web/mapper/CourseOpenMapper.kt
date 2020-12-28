@@ -183,6 +183,32 @@ interface CourseOpenMapper {
     @ResultType(CourseOpen::class)
     fun selectByBookAndStudent(@Param("isbn") isbn: String, @Param("studentId") studentId: String): List<CourseOpen>
 
+    @Results(
+        value = [
+            Result(
+                property = "course", column = "course",
+                one = One(select = "top.ostp.web.mapper.CourseMapper.selectById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            ),
+            Result(
+                property = "teacher", column = "teacher",
+                one = One(select = "top.ostp.web.mapper.TeacherMapper.selectById")
+            )
+        ]
+    )
+    @ResultType(CourseOpen::class)
+    @Select("""
+select *
+from course_open
+where year = #{year}
+  and semester = #{semester}
+  and course in (select course.id from course where major = #{major})
+    """)
+    fun selectByMajorAndYearSemester(@Param("major") major: Long, @Param("year") year: Int, @Param("semester") semester: Int): List<CourseOpen>
+
     @Select("""
         select * from course_open where book = #{isbn} and teacher = #{teacherId}
     """)

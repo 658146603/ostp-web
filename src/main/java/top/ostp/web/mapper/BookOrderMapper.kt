@@ -79,6 +79,45 @@ interface BookOrderMapper {
         ]
     )
     @ResultType(StudentBookOrder::class)
+    @Select("""
+select *
+from student_book_order
+where year = #{year}
+  and semester = #{semester}
+  and student in (select id from student where clazz = #{clazz})
+""")
+    fun selectByYearSemesterAndClazz(
+        @Param("clazz") clazz: Long,
+        @Param("year") year: Int,
+        @Param("semester") semester: Int,
+    ): List<StudentBookOrder>
+
+    @Update("""
+update student_book_order
+set received=1
+where year = #{year}
+  and semester = #{semester}
+  and student in (select id from student where clazz = #{clazz})
+""")
+    fun setReceivedByClazz(
+        @Param("clazz") clazz: Long,
+        @Param("year") year: Int,
+        @Param("semester") semester: Int,
+    ): Int
+
+    @Results(
+        value = [
+            Result(
+                property = "student", column = "student",
+                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            )
+        ]
+    )
+    @ResultType(StudentBookOrder::class)
     @Select("select * from student_book_order where book = #{isbn}")
     fun selectByBook(book: Book): List<StudentBookOrder>
 

@@ -73,4 +73,17 @@ select clazz.*,
     )
     @ResultType(ClassAdvice::class)
     fun selectAllExtendByMajorId(id: Int): List<ClassAdvice>
+
+    @Select(
+        """
+select *
+from clazz
+where major in (select id
+                from major
+                where college = #{id})
+       
+    """
+    )
+    @ResultType(Clazz::class)
+    fun selectAllByCollegeId(id: Int): List<Clazz>
 }
