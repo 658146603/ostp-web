@@ -64,11 +64,13 @@ interface ClazzMapper {
     @ResultType(Clazz::class)
     fun selectAllByMajorId(id: Int): List<Clazz>
 
-    @Select("""
+    @Select(
+        """
 select clazz.*,
     (select count(*) from student where student.clazz = clazz.id) studentCount
     from clazz where clazz.major = #{id}
-    """)
+    """
+    )
     @ResultType(ClassAdvice::class)
     fun selectAllExtendByMajorId(id: Int): List<ClassAdvice>
 }

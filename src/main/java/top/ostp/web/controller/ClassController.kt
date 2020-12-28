@@ -33,6 +33,15 @@ class ClassController {
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
+    @ResponseBody
+    @PostMapping("/selectByMajor")
+    fun selectByMajorId(id: Int): ApiResponse<List<Clazz>> {
+        return Responses.ok(classService.selectByMajor(id))
+    }
+
+    @AuthAdmin
+    @AuthStudent
+    @AuthTeacher
     @PostMapping("/select")
     @ResponseBody
     fun selectById(id: Int): ApiResponse<Clazz?> {

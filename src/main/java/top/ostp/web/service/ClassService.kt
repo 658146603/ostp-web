@@ -22,6 +22,10 @@ class ClassService {
         return clazzMapper.selectById(id.toLong())
     }
 
+    fun selectByMajor(major: Int): List<Clazz> {
+        return clazzMapper.selectAllByMajorId(major)
+    }
+
     fun insert(name: String, major: Long): ApiResponse<Any> {
         val clazz = Clazz()
         clazz.name = name
