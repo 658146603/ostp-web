@@ -31,7 +31,6 @@ public class StudentService {
         Clazz clazz = new Clazz();
         clazz.setId(clazz_id);
         student.setClazz(clazz);
-        student.setPassword(EncryptProvider.getSaltedPassword(student.getId(), student.getPassword()));
         try {
             studentMapper.insert(student);
             new Thread(() -> {
