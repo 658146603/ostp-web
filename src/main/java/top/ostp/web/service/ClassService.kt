@@ -34,4 +34,8 @@ class ClassService {
             Responses.fail("失败")
         }
     }
+
+    fun selectByCollegeId(id: Int): ApiResponse<List<Clazz>> {
+        return Responses.ok(clazzMapper.selectAllByCollegeId(id));
+    }
 }
