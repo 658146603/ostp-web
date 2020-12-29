@@ -190,9 +190,25 @@ public class BookController {
     @RequestMapping("/book/order/export/{clazzId}")
     @ResponseBody
     public void exportBookOrderByClazz(@PathVariable int clazzId, boolean received, HttpServletResponse resp) {
-        Pair<Clazz, XSSFWorkbook> result = bookOrderService.getBookOrderListByClazz(clazzId, received);
-        var clazz = result.component1();
-        resp.setHeader("Content-Disposition", bookOrderService.getFileHeader(clazz));
+        Pair<String, XSSFWorkbook> result = bookOrderService.getBookOrderListByClazz(clazzId, received);
+        var filename = result.component1();
+        resp.setHeader("Content-Disposition", filename);
+        resp.setHeader("Connection", "close");
+        resp.setHeader("Content-Type", "application/octet-stream");
+        try (ServletOutputStream stream = resp.getOutputStream()) {
+            result.component2().write(stream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @AuthAdmin
+    @RequestMapping("/book/request/export/{collegeId}")
+    @ResponseBody
+    public void exportBookRequestByCollege(@PathVariable int collegeId, HttpServletResponse resp) {
+        Pair<String, XSSFWorkbook> result = bookOrderService.getBookRequestListByCollege(collegeId);
+        var filename = result.component1();
+        resp.setHeader("Content-Disposition", filename);
         resp.setHeader("Connection", "close");
         resp.setHeader("Content-Type", "application/octet-stream");
         try (ServletOutputStream stream = resp.getOutputStream()) {

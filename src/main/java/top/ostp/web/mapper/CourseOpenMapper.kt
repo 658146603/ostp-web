@@ -230,4 +230,30 @@ where year = #{year}
         ]
     )
     fun selectByBookAndTeacher(@Param("isbn") isbn: String, @Param("teacherId") teacherId: String): List<CourseOpen>
+
+    @Results(
+        value = [
+            Result(
+                property = "course", column = "course",
+                one = One(select = "top.ostp.web.mapper.CourseMapper.selectById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            ),
+            Result(
+                property = "teacher", column = "teacher",
+                one = One(select = "top.ostp.web.mapper.TeacherMapper.selectById")
+            )
+        ]
+    )
+    @ResultType(CourseOpen::class)
+    @Select("""
+select *
+from course_open
+where year = #{year}
+  and semester = #{semester}
+  and teacher in (select teacher.id from teacher where college = #{college})
+""")
+    fun selectByCollegeAndYearSemester(@Param("college") college: Int, @Param("year") year: Int, @Param("semester") semester: Int): List<CourseOpen>
 }

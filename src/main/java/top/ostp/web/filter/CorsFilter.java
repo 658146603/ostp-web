@@ -73,7 +73,6 @@ public class CorsFilter implements Filter {
         resp.addHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
         resp.addHeader("Access-Control-Allow-Credentials", "true");
         HttpSession session = req.getSession();
-//        System.out.println("filter/session: " + session.getId());
         chain.doFilter(request, response);
     }
 
