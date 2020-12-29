@@ -89,6 +89,26 @@ interface BookMapper {
     @ResultType(Book::class)
     fun searchOfTeacher(searchParams: SearchParams): List<Book>
 
+    @Select("""
+    select distinct book.* from (select * from book where book.name like concat('%', #{name} ,'%')) book
+        join (select * from course_open where course_open.year = #{year} and course_open.semester = #{semester}) course_open on book.isbn = course_open.book
+        join course on course_open.course = course.id
+    where course.name like concat('%', #{course} ,'%');
+    """)
+    @ResultType(Book::class)
+    fun searchOfSuAdmin(searchParams: SearchParams): List<Book>
+
+    @Select("""
+    select distinct book.* from (select * from book where book.name like concat('%', #{name} ,'%')) book
+        join (select * from course_open where course_open.year = #{year} and course_open.semester = #{semester}) course_open on book.isbn = course_open.book
+        join course on course_open.course = course.id
+        join major on course.major = major.id
+        join college on major.college = college.id
+    where course.name like concat('%', #{course} ,'%') and college.id in (select `admin`.college from `admin` where `admin`.id = #{personId});
+    """)
+    @ResultType(Book::class)
+    fun searchOfCollegeAdmin(searchParams: SearchParams): List<Book>
+
     @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
     fun selectByISBN(isbn: String): Book?
 

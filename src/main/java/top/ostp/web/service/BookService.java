@@ -1,5 +1,6 @@
 package top.ostp.web.service;
 
+import org.apache.poi.ss.formula.eval.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -124,6 +125,34 @@ public class BookService {
         }
     }
 
+    public List<BookAdvice> searchOfSuAdmin(SearchParams params) {
+        return bookMapper.searchOfSuAdmin(params)
+                .stream().map((book)-> bookAdviceOfSuAdmin(params.toSearchParams2(book))).collect(Collectors.toList());
+    }
+
+    public List<BookAdvice> searchOfCollegeAdmin(SearchParams params) {
+        return bookMapper.searchOfCollegeAdmin(params)
+                .stream().map((book)-> bookAdviceOfCollegeAdmin(params.toSearchParams2(book))).collect(Collectors.toList());
+    }
+
+    public BookAdvice bookAdviceOfSuAdmin(SearchParams2 params2) {
+        Book book = bookMapper.selectByISBN(params2.getIsbn());
+        if (book == null){
+            return null;
+        } else {
+            return new BookAdvice(book, courseOpenMapper.selectByBook(book), new LinkedList<>());
+        }
+    }
+
+    public BookAdvice bookAdviceOfCollegeAdmin(SearchParams2 params2){
+        Book book = bookMapper.selectByISBN(params2.getIsbn());
+        if (book == null){
+            return null;
+        } else {
+            return new BookAdvice(book, courseOpenMapper.selectByBookAndCollegeAdmin(params2), new LinkedList<>());
+        }
+    }
+
     public ApiResponse<?> orderBookStu(SearchParams2 params2){
         // 获取增强模型
         BookAdvice bookAdvice = bookAdviceOfStudent(params2);
@@ -173,4 +202,6 @@ public class BookService {
         courseOpenMapper.requestBook((int)courseOpen.getId());
         return Responses.ok();
     }
+
+
 }

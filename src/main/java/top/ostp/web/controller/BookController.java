@@ -5,11 +5,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import top.ostp.web.model.Admin;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.Clazz;
+import top.ostp.web.model.Teacher;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
+import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
@@ -95,6 +98,34 @@ public class BookController {
         String teacherId = (String) request.getSession().getAttribute("username");
         SearchParams params = new SearchParams(teacherId, name, course, year, semester);
         return Responses.ok(bookService.searchOfTeacher(params));
+    }
+
+    /**
+     * 获取管理员的搜索列表
+     * @param name 搜索字段：书本名称
+     * @param course 搜索字段：课程名
+     * @param year 搜索字段：开课学年
+     * @param semester 搜索字段：开课学期
+     * @param request 请求
+     * @return 书籍的扩展数据
+     */
+    @AuthAdmin
+    @PostMapping(value = "/book/search_admin")
+    @ResponseBody
+    public ApiResponse<List<BookAdvice>> searchOfAdmin(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "") String course,
+            @RequestParam(defaultValue = "2020") int year,
+            @RequestParam(defaultValue = "1") int semester,
+            HttpServletRequest request
+    ) {
+        Admin admin = (Admin) request.getSession().getAttribute("role");
+        SearchParams params = new SearchParams(admin.getId(), name, course, year, semester);
+        if (admin.getSu() > 0) {
+            return Responses.ok(bookService.searchOfSuAdmin(params));
+        } else {
+            return Responses.ok(bookService.searchOfCollegeAdmin(params));
+        }
     }
 
     /**
