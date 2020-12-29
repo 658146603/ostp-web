@@ -55,7 +55,11 @@ public class ImageController {
     public byte[] getImageById(@PathVariable String id) throws IOException {
         return getImage(id);
     }
-
+    /**
+     * 读取服务器上的图片。
+     * @param id uuid值,将会以book.cover形式存取在数据库中
+     * @return 操作的结果
+     */
     @RequestMapping(value = "/image/get", produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public byte[] getImage(String id) throws IOException {
@@ -71,7 +75,11 @@ public class ImageController {
         inputStream.read(bytes, 0, inputStream.available());
         return bytes;
     }
-
+    /**
+     * 在本地/服务器上保存图片。文件位置为image/+对uuid按照Base64进行编码
+     * @param file 上传的图片
+     * @return 操作的结果
+     */
     @NoAuthority
     //TODO delete
     @AuthAdmin

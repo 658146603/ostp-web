@@ -207,7 +207,11 @@ public class BookController {
     public ApiResponse<List<Book>> selectAll() {
         return bookService.selectAll();
     }
-
+    /**
+     * 模糊查询，返回含有那个字的所有书籍
+     * @param name 书籍中的字
+     * @return List<Book>书的集合
+     */
     @AuthAdmin
     @AuthStudent
     @AuthTeacher

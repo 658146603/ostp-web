@@ -31,7 +31,13 @@ class CourseController {
     @PostMapping(path = ["/course/list/by/major"])
     @ResponseBody
     fun listByMajor(major: Long): ApiResponse<List<Course>> = courseService.listByMajor(major)
-
+    /**
+     * 管理员添加一门课程
+     * @param id 课程编号
+     * @param major 专业编号
+     * @param name  专业名称
+     * @return 结果
+     */
     @AuthAdmin
     @NoAuthority //TODO 删除
     @PostMapping(path = ["/course/add"])

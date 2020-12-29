@@ -18,7 +18,16 @@ class CourseOpenController {
 
     @Autowired
     lateinit var service: CourseOpenService
-    @NoAuthority
+    /**
+     * 管理员开设一门课程
+     * @param course 课程所需要的课程编号
+     * @param book 课程所需要的教材ISBN
+     * @param teacher 教授这门课程的老师的编号
+     * @param year 开设学年
+     * @param semester 开设学期
+     * @return ApiResponse 结果
+     */
+    @NoAuthority //TODO 看起来也要删除
     @AuthAdmin
     @PostMapping(path = ["/course_open/insert"])
     @ResponseBody

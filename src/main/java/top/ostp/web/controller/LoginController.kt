@@ -21,7 +21,14 @@ import javax.servlet.http.HttpSession
 class LoginController {
     @Autowired
     lateinit var loginService: LoginService
-
+    /**
+     * 登录。在service层使用账号密码分别以学生，教师管理员的身份登录。登录成功则返回
+     * 不成功，以其他身份登录
+     * @param id 登录的账号
+     * @param password 登录的密码
+     * @param request servletRequest。又来设置session中的role
+     * @return response
+     */
     @PostMapping(path = ["/login"])
     @ResponseBody
     fun login(id: String?, password: String?, request: HttpServletRequest, res: HttpServletResponse): ApiResponse<Any> {

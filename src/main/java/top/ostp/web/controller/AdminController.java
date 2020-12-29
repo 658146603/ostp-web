@@ -24,10 +24,15 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    /**
+     * 管理员添加一位学院
+     * @param id 书籍编号
+     * @param password 管理员密码
+     * @return 操作的结果
+     */
     @PostMapping(value = "/admin/insert")
     @ResponseBody
     @AuthAdmin
-    @NoAuthority //TODO 删除
     public ApiResponse<Object> insert(String id, String password, String college) {
         return adminService.insert(id, password, college);
     }
