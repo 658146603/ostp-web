@@ -172,7 +172,7 @@ public class SecondHandPublishService {
             // 进行链接
 
 
-            studentMapper.update(student); // TODO ??? 钱是在这里回去的
+            // studentMapper.update(student); // TODO ??? 钱是在这里回去的
             return Responses.ok();
         } else {
             return Responses.fail("执行数据库操作失败");
