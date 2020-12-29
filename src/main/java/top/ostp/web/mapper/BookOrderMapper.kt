@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
 import top.ostp.web.model.StudentBookOrder
+import top.ostp.web.model.complex.SearchParams2
 
 @Mapper
 @Repository
@@ -121,6 +122,7 @@ where year = #{year}
     @Select("select * from student_book_order where book = #{isbn}")
     fun selectByBook(book: Book): List<StudentBookOrder>
 
+    @Deprecated("已迁移到SearchOfStudent")
     @Results(
         value = [
             Result(
@@ -140,6 +142,22 @@ where year = #{year}
         @Param("studentId") studentId: String
     ,
     ): List<StudentBookOrder>
+
+    @Results(
+        value = [
+            Result(
+                property = "student", column = "student",
+                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            )
+        ]
+    )
+    @ResultType(StudentBookOrder::class)
+    @Select("select * from student_book_order where book = #{isbn} and student = #{personId} and year = #{year} and semester = #{semester}")
+    fun searchOfStudent(params2: SearchParams2): List<StudentBookOrder>
 
 
     @Results(

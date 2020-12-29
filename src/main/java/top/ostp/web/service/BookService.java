@@ -13,11 +13,10 @@ import top.ostp.web.model.StudentBookOrder;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
+import top.ostp.web.model.complex.SearchParams;
+import top.ostp.web.model.complex.SearchParams2;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,13 +92,18 @@ public class BookService {
         return Responses.ok(bookMapper.selectAll());
     }
 
-    public List<BookAdvice> searchOfStudent(String name, String course, String studentId) {
-        return bookMapper.selectByStudentNameAndCourse(studentId, name, course)
-                .stream().map((book)-> selectXByISBNOfStudent(book, studentId)).collect(Collectors.toList());
+    public List<BookAdvice> searchOfStudent(SearchParams params) {
+        return bookMapper.searchOfStudent(params)
+                .stream().map((book)-> selectXByISBNOfStudent(params.toSearchParams2(book))).collect(Collectors.toList());
     }
 
-    public BookAdvice selectXByISBNOfStudent(Book book, String studentId) {
-        return new BookAdvice(book, courseOpenMapper.selectByBookAndStudent(book.getIsbn(), studentId), bookOrderMapper.selectByBookAndStudent(book.getIsbn(), studentId), false);
+    public BookAdvice selectXByISBNOfStudent(SearchParams2 params2) {
+        Book book = bookMapper.selectByISBN(params2.getIsbn());
+        if (book == null) {
+            return null;
+        } else {
+            return new BookAdvice(book, courseOpenMapper.searchOfStudent(params2), bookOrderMapper.searchOfStudent(params2), false);
+        }
     }
 
     public List<BookAdvice> searchOfTeacher(String name, String course, String teacherId) {
@@ -111,20 +115,20 @@ public class BookService {
         return new BookAdvice(book, courseOpenMapper.selectByBookAndTeacher(book.getIsbn(), teacherId), new LinkedList<>(), false);
     }
 
-    public ApiResponse<Object> orderBookStu(String isbn, String studentId){
+    public ApiResponse<Object> orderBookStu(SearchParams2 params2){
         // 获取增强模型
-        Book book = bookMapper.selectByISBN(isbn);
-        BookAdvice bookAdvice = selectXByISBNOfStudent(book, studentId);
+        BookAdvice bookAdvice = selectXByISBNOfStudent(params2);
+        if (bookAdvice == null) {
+            return Responses.fail("没有这本书");
+        }
         if (bookAdvice.getCourseOpens().isEmpty()) {
             return Responses.fail("你无法订阅这本书，因为没有相关的开课");
         } else {
-            CourseOpen courseOpen = bookAdvice.getCourseOpens().get(0);
-            Optional<StudentBookOrder> order = bookAdvice.getOrders().stream().filter((o) -> o.getStudent().getId().equals(studentId)).findAny();
+            Optional<StudentBookOrder> order = bookAdvice.getOrders().stream().findAny();
             if (order.isEmpty()) {
-                bookOrderMapper.addBookOrder(studentId, bookAdvice.getBook().getIsbn(), bookAdvice.getBook().getPrice().intValue(), courseOpen.getYear(), courseOpen.getSemester() );
+                bookOrderMapper.addBookOrder(params2.getPersonId(), params2.getIsbn(), bookAdvice.getBook().getPrice().intValue(), params2.getYear() , params2.getSemester());
             } else {
-                Optional<StudentBookOrder> studentBookOrder = bookOrderMapper.selectByBookAndStudent(bookAdvice.getBook().getIsbn(), studentId).stream().findAny();
-                studentBookOrder.ifPresent(bookOrder -> bookOrderMapper.deleteBookOrder((int)bookOrder.getId()));
+                bookOrderMapper.deleteBookOrder((int)order.get().getId());
             }
             return Responses.ok("修改成功");
         }

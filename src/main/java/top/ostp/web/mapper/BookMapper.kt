@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
 import top.ostp.web.model.CourseOpen
+import top.ostp.web.model.complex.SearchParams
 
 @Mapper
 @Repository
@@ -33,6 +34,7 @@ interface BookMapper {
     @ResultType(Book::class)
     fun selectByNameAndCourse(@Param("name") name: String, @Param("course") course: String): List<Book>
 
+    @Deprecated("已迁移到searchOfStudent")
     @Select(
         """
     select distinct book.* from (select * from book where book.name like concat('%', #{name}, '%')) book
@@ -53,6 +55,20 @@ interface BookMapper {
         @Param("course") course: String,
     ): List<Book>
 
+    @Select("""select distinct book.* from (select * from book where book.name like concat('%', #{name}, '%')) book
+    join (select * from course_open where course_open.year = #{year} and course_open.semester = #{semester}) course_open on book.isbn = course_open.book
+    join course on course_open.course = course.id
+    join major on course.major = major.id
+    where course.name like concat('%', #{course}, '%') and major in (
+        select major.id from (select * from student where student.id = #{personId}) student
+            join clazz on student.clazz = clazz.id
+            join major on clazz.major = major.id
+        );
+    """
+    )
+    @ResultType(Book::class)
+    fun searchOfStudent(searchParams: SearchParams): List<Book>
+
     @Select("""
     select distinct book.* from (select * from book where book.name like concat('%', #{name} ,'%')) book
         left join course_open on book.isbn = course_open.book
@@ -66,6 +82,9 @@ interface BookMapper {
         @Param("name") name: String,
         @Param("course") course: String
     ): List<Book>
+
+
+
 
     @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
     fun selectByISBN(isbn: String): Book?

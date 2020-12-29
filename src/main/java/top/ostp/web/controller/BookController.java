@@ -16,6 +16,8 @@ import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
+import top.ostp.web.model.complex.SearchParams;
+import top.ostp.web.model.complex.SearchParams2;
 import top.ostp.web.service.BookOrderService;
 import top.ostp.web.service.BookService;
 
@@ -59,9 +61,15 @@ public class BookController {
     @AuthStudent
     @PostMapping(value = "/book/search_stu")
     @ResponseBody
-    public ApiResponse<List<BookAdvice>> searchOfStudent(@RequestParam(defaultValue = "") String name,@RequestParam(defaultValue = "") String course, HttpServletRequest request) {
+    public ApiResponse<List<BookAdvice>> searchOfStudent(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "") String course,
+            @RequestParam(defaultValue = "2020") int year,
+            @RequestParam(defaultValue = "1") int semester,
+            HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
-        return Responses.ok(bookService.searchOfStudent(name, course, studentId));
+        SearchParams params = new SearchParams(studentId, name, course, year, semester);
+        return Responses.ok(bookService.searchOfStudent(params));
     }
 
     @AuthTeacher
@@ -74,7 +82,6 @@ public class BookController {
 
     /**
      * 学生订阅一本书
-     * TODO: 能够区分学年和学期 @@Alert
      * @param isbn 书籍编号
      * @param request 请求
      * @return 操作的结果
@@ -82,9 +89,14 @@ public class BookController {
     @AuthStudent
     @PostMapping(value = "/book/order_stu")
     @ResponseBody
-    public ApiResponse<Object> orderStudent(String isbn, HttpServletRequest request) {
+    public ApiResponse<Object> orderStudent(
+            String isbn,
+            @RequestParam(defaultValue = "2020") int year,
+            @RequestParam(defaultValue = "1") int semester,
+            HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
-        return bookService.orderBookStu(isbn, studentId);
+        SearchParams2 searchParams2 = new SearchParams2(studentId,  isbn, year, semester);
+        return bookService.orderBookStu(searchParams2);
     }
 
     /**
