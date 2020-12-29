@@ -117,7 +117,7 @@ public class BookController {
     }
 
     /**
-     * 教师订阅一本书
+     * 教师领取一本书
      * @param isbn     书籍编号
      * @param year     学年
      * @param semester 学期
@@ -138,6 +138,11 @@ public class BookController {
     }
 
 
+    /**
+     * 根据isbn查找一本书籍，用于查询框
+     * @param isbn 编号
+     * @return 查询的结果
+     */
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
@@ -162,6 +167,7 @@ public class BookController {
         return bookService.updateBook(book);
     }
 
+    // TODO: @NoUsed
     @AuthAdmin
     @AuthStudent
     @AuthTeacher

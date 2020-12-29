@@ -9,6 +9,7 @@ import top.ostp.web.mapper.CourseOpenMapper;
 import top.ostp.web.mapper.StudentMapper;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.CourseOpen;
+import top.ostp.web.model.Student;
 import top.ostp.web.model.StudentBookOrder;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
@@ -131,15 +132,22 @@ public class BookService {
         }
         if (bookAdvice.getCourseOpens().isEmpty()) {
             return Responses.fail("你无法订阅这本书，因为没有相关的开课");
-        } else {
-            Optional<StudentBookOrder> order = bookAdvice.getOrders().stream().findAny();
-            if (order.isEmpty()) {
-                bookOrderMapper.addBookOrder(params2.getPersonId(), params2.getIsbn(), bookAdvice.getBook().getPrice().intValue(), params2.getYear() , params2.getSemester());
-            } else {
-                bookOrderMapper.deleteBookOrder((int)order.get().getId());
-            }
-            return Responses.ok("修改成功");
         }
+        Optional<StudentBookOrder> order = bookAdvice.getOrders().stream().findAny();
+
+        // 增加额外的逻辑
+        Student student = studentMapper.queryMoney(params2.getPersonId());
+        if (order.isEmpty()) {
+            if (student.getBalance() < bookAdvice.getBook().getPrice()) {
+                return Responses.fail("余额不足");
+            }
+            studentMapper.changeMoney(student, (int)-bookAdvice.getBook().getPrice());
+            bookOrderMapper.addBookOrder(params2.getPersonId(), params2.getIsbn(), bookAdvice.getBook().getPrice().intValue(), params2.getYear() , params2.getSemester());
+        } else {
+            studentMapper.changeMoney(student, bookAdvice.getBook().getPrice().intValue());
+            bookOrderMapper.deleteBookOrder((int)order.get().getId());
+        }
+        return Responses.ok("订阅成功");
     }
 
     public ApiResponse<List<StudentBookOrder>> orderListByStudentYearSemester(String student, int year, int semester) {
