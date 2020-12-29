@@ -8,7 +8,6 @@ import top.ostp.web.mapper.MajorMapper
 import top.ostp.web.model.Major
 
 @SpringBootTest
-//TODO
 class MajorTests {
     @Autowired lateinit var majorMapper: MajorMapper
 

@@ -3,16 +3,13 @@ package top.ostp.web.controller;
 import kotlin.Pair;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import top.ostp.web.mapper.BookMapper;
 import top.ostp.web.model.Book;
 import top.ostp.web.model.Clazz;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
-import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
@@ -25,7 +22,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 
 
@@ -47,14 +43,11 @@ public class BookController {
     }
 
 
-    @NoAuthority
-    //TODO  测试完删除
     @AuthAdmin
     @PostMapping(value = "/book/insert")
     @ResponseBody
-    public ApiResponse<Object> insertBook(String isbn,Long price,String cover,String name) {
-        Book book = new Book(isbn,name,price,cover);
-
+    public ApiResponse<Object> insertBook(String isbn, Long price, String cover, String name) {
+        Book book = new Book(isbn, name, price, cover);
         return bookService.insert(book);
     }
 
@@ -101,10 +94,11 @@ public class BookController {
 
     /**
      * 教师订阅一本书
-     * @param isbn 书籍编号
-     * @param year 学年
+     *
+     * @param isbn     书籍编号
+     * @param year     学年
      * @param semester 学期
-     * @param request 请求
+     * @param request  请求
      * @return 操作的结果
      */
     @AuthTeacher
@@ -172,7 +166,7 @@ public class BookController {
         resp.setHeader("Content-Disposition", bookOrderService.getFileHeader(clazz));
         resp.setHeader("Connection", "close");
         resp.setHeader("Content-Type", "application/octet-stream");
-        try(ServletOutputStream stream = resp.getOutputStream()) {
+        try (ServletOutputStream stream = resp.getOutputStream()) {
             result.component2().write(stream);
         } catch (IOException e) {
             e.printStackTrace();

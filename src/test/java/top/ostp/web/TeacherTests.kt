@@ -8,7 +8,6 @@ import top.ostp.web.mapper.TeacherMapper
 import top.ostp.web.model.Teacher
 
 @SpringBootTest
-//TODO
 class TeacherTests {
 
     @Autowired

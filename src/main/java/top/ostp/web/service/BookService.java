@@ -144,6 +144,7 @@ public class BookService {
     public boolean orderBookTeacher(String isbn, Integer year, Integer semester, String teacherId) {
         Book book = bookMapper.selectByISBN(isbn);
         BookAdvice bookAdvice = selectXByISBNOfTeacher(book, teacherId);
+        // TODO 完成教师订书的逻辑
         return false;
     }
 }

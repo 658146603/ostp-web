@@ -42,7 +42,7 @@ public class SecondHandPublishService {
     }
 
     @Autowired
-    public void setSecondHandFindMapper(SecondHandFindMapper secondHandFindMapper){
+    public void setSecondHandFindMapper(SecondHandFindMapper secondHandFindMapper) {
         this.secondHandFindMapper = secondHandFindMapper;
     }
 
@@ -122,9 +122,9 @@ public class SecondHandPublishService {
         if (secondHandPublish == null) {
             return Responses.fail("没有该订单");
         }
-        if (secondHandPublish.getPerson().getId().equals(studentId)){
+        if (secondHandPublish.getPerson().getId().equals(studentId)) {
             return Responses.fail("你不能购买自己的书籍");
-        } else if(secondHandPublish.getExchange() == 1) {
+        } else if (secondHandPublish.getExchange() == 1) {
             return Responses.fail("该书籍无法购买");
         } else if (secondHandPublish.getStatus() == 1) {
             return Responses.fail("该书籍已被购买");
@@ -134,7 +134,7 @@ public class SecondHandPublishService {
         Optional<SecondHandFind> wantList = secondHandFindMapper.selectBuyListByStudentAndBook(studentId, secondHandPublish.getBook().getIsbn()).stream().findAny();
         SecondHandFind secondHandFind = null;
         int result = 0;
-        if (student.getBalance() < secondHandPublish.getPrice()){
+        if (student.getBalance() < secondHandPublish.getPrice()) {
             return Responses.fail("余额不足");
         }
 
@@ -158,21 +158,21 @@ public class SecondHandPublishService {
             result = secondHandFindMapper.insert(secondHandFind);
 
         }
-        if (result > 0) {
 
+        if (result > 0) {
             // 提交更改
             secondHandPublish.setStatus(1);
             secondHandPublish.setSecond(secondHandFind);
             secondHandPublishMapper.update(secondHandPublish);
             // 进行缴费
             studentMapper.changeMoney(student, - (int)secondHandPublish.getPrice());
-//            // 然后给另外一个人加钱
+            // 然后给另外一个人加钱
             // TODO: 仅在买方确认后才会加钱，请产品经理审阅。
-//            studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
+            // studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
             // 进行链接
 
 
-            studentMapper.update(student);
+            studentMapper.update(student); // TODO ??? 钱是在这里回去的
             return Responses.ok();
         } else {
             return Responses.fail("执行数据库操作失败");
@@ -184,17 +184,17 @@ public class SecondHandPublishService {
     public ApiResponse<Object> cancel(String id, String studentId) {
         Student student = studentMapper.selectStudentById(studentId);
         SecondHandPublish secondHandPublish = secondHandPublishMapper.select(id);
-        if (secondHandPublish == null){
+        if (secondHandPublish == null) {
             return Responses.fail("没有该发布的书本");
         }
-        if (!student.getId().equals(secondHandPublish.getPerson().getId())){
+        if (!student.getId().equals(secondHandPublish.getPerson().getId())) {
             return Responses.fail("不能修改其他用户的数据");
         }
         if (secondHandPublish.getStatus() != 0) {
             return Responses.fail("不能取消已完成的订单");
         }
         int result = secondHandPublishMapper.delete(id);
-        if (result > 0){
+        if (result > 0) {
             return Responses.ok();
         } else {
             return Responses.fail("数据库修改失败");
@@ -204,16 +204,16 @@ public class SecondHandPublishService {
     public ApiResponse<Object> changeStatusOk(String id, String studentId) {
         Student student = studentMapper.selectStudentById(studentId);
         SecondHandPublish secondHandPublish = secondHandPublishMapper.select(id);
-        if (secondHandPublish == null){
+        if (secondHandPublish == null) {
             return Responses.fail("没有该发布的书本");
         }
-        if (!student.getId().equals(secondHandPublish.getPerson().getId())){
+        if (!student.getId().equals(secondHandPublish.getPerson().getId())) {
             return Responses.fail("不能修改其他用户的数据");
         }
-        if (secondHandPublish.getStatus() == 0){
+        if (secondHandPublish.getStatus() == 0) {
             return Responses.fail("不能修改未完成的订单");
         }
-        if (secondHandPublish.getStatus() == 1){
+        if (secondHandPublish.getStatus() == 1) {
             secondHandPublish.setStatus(2);
         } else {
             secondHandPublish.setStatus(1);

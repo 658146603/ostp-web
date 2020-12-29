@@ -61,10 +61,7 @@ public class SecondHandFindController {
         return secondHandFindService.selectByBook(isbn);
     }
 
-    @NoAuthority
-    @AuthAdmin
     @AuthStudent
-    @AuthTeacher
     @PostMapping(value = "/second/find/insert")
     @ResponseBody
     public ApiResponse<Object> insert(@RequestParam("person") String person, @RequestParam("book") String book, int price, int exchange, int status){
