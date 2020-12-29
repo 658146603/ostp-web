@@ -26,7 +26,6 @@ class LoginController {
     @ResponseBody
     fun login(id: String?, password: String?, request: HttpServletRequest, res: HttpServletResponse): ApiResponse<Any> {
         val session = request.session
-//        println("login/session: ${session.id}")
         val response = loginService.login(id, password)
         if (response.code == ok.code && response.data != null) {
             session.setAttribute("username", id)
@@ -41,7 +40,6 @@ class LoginController {
         val session = request.session
 
         var role = session["role"]
-//        println("status/session: ${session.id}")
         return if (role != null) {
             role = loginService.findById(role)
             session["role"] = role
@@ -68,6 +66,7 @@ class LoginController {
     @ResponseBody
     fun logout(request: HttpServletRequest): ApiResponse<String> {
         request.session.setAttribute("role", null)
+        request.session.setAttribute("username", null)
         return Responses.ok("logout success: ${request.session.getAttribute("role")}")
     }
 

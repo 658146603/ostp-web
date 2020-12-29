@@ -158,21 +158,21 @@ public class SecondHandPublishService {
             result = secondHandFindMapper.insert(secondHandFind);
 
         }
-        if (result > 0) {
 
+        if (result > 0) {
             // 提交更改
             secondHandPublish.setStatus(1);
             secondHandPublish.setSecond(secondHandFind);
             secondHandPublishMapper.update(secondHandPublish);
             // 进行缴费
             studentMapper.changeMoney(student, - (int)secondHandPublish.getPrice());
-//            // 然后给另外一个人加钱
+            // 然后给另外一个人加钱
             // TODO: 仅在买方确认后才会加钱，请产品经理审阅。
-//            studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
+            // studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
             // 进行链接
 
 
-            studentMapper.update(student);
+            studentMapper.update(student); // TODO ??? 钱是在这里回去的
             return Responses.ok();
         } else {
             return Responses.fail("执行数据库操作失败");

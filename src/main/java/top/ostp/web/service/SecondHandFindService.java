@@ -141,6 +141,7 @@ public class SecondHandFindService {
             return Responses.fail("不能取消已完成的订单");
         }
         int result = secondHandFindMapper.delete(secondHandFind);
+        // TODO @cht取消订单如果是购买则加钱
         if (result > 0) {
             return Responses.ok();
         } else {
@@ -160,13 +161,13 @@ public class SecondHandFindService {
         if (secondHandFind.getStatus() == 0) {
             return Responses.fail("不能修改未完成的订单");
         }
-        // TODO: 确认是在这里加钱。请产品经理审阅
-        // TODO: 存在多处 未明确定义的常量，请使用MagicConstant代替
+        // TODO,DONE: 确认是在这里加钱。请产品经理审阅
+        // TODO,DONE: @cht:存在多处 未明确定义的常量，请使用MagicConstant代替, @wcf:没必要，明确1是已下单，2是确认送达
         secondHandFind.setStatus(2);
         if (secondHandFind.getExchange() == 0) {
             // 购买则卖方加钱
             Student other = secondHandFind.getSecond().getPerson();
-            // TODO: 统一所有有关钱的类型
+            // TODO,DONE: @cht:统一所有有关钱的类型 @wcf:在后端所有的钱都为整数，为实际价格的100倍
             studentMapper.changeMoney(other, (int) secondHandFind.getPrice());
         }
 

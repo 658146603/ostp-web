@@ -26,7 +26,6 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @NoAuthority //TODO 删除
     @AuthAdmin
     @PostMapping(path = "/student/insert")
     @ResponseBody
