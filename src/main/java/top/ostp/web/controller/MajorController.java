@@ -31,7 +31,11 @@ public class MajorController {
     public ApiResponse<Object> insert(String name, String college, String year) {
         return majorService.insert(name, college, year);
     }
-
+    /**
+     * 根据学院返回该学院所有的专业
+     * @param id 学院的id
+     * @return List<MajorAdvice> 专业集合
+     */
     @AuthAdmin
     @AuthStudent
     @AuthTeacher

@@ -25,7 +25,10 @@ public class SecondHandFindController {
     public void setSecondHandFindService(SecondHandFindService secondHandFindService) {
         this.secondHandFindService = secondHandFindService;
     }
-
+    /**
+     * 查询所有的二手书的订单
+     * @return 查询的结果
+     */
     @AuthAdmin
     @AuthStudent
     @AuthTeacher
@@ -89,7 +92,12 @@ public class SecondHandFindController {
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandFindService.changeStatusOk(id, studentId);
     }
-
+    /**
+     * 返回可交换的且状态为0的订单
+     * @param otherId 交换方的id
+     * @param selfId 自己的id
+     * @return 返回可交换的且状态为0的订单
+     */
     @AuthStudent
     @PostMapping("/second/find/other_exchange/list")
     @ResponseBody
