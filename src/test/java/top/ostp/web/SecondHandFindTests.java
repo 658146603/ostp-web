@@ -26,12 +26,10 @@ public class SecondHandFindTests {
     @Test
     public void insert() {
         SecondHandFind secondHandFind = new SecondHandFind();
-        //TODO
-        List<SecondHandFind> b =  secondHandFindMapper.selectByStudentId("201806060231");
-        for (SecondHandFind b1:b
-             ) {
-            System.out.println(b1.toString());
 
+        List<SecondHandFind> b = secondHandFindMapper.selectByStudentId("201806060231");
+        for (SecondHandFind b1 : b) {
+            System.out.println(b1);
         }
     }
 }

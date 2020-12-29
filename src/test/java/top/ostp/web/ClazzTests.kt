@@ -8,7 +8,6 @@ import top.ostp.web.mapper.MajorMapper
 import top.ostp.web.model.Clazz
 
 @SpringBootTest
-//TODO
 class ClazzTests {
     @Autowired
     lateinit var majorMapper: MajorMapper
