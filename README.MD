@@ -56,14 +56,23 @@
 
 + resultType是sql映射文件中定义返回值类型
 
+### @PostConstruct
+
++ Java的原生标签，在修饰一个void方法时使用被@PostConstruct修饰的方法会在服务器加载Servlet的时候运行，并且只会被服务器执行一次。PostConstruct在Servlet构造函数之后执行，init（）方法之前执行。
+
 ### @Results
 
 + MyBatis中使用@Results注解来映射查询结果集到实体类属性。
 
-+
++ @Results的基本用法。当数据库字段名与实体类对应的属性名不一致时，可以使用@Results映射来将其对应起来。column为数据库字段名，porperty为实体类属性名，jdbcType为数据库字段数据类型，id为是否为主键。@One代表查询返回的数据只能是一条否则会报错。@Many则是对应一对多查询
 
-@Results的基本用法。当数据库字段名与实体类对应的属性名不一致时，可以使用@Results映射来将其对应起来。column为数据库字段名，porperty为实体类属性名，jdbcType为数据库字段数据类型，id为是否为主键。@One代表查询返回的数据只能是一条否则会报错。@Many则是对应一对多查询
+### @Retention
 
++ RetentionPolicy.RUNTIME：注解不仅被保存到class文件中，jvm加载class文件之后，仍然存在。主要控制注解的生命周期
+### @Target
++ 主要声明注解所作用的对象。本项目中注解所作用的对象为注解类，类，类上的方法。
+### @Inherit
++ 子类可以继承父类的注解
 ### @Param
 
 + 作用:使得mapper.xml中的参数与后台的参数对应上
@@ -129,4 +138,4 @@ mvc配置，需要创建一个配置类并实现WebMvcConfigurer 接口；
 ## 前后端分离
 
 ### 如何实现前后端分离
-&emsp;&emsp;主要是两者之间通过HTTP通信，本项目前端采用的是Vue后端采用的是Spring Boot。前端通过调用后端的API来实现增删改查，前端通过使用fetch()方法来异步获取后端的资源。
+&emsp;&emsp;主要是两者之间通过HTTP通信，本项目前端采用的是Vue后端采用的是Spring Boot。前端通过调用后端的API来实现增删改查，前端通过使用fetch()方法来异步获取后端的资源。需要在fetch中指定请求的头和body。后端则提供类似RESTful风格的URL。部署到服务上的时候需要一层Nginx反向代理层
