@@ -155,7 +155,6 @@ interface CourseOpenMapper {
     @Update("update course_open set received = 0 where id = #{id}")
     fun giveUpBook(id: Int): Int
 
-    @Deprecated("已迁移到SearchOfStudent")
     @Select(
         """
         select course_open.* from (select * from course_open where book = #{isbn}) course_open
@@ -184,33 +183,6 @@ interface CourseOpenMapper {
     )
     @ResultType(CourseOpen::class)
     fun selectByBookAndStudent(@Param("isbn") isbn: String, @Param("studentId") studentId: String): List<CourseOpen>
-
-    @Select("""select course_open.* from (select * from course_open where book = #{isbn} and year = #{year} and semester = #{semester}) course_open
-    join course on course_open.course = course.id
-    join major on course.major = major.id
-    join clazz on major.id = clazz.major
-    join student on clazz.id = student.clazz
-    where student.id = #{personId}
-    """
-    )
-    @Results(
-        value = [
-            Result(
-                property = "course", column = "course",
-                one = One(select = "top.ostp.web.mapper.CourseMapper.selectById")
-            ),
-            Result(
-                property = "book", column = "book",
-                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
-            ),
-            Result(
-                property = "teacher", column = "teacher",
-                one = One(select = "top.ostp.web.mapper.TeacherMapper.selectById")
-            )
-        ]
-    )
-    @ResultType(CourseOpen::class)
-    fun searchOfStudent(params2: SearchParams2): List<CourseOpen>
 
     @Results(
         value = [

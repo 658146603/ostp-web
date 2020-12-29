@@ -51,6 +51,15 @@ public class BookController {
         return bookService.insert(book);
     }
 
+    /**
+     * 获取学生的搜索列表
+     * @param name 搜索字段：书本名称
+     * @param course 搜索字段：课程名
+     * @param year 搜索字段：开课学年
+     * @param semester 搜索字段：开课学期
+     * @param request 请求
+     * @return 书籍的扩展数据
+     */
     @AuthStudent
     @PostMapping(value = "/book/search_stu")
     @ResponseBody
@@ -65,12 +74,27 @@ public class BookController {
         return Responses.ok(bookService.searchOfStudent(params));
     }
 
+    /**
+     * 获取教师的搜索列表
+     * @param name 搜索字段：书本名称
+     * @param course 搜索字段：课程名
+     * @param year 搜索字段：开课学年
+     * @param semester 搜索字段：开课学期
+     * @param request 请求
+     * @return 书籍的扩展数据
+     */
     @AuthTeacher
     @PostMapping(value = "/book/search_teacher")
     @ResponseBody
-    public ApiResponse<List<BookAdvice>> searchOfTeacher(@RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "") String course, HttpServletRequest request) {
+    public ApiResponse<List<BookAdvice>> searchOfTeacher(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "") String course,
+            @RequestParam(defaultValue = "2020") int year,
+            @RequestParam(defaultValue = "1") int semester,
+            HttpServletRequest request) {
         String teacherId = (String) request.getSession().getAttribute("username");
-        return Responses.ok(bookService.searchOfTeacher(name, course, teacherId));
+        SearchParams params = new SearchParams(teacherId, name, course, year, semester);
+        return Responses.ok(bookService.searchOfTeacher(params));
     }
 
     /**
@@ -82,7 +106,7 @@ public class BookController {
     @AuthStudent
     @PostMapping(value = "/book/order_stu")
     @ResponseBody
-    public ApiResponse<Object> orderStudent(
+    public ApiResponse<?> orderStudent(
             String isbn,
             @RequestParam(defaultValue = "2020") int year,
             @RequestParam(defaultValue = "1") int semester,
@@ -94,7 +118,6 @@ public class BookController {
 
     /**
      * 教师订阅一本书
-     *
      * @param isbn     书籍编号
      * @param year     学年
      * @param semester 学期
@@ -104,14 +127,14 @@ public class BookController {
     @AuthTeacher
     @PostMapping(value = "/book/order_teacher")
     @ResponseBody
-    public ApiResponse<?> orderTeacher(String isbn, Integer year, Integer semester, HttpServletRequest request) {
+    public ApiResponse<?> orderTeacher(
+            String isbn,
+            @RequestParam(defaultValue = "2020") Integer year,
+            @RequestParam(defaultValue = "1") Integer semester,
+            HttpServletRequest request) {
         String teacherId = (String) request.getSession().getAttribute("username");
-        boolean result = bookService.orderBookTeacher(isbn, year, semester, teacherId);
-        if (result) {
-            return Responses.ok();
-        } else {
-            return Responses.fail();
-        }
+        SearchParams2 params2 = new SearchParams2(teacherId, isbn, year, semester);
+        return bookService.orderBookTeacher(params2);
     }
 
 

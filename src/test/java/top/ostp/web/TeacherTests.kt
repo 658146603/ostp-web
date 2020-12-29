@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import top.ostp.web.mapper.CollegeMapper
 import top.ostp.web.mapper.TeacherMapper
 import top.ostp.web.model.Teacher
+import top.ostp.web.util.EncryptProvider
 
 @SpringBootTest
 class TeacherTests {
@@ -60,5 +61,10 @@ class TeacherTests {
         println(teacher)
         teacher = mapper.login("123458", "123456")
         println(teacher)
+    }
+
+    @Test
+    fun getPassword() {
+        println(EncryptProvider.getSaltedPassword("123456", "123456"))
     }
 }

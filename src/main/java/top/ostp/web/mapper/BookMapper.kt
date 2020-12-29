@@ -23,20 +23,17 @@ interface BookMapper {
     @Insert("insert into book (isbn, name, price, cover) values (#{isbn}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR})")
     fun insert(record: Book): Int
 
-    @Select(
-        """
+    @Select("""
     select book.* from (select * from book where book.name like concat('%', #{book}, '%')) book
         left join course_open on book.isbn = course_open.book
         left join course on course_open.course = course.id
         where course.name like concat('%', #{course}, '%')
-    """
-    )
+    """)
     @ResultType(Book::class)
     fun selectByNameAndCourse(@Param("name") name: String, @Param("course") course: String): List<Book>
 
     @Deprecated("已迁移到searchOfStudent")
-    @Select(
-        """
+    @Select("""
     select distinct book.* from (select * from book where book.name like concat('%', #{name}, '%')) book
         left join course_open on book.isbn = course_open.book
         left join course on course_open.course = course.id
@@ -46,8 +43,7 @@ interface BookMapper {
                 left join clazz on student.clazz = clazz.id
                 left join major on clazz.major = major.id
             );
-    """
-    )
+    """)
     @ResultType(Book::class)
     fun selectByStudentNameAndCourse(
         @Param("studentId") studentId: String,
@@ -64,11 +60,11 @@ interface BookMapper {
             join clazz on student.clazz = clazz.id
             join major on clazz.major = major.id
         );
-    """
-    )
+    """)
     @ResultType(Book::class)
     fun searchOfStudent(searchParams: SearchParams): List<Book>
 
+    @Deprecated("已迁移到searchOfTeacher")
     @Select("""
     select distinct book.* from (select * from book where book.name like concat('%', #{name} ,'%')) book
         left join course_open on book.isbn = course_open.book
@@ -83,18 +79,18 @@ interface BookMapper {
         @Param("course") course: String
     ): List<Book>
 
-
-
+    @Select("""
+    select distinct book.* from (select * from book where book.name like concat('%', #{name} ,'%')) book
+        join (select * from course_open where course_open.year = #{year} and course_open.semester = #{semester}) course_open on book.isbn = course_open.book
+        join course on course_open.course = course.id
+    where course.name like concat('%', #{course} ,'%')
+        and course_open.teacher = #{personId};
+    """)
+    @ResultType(Book::class)
+    fun searchOfTeacher(searchParams: SearchParams): List<Book>
 
     @Select("select * from book where isbn = #{isbn,jdbcType=VARCHAR} limit 1")
     fun selectByISBN(isbn: String): Book?
-
-
-    @Select("select distinct cou.name from book left join course_open co on book.isbn = co.book left join course cou on co.course = cou.id where book.isbn = #{isbn}")
-    fun selectRelatedCoursesByISBN(isbn: String): List<String>
-
-    @Select("select course_open.* from book left join course_open on book.isbn = course_open.book where book.isbn = #{isbn}")
-    fun selectRelatedCourseOpensByISBN(isbn: String): List<CourseOpen>
 
     @Update("update book set name = #{name,jdbcType=VARCHAR}, price = #{price,jdbcType=DECIMAL} where isbn = #{isbn,jdbcType=VARCHAR}")
     fun updateByISBN(record: Book): Int
