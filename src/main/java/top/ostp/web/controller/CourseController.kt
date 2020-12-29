@@ -31,6 +31,7 @@ class CourseController {
     @PostMapping(path = ["/course/list/by/major"])
     @ResponseBody
     fun listByMajor(major: Long): ApiResponse<List<Course>> = courseService.listByMajor(major)
+
     /**
      * 管理员添加一门课程
      * @param id 课程编号
@@ -65,7 +66,7 @@ class CourseController {
     @PostMapping(path = ["/course/select"])
     @ResponseBody
     fun selectById(id: String): ApiResponse<Course> {
-        return courseService.selectById(id);
+        return courseService.selectById(id)
     }
 
     @NoAuthority

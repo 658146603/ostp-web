@@ -26,6 +26,7 @@ public class CollegeController {
 
     /**
      * 管理员添加一个学院
+     *
      * @param college 学院对象
      * @return 状态值
      */
@@ -52,8 +53,10 @@ public class CollegeController {
     public ApiResponse<College> selectCollege(String name) {
         return collegeService.selectByName(name);
     }
+
     /**
      * 按照id值查询学院
+     *
      * @param id 学院的编号
      * @return college 与编号相对应的学院
      */
@@ -65,8 +68,10 @@ public class CollegeController {
     public ApiResponse<College> getCollege(int id) {
         return collegeService.selectById(id);
     }
+
     /**
      * 按照专业id值查询学院
+     *
      * @param id 专业编号
      * @return college 与编号相对应的学院
      */

@@ -4,7 +4,6 @@ import top.ostp.web.model.Book
 import top.ostp.web.model.CourseOpen
 import top.ostp.web.model.StudentBookOrder
 import java.io.Serializable
-import java.util.*
 
 /**
  * 增强的book，能标识比book更多的数据
@@ -22,7 +21,7 @@ data class BookAdvice(var book: Book, var courseOpens: List<CourseOpen>, var ord
         } else {
             1
         }
-        return this;
+        return this
     }
 
     fun calculateTeacher(params2: SearchParams2): BookAdvice {
@@ -33,7 +32,7 @@ data class BookAdvice(var book: Book, var courseOpens: List<CourseOpen>, var ord
         } else {
             1
         }
-        return this;
+        return this
     }
 
     /**

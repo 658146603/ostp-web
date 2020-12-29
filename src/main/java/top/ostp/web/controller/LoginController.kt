@@ -4,9 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import top.ostp.web.model.Admin
-import top.ostp.web.model.Student
-import top.ostp.web.model.Teacher
 import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
@@ -21,9 +18,11 @@ import javax.servlet.http.HttpSession
 class LoginController {
     @Autowired
     lateinit var loginService: LoginService
+
     /**
      * 登录。在service层使用账号密码分别以学生，教师管理员的身份登录。登录成功则返回
      * 不成功，以其他身份登录
+     *
      * @param id 登录的账号
      * @param password 登录的密码
      * @param request servletRequest。又来设置session中的role
@@ -89,7 +88,7 @@ class LoginController {
     }
 
     private operator fun HttpSession.set(attr: String, value: Any?) {
-        this.setAttribute(attr, value);
+        this.setAttribute(attr, value)
     }
 }
 

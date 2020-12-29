@@ -18,6 +18,7 @@ class CourseOpenController {
 
     @Autowired
     lateinit var service: CourseOpenService
+
     /**
      * 管理员开设一门课程
      * @param course 课程所需要的课程编号
@@ -45,7 +46,6 @@ class CourseOpenController {
     @PostMapping(path = ["/course_open/list"])
     @ResponseBody
     fun list(): ApiResponse<List<CourseOpen>> = service.listAll()
-
 
 
 }

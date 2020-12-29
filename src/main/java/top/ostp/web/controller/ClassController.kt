@@ -29,10 +29,12 @@ class ClassController {
     fun selectAllByMajorId(id: Int): ApiResponse<List<ClassAdvice>> {
         return Responses.ok(classService.selectAllByMajorId(id))
     }
+
     /**
      * 按照id值查询学院
+     *
      * @param id 专业的编号
-     * @return <List<Clazz>该专业下所有的班级
+     * @return list<Clazz> 该专业下所有的班级
      */
     @AuthAdmin
     @AuthStudent

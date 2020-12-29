@@ -10,7 +10,6 @@ import top.ostp.web.model.SecondHandFind;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
-import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.service.SecondHandFindService;
 
@@ -25,8 +24,10 @@ public class SecondHandFindController {
     public void setSecondHandFindService(SecondHandFindService secondHandFindService) {
         this.secondHandFindService = secondHandFindService;
     }
+
     /**
      * 查询所有的二手书的订单
+     *
      * @return 查询的结果
      */
     @AuthAdmin
@@ -67,7 +68,7 @@ public class SecondHandFindController {
     @AuthStudent
     @PostMapping(value = "/second/find/insert")
     @ResponseBody
-    public ApiResponse<Object> insert(@RequestParam("person") String person, @RequestParam("book") String book, int price, int exchange, int status){
+    public ApiResponse<Object> insert(@RequestParam("person") String person, @RequestParam("book") String book, int price, int exchange, int status) {
         return secondHandFindService.insert(person, book, price, exchange, status);
     }
 
@@ -77,7 +78,7 @@ public class SecondHandFindController {
     @AuthStudent
     @PostMapping(value = "/second/find/cancel")
     @ResponseBody
-    public ApiResponse<Object> cancel(String id, HttpServletRequest request){
+    public ApiResponse<Object> cancel(String id, HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandFindService.cancel(id, studentId);
     }
@@ -88,14 +89,16 @@ public class SecondHandFindController {
     @AuthStudent
     @PostMapping(value = "/second/find/changeStatusOk")
     @ResponseBody
-    public ApiResponse<Object> changeStatusOk(String id, HttpServletRequest request){
+    public ApiResponse<Object> changeStatusOk(String id, HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
         return secondHandFindService.changeStatusOk(id, studentId);
     }
+
     /**
      * 返回可交换的且状态为0的订单
+     *
      * @param otherId 交换方的id
-     * @param selfId 自己的id
+     * @param selfId  自己的id
      * @return 返回可交换的且状态为0的订单
      */
     @AuthStudent

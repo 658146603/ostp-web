@@ -7,12 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import top.ostp.web.model.Admin;
 import top.ostp.web.model.Book;
-import top.ostp.web.model.Clazz;
-import top.ostp.web.model.Teacher;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
-import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
 import top.ostp.web.model.complex.BookAdvice;
@@ -56,11 +53,12 @@ public class BookController {
 
     /**
      * 获取学生的搜索列表
-     * @param name 搜索字段：书本名称
-     * @param course 搜索字段：课程名
-     * @param year 搜索字段：开课学年
+     *
+     * @param name     搜索字段：书本名称
+     * @param course   搜索字段：课程名
+     * @param year     搜索字段：开课学年
      * @param semester 搜索字段：开课学期
-     * @param request 请求
+     * @param request  请求
      * @return 书籍的扩展数据
      */
     @AuthStudent
@@ -79,11 +77,12 @@ public class BookController {
 
     /**
      * 获取教师的搜索列表
-     * @param name 搜索字段：书本名称
-     * @param course 搜索字段：课程名
-     * @param year 搜索字段：开课学年
+     *
+     * @param name     搜索字段：书本名称
+     * @param course   搜索字段：课程名
+     * @param year     搜索字段：开课学年
      * @param semester 搜索字段：开课学期
-     * @param request 请求
+     * @param request  请求
      * @return 书籍的扩展数据
      */
     @AuthTeacher
@@ -102,11 +101,12 @@ public class BookController {
 
     /**
      * 获取管理员的搜索列表
-     * @param name 搜索字段：书本名称
-     * @param course 搜索字段：课程名
-     * @param year 搜索字段：开课学年
+     *
+     * @param name     搜索字段：书本名称
+     * @param course   搜索字段：课程名
+     * @param year     搜索字段：开课学年
      * @param semester 搜索字段：开课学期
-     * @param request 请求
+     * @param request  请求
      * @return 书籍的扩展数据
      */
     @AuthAdmin
@@ -130,7 +130,8 @@ public class BookController {
 
     /**
      * 学生订阅一本书
-     * @param isbn 书籍编号
+     *
+     * @param isbn    书籍编号
      * @param request 请求
      * @return 操作的结果
      */
@@ -143,12 +144,13 @@ public class BookController {
             @RequestParam(defaultValue = "1") int semester,
             HttpServletRequest request) {
         String studentId = (String) request.getSession().getAttribute("username");
-        SearchParams2 searchParams2 = new SearchParams2(studentId,  isbn, year, semester);
+        SearchParams2 searchParams2 = new SearchParams2(studentId, isbn, year, semester);
         return bookService.orderBookStu(searchParams2);
     }
 
     /**
      * 教师领取一本书
+     *
      * @param isbn     书籍编号
      * @param year     学年
      * @param semester 学期
@@ -171,6 +173,7 @@ public class BookController {
 
     /**
      * 根据isbn查找一本书籍，用于查询框
+     *
      * @param isbn 编号
      * @return 查询的结果
      */
@@ -207,8 +210,10 @@ public class BookController {
     public ApiResponse<List<Book>> selectAll() {
         return bookService.selectAll();
     }
+
     /**
      * 模糊查询，返回含有那个字的所有书籍
+     *
      * @param name 书籍中的字
      * @return List<Book>书的集合
      */

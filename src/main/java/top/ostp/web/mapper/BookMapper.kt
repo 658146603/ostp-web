@@ -3,7 +3,6 @@ package top.ostp.web.mapper
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Book
-import top.ostp.web.model.CourseOpen
 import top.ostp.web.model.complex.SearchParams
 
 @Mapper

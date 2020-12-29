@@ -3,7 +3,6 @@ package top.ostp.web
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.util.Assert
 import top.ostp.web.mapper.BookMapper
 import top.ostp.web.model.Book
 import top.ostp.web.service.BookService

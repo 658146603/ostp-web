@@ -2,10 +2,8 @@ package top.ostp.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.ostp.web.model.Student;
 import top.ostp.web.model.Teacher;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
@@ -88,7 +86,7 @@ public class TeacherController {
     @AuthTeacher
     @PostMapping("/teacher/selectByCollegeId")
     @ResponseBody
-    public ApiResponse<List<Teacher>> selectByCollegeId(int collegeId){
+    public ApiResponse<List<Teacher>> selectByCollegeId(int collegeId) {
         return Responses.ok(teacherService.selectByCollegeId(collegeId));
     }
 }

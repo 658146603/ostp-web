@@ -3,7 +3,6 @@ package top.ostp.web.controller;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -28,11 +27,9 @@ import java.util.UUID;
 @NoAuthority
 @Controller(value = "/image")
 public class ImageController {
-
-
     public static byte[] readInputStream(InputStream inputStream) throws IOException {
         byte[] buffer = new byte[1024];
-        int len = 0;
+        int len;
         ByteArrayOutputStream bos = null;
         try {
             bos = new ByteArrayOutputStream();
@@ -55,8 +52,10 @@ public class ImageController {
     public byte[] getImageById(@PathVariable String id) throws IOException {
         return getImage(id);
     }
+
     /**
      * 读取服务器上的图片。
+     *
      * @param id uuid值,将会以book.cover形式存取在数据库中
      * @return 操作的结果
      */
@@ -75,8 +74,10 @@ public class ImageController {
         inputStream.read(bytes, 0, inputStream.available());
         return bytes;
     }
+
     /**
      * 在本地/服务器上保存图片。文件位置为image/+对uuid按照Base64进行编码
+     *
      * @param file 上传的图片
      * @return 操作的结果
      */

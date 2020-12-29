@@ -1,18 +1,14 @@
 package top.ostp.web;
 
-import net.minidev.json.writer.CollectionMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import top.ostp.web.mapper.AdminMapper;
 import top.ostp.web.mapper.CollegeMapper;
 import top.ostp.web.model.Admin;
-import top.ostp.web.model.College;
 import top.ostp.web.service.AdminService;
 import top.ostp.web.service.LoginService;
 import top.ostp.web.util.EncryptProvider;
-
-import java.util.Collection;
 
 @SpringBootTest
 public class AdminTests {
