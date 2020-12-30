@@ -15,7 +15,13 @@ public class PasswordController {
     public void setEmailService(EmailService emailService) {
         this.emailService = emailService;
     }
-
+    /**
+     * 根据密码和学号重置密码并在密码重置成功后向用户发送一封邮件
+     *
+     * @param id 学生的id
+     * @param email 学生的邮箱
+     * @return response
+     */
     @PostMapping(path = "/password/reset")
     @NoAuthority
     public ApiResponse<Object> resetPassword(String id, String email) {

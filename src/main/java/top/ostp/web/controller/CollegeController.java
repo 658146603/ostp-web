@@ -36,7 +36,12 @@ public class CollegeController {
     public ApiResponse<Object> insertCollege(College college) {
         return collegeService.insert(college);
     }
-
+    /**
+     * 插入一个学院，并返回他的id字段
+     *
+     * @param name 学院的名字
+     * @return response
+     */
     @AuthAdmin
     @NoAuthority //TODO 删除
     @PostMapping(path = "/college/insert/id")

@@ -68,8 +68,14 @@ class CourseController {
     fun selectById(id: String): ApiResponse<Course> {
         return courseService.selectById(id)
     }
-
-    @NoAuthority
+    /**
+     * 根据专业号和课程名字中的关键字。进行模糊查询。返回课程的列表
+     *
+     * @param major 专业的id字段
+     * @param name 课程中的关键字
+     * @return response
+     */
+    @NoAuthority//TODO 待删除
     @PostMapping(path = ["/course/fuzzy/by/major"])
     @ResponseBody
     fun fuzzyWithMajorByName(major: Int, name: String): ApiResponse<List<Course>> {

@@ -53,14 +53,25 @@ class ClassController {
     fun selectById(id: Int): ApiResponse<Clazz?> {
         return Responses.ok(classService.selectById(id))
     }
-
+    /**
+     * 管理员添加一门课程
+     *
+     * @param name 班级的名字
+     * @param major 专业的id
+     * @return response
+     */
     @NoAuthority //TODO 修改
     @PostMapping("/insert")
     @ResponseBody
     fun insert(name: String, major: Long): ApiResponse<Any> {
         return classService.insert(name, major)
     }
-
+    /**
+     * 根据学院做一个嵌套子查询。查询到该学院下所有的班级
+     *
+     * @param id 学院的id
+     * @return response
+     */
     @NoAuthority //TODO 修改
     @ResponseBody
     @PostMapping("/fetch_college")

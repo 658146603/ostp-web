@@ -107,7 +107,14 @@ public class SecondHandFindController {
     public ApiResponse<List<SecondHandFind>> otherExchangeList(String otherId, String selfId) {
         return secondHandFindService.selectByStudentIdNotExchanged(otherId, selfId);
     }
-
+    /**
+     *发起一个交换，并更新相应的状态
+     * @param otherId 交换方的id
+     * @param selfId  自己的id
+     * @param otherFindId 他人的所有交换书的id
+     * @param otherPublishId 他人的所有发布书的id
+     * @return 操作结果
+     */
 
     @AuthStudent
     @PostMapping("/second/find/post_exchange")

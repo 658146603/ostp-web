@@ -40,11 +40,16 @@ class LoginController {
         return response
     }
 
+    /**
+     * 从session中获取当前登录的身份，若获取不到则返回未登录
+     *
+     * @param request servletRequest。又来获取session中的role
+     * @return response
+     */
     @PostMapping("/account/status")
     @ResponseBody
     fun status(request: HttpServletRequest): ApiResponse<Any> {
         val session = request.session
-
         var role = session["role"]
         return if (role != null) {
             role = loginService.findById(role)
@@ -67,6 +72,12 @@ class LoginController {
             Responses.fail("未登录")
         }
     }
+    /**
+     * 注销该用户。将其状态和用户名都设置成空
+     *
+     * @param request servletRequest。又来获取session中的role
+     * @return response
+     */
 
     @PostMapping("/logout")
     @ResponseBody
@@ -76,7 +87,12 @@ class LoginController {
         return Responses.ok("logout success: ${request.session.getAttribute("role")}")
     }
 
-
+    /**
+     * 在新建一个学生，老师，管理员的时候对其id字段进行校验
+     *
+     * @param id 待校验的id
+     * @return response
+     */
     @PostMapping(value = ["/account/duplicate"])
     @ResponseBody
     fun duplicate(id: String): ApiResponse<Boolean> {

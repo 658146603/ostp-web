@@ -53,7 +53,12 @@ public class StudentController {
     public ApiResponse<Object> update(Student student) {
         return studentService.modifyStudent(student);
     }
-
+    /**
+     * 对学生进行充值
+     * @param money 充值的钱
+     * @param id  学生的id
+     * @return 充值的状态
+     */
     @AuthStudent
     @PostMapping(path = "/student/{id}/charge")
     @ResponseBody
