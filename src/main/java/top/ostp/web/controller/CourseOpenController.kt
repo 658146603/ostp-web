@@ -9,7 +9,6 @@ import top.ostp.web.model.CourseOpen
 import top.ostp.web.model.annotations.AuthAdmin
 import top.ostp.web.model.annotations.AuthStudent
 import top.ostp.web.model.annotations.AuthTeacher
-import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.service.CourseOpenService
 
@@ -28,7 +27,6 @@ class CourseOpenController {
      * @param semester 开设学期
      * @return ApiResponse 结果
      */
-    @NoAuthority //TODO 看起来也要删除
     @AuthAdmin
     @PostMapping(path = ["/course_open/insert"])
     @ResponseBody

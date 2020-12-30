@@ -8,7 +8,6 @@ import top.ostp.web.model.College;
 import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
-import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.complex.CollegeAdvice;
 import top.ostp.web.service.CollegeService;
@@ -43,7 +42,6 @@ public class CollegeController {
      * @return response
      */
     @AuthAdmin
-    @NoAuthority //TODO 删除
     @PostMapping(path = "/college/insert/id")
     @ResponseBody
     public ApiResponse<College> insertCollegeThenReturnId(String name) {

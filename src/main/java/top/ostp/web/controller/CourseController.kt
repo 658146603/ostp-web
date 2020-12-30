@@ -40,7 +40,6 @@ class CourseController {
      * @return 结果
      */
     @AuthAdmin
-    @NoAuthority //TODO 删除
     @PostMapping(path = ["/course/add"])
     @ResponseBody
     fun addCourse(id: String, major: Long, name: String): ApiResponse<Any> {
@@ -75,7 +74,6 @@ class CourseController {
      * @param name 课程中的关键字
      * @return response
      */
-    @NoAuthority//TODO 待删除
     @PostMapping(path = ["/course/fuzzy/by/major"])
     @ResponseBody
     fun fuzzyWithMajorByName(major: Int, name: String): ApiResponse<List<Course>> {

@@ -9,7 +9,6 @@ import top.ostp.web.model.Clazz
 import top.ostp.web.model.annotations.AuthAdmin
 import top.ostp.web.model.annotations.AuthStudent
 import top.ostp.web.model.annotations.AuthTeacher
-import top.ostp.web.model.annotations.NoAuthority
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
 import top.ostp.web.model.complex.ClassAdvice
@@ -60,7 +59,6 @@ class ClassController {
      * @param major 专业的id
      * @return response
      */
-    @NoAuthority //TODO 修改
     @PostMapping("/insert")
     @ResponseBody
     fun insert(name: String, major: Long): ApiResponse<Any> {
@@ -72,7 +70,6 @@ class ClassController {
      * @param id 学院的id
      * @return response
      */
-    @NoAuthority //TODO 修改
     @ResponseBody
     @PostMapping("/fetch_college")
     fun selectAllByCollegeId(id: Int): ApiResponse<List<Clazz>> {

@@ -90,10 +90,6 @@ public class StudentService {
         int result = studentMapper.changeMoney(student, money);
         Student data = studentMapper.queryMoney(id);
         if (result == 1) {
-            if (balance + money != data.getBalance()) {
-                //TODO 上线时删除
-                System.err.println("消费后余额和预期不一致");
-            }
             return Responses.ok("充值成功", data);
         } else {
             return Responses.fail("充值失败", data);
@@ -124,10 +120,7 @@ public class StudentService {
         int result = studentMapper.changeMoney(student, -money);
         Student data = studentMapper.queryMoney(id);
         if (result == 1) {
-            if (balance - money != data.getBalance()) {
-                //TODO 上线时删除
-                System.err.println("消费后余额和预期不一致");
-            }
+
             return Responses.ok("消费成功", data);
         } else {
             return Responses.fail("消费失败", data);

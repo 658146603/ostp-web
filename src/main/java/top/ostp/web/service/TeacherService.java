@@ -48,7 +48,7 @@ public class TeacherService {
     }
 
     public ApiResponse<List<Teacher>> selectByName(String name) {
-        return Responses.ok(teacherMapper.selectByName(name)); //TODO 抹去密码
+        return Responses.ok(teacherMapper.selectByName(name));
     }
 
     public ApiResponse<Teacher> selectById(String id) {
@@ -69,7 +69,7 @@ public class TeacherService {
     }
 
     public ApiResponse<List<Teacher>> selectAll() {
-        return Responses.ok(teacherMapper.selectAll());//TODO 抹去密码
+        return Responses.ok(teacherMapper.selectAll());
     }
 
 

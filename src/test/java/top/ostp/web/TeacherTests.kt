@@ -55,7 +55,6 @@ class TeacherTests {
     }
 
     @Test
-    //TODO
     fun login() {
         var teacher = mapper.login("123456", "123456")
         println(teacher)

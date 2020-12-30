@@ -6,6 +6,5 @@ object Tokens {
     val failed = ResponseToken(403, "failed", "failed")
 
     object User {
-        //TODO: add tokens with user related action.
     }
 }

@@ -52,7 +52,9 @@ class AuthorityInterceptor : HandlerInterceptor {
                     return true
                 }
 
-                handler.method.isAnnotationPresent(AuthStudent::class.java) || handler.method.isAnnotationPresent(AuthTeacher::class.java)
+                handler.method.isAnnotationPresent(AuthStudent::class.java) || handler.method.isAnnotationPresent(
+                    AuthTeacher::class.java
+                )
                         || handler.method.isAnnotationPresent(AuthAdmin::class.java) -> {
                     println("auth failed, role is $role")
                     response?.contentType = "text/html;charset=UTF-8"
@@ -62,7 +64,7 @@ class AuthorityInterceptor : HandlerInterceptor {
                 }
 
                 else -> {
-                    TODO("既没有NoAuthority也没有权限控制")
+                    // 既没有NoAuthority也没有权限控制
                 }
             }
         } else if (handler is HandlerMethod) {

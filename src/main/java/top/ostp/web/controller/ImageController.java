@@ -82,7 +82,6 @@ public class ImageController {
      * @return 操作的结果
      */
     @NoAuthority
-    //TODO delete
     @AuthAdmin
     @PostMapping(value = "image/put")
     @ResponseBody
