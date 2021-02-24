@@ -34,7 +34,7 @@ jobs:
         id: get_info
         run: |
           VERSION=`grep version build.gradle | grep '=' | grep -Eo \'.*\' | grep -Eo '[a-z|A-Z|0-9|.|_]*'`
-          FILE_PATH="find | grep build/libs | grep .jar"
+          FILE_PATH=`find | grep build/libs | grep .jar`
           FILE_NAME=$NAME"-"$VERSION".jar"
           echo ::set-output name=file_path::$FILE_PATH
           echo ::set-output name=file_name::$FILE_NAME
