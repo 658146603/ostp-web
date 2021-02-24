@@ -1,0 +1,62 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Modify gradle config file
+        run: |
+          sed -e '/maven.aliyun.com/d' build.gradle >> build.gradle.1
+          sed -e '/maven.aliyun.com/d' settings.gradle >> settings.gradle.1
+          mv build.gradle.1 build.gradle
+          mv settings.gradle.1 settings.gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew bootjar
+      - name: Get Release Info
+        id: get_info
+        run: |
+          VERSION=`grep version build.gradle | grep '=' | grep -Eo \'.*\' | grep -Eo '[a-z|A-Z|0-9|.|-]*'`
+          NAME=`grep "rootProject.name" settings.gradle | grep -Eo \'.*\' | grep -Eo '[a-z|A-Z|0-9]*'`
+          FILE_PATH="./build/libs/"$NAME"-"$VERSION".jar"
+          FILE_NAME=$NAME"-"$VERSION".jar"
+          echo ::set-output name=file_path::$FILE_PATH
+          echo ::set-output name=file_name::$FILE_NAME
+          echo ::set-output name=version::$VERSION
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # 之前GitHub添加的Token
+        with:
+          tag_name: ${{steps.get_info.outputs.version}}  # (tag)标签名称
+          release_name: Release ${{steps.get_info.outputs.version}}
+          draft: false # 是否是草稿
+          prerelease: false # 是否是预发布
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # 上传地址，通过创建Release获取到的
+          asset_path: ${{steps.get_info.outputs.file_path}}
+          asset_name: ${{steps.get_info.outputs.file_name}}
+          asset_content_type: application/java-archive
