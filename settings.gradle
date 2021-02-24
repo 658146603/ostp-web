@@ -5,4 +5,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'ostp-web'
+rootProject.name = 'ostp_web'
