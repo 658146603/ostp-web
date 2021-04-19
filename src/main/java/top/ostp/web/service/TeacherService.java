@@ -43,8 +43,8 @@ public class TeacherService {
             return Responses.ok();
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
+            return Responses.fail("主键重复");
         }
-        return Responses.fail("主键重复");
     }
 
     public ApiResponse<List<Teacher>> selectByName(String name) {
