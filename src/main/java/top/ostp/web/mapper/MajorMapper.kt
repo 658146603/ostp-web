@@ -80,18 +80,6 @@ select major.*,
     @ResultType(Major::class)
     fun selectByYear(year: Int): List<Major>
 
-    @Select("select * from major where name = #{name}")
-    @Results(
-        value = [
-            Result(
-                property = "college", column = "college",
-                one = One(select = "top.ostp.web.mapper.CollegeMapper.selectById", fetchType = FetchType.EAGER)
-            )
-        ]
-    )
-    @ResultType(Major::class)
-    fun selectByName(name: String): List<Major>
-
     @Insert("insert into major (name, college, year) values (#{name}, #{college}, #{year})")
     fun insert(name: String, college: String, year: String): Int
 
