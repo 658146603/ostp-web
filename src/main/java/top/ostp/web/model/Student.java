@@ -20,6 +20,11 @@ public class Student {
     public Student() {
     }
 
+    public Student(String id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
     public Student erasePassword() {
         return new Student(id, name, clazz, "", balance, email);
     }

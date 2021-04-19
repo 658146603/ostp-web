@@ -13,7 +13,7 @@ import top.ostp.web.model.Student;
 import top.ostp.web.model.StudentBookOrder;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
-import top.ostp.web.model.complex.BookAdvice;
+import top.ostp.web.model.complex.BookAdvance;
 import top.ostp.web.model.complex.SearchParams;
 import top.ostp.web.model.complex.SearchParams2;
 
@@ -96,83 +96,83 @@ public class BookService {
         return Responses.ok(bookMapper.selectAll());
     }
 
-    public List<BookAdvice> searchOfStudent(SearchParams params) {
+    public List<BookAdvance> searchOfStudent(SearchParams params) {
         return bookMapper.searchOfStudent(params)
                 .stream().map((book)-> bookAdviceOfStudent(params.toSearchParams2(book))).collect(Collectors.toList());
     }
 
-    public BookAdvice bookAdviceOfStudent(SearchParams2 params2) {
+    public BookAdvance bookAdviceOfStudent(SearchParams2 params2) {
         Book book = bookMapper.selectByISBN(params2.getIsbn());
         if (book == null) {
             return null;
         } else {
-            return new BookAdvice(book, courseOpenMapper.selectByBookAndStudent(params2.getIsbn(), params2.getPersonId()), bookOrderMapper.searchOfStudent(params2)).calculateStudent();
+            return new BookAdvance(book, courseOpenMapper.selectByBookAndStudent(params2.getIsbn(), params2.getPersonId()), bookOrderMapper.searchOfStudent(params2)).calculateStudent();
         }
     }
 
-    public List<BookAdvice> searchOfTeacher(SearchParams params) {
+    public List<BookAdvance> searchOfTeacher(SearchParams params) {
         var books = bookMapper.searchOfTeacher(params);
         return books.stream().map((book)-> bookAdviceOfTeacher(params.toSearchParams2(book))).collect(Collectors.toList());
     }
 
-    public BookAdvice bookAdviceOfTeacher(SearchParams2 params2){
+    public BookAdvance bookAdviceOfTeacher(SearchParams2 params2){
         Book book = bookMapper.selectByISBN(params2.getIsbn());
         if (book == null){
             return null;
         } else {
-            return new BookAdvice(book, courseOpenMapper.selectByBookAndTeacher(params2.getIsbn(), params2.getPersonId()), new LinkedList<>()).calculateTeacher(params2);
+            return new BookAdvance(book, courseOpenMapper.selectByBookAndTeacher(params2.getIsbn(), params2.getPersonId()), new LinkedList<>()).calculateTeacher(params2);
         }
     }
 
-    public List<BookAdvice> searchOfSuAdmin(SearchParams params) {
+    public List<BookAdvance> searchOfSuAdmin(SearchParams params) {
         return bookMapper.searchOfSuAdmin(params)
                 .stream().map((book)-> bookAdviceOfSuAdmin(params.toSearchParams2(book))).collect(Collectors.toList());
     }
 
-    public List<BookAdvice> searchOfCollegeAdmin(SearchParams params) {
+    public List<BookAdvance> searchOfCollegeAdmin(SearchParams params) {
         return bookMapper.searchOfCollegeAdmin(params)
                 .stream().map((book)-> bookAdviceOfCollegeAdmin(params.toSearchParams2(book))).collect(Collectors.toList());
     }
 
-    public BookAdvice bookAdviceOfSuAdmin(SearchParams2 params2) {
+    public BookAdvance bookAdviceOfSuAdmin(SearchParams2 params2) {
         Book book = bookMapper.selectByISBN(params2.getIsbn());
         if (book == null){
             return null;
         } else {
-            return new BookAdvice(book, courseOpenMapper.selectByBook(book), new LinkedList<>());
+            return new BookAdvance(book, courseOpenMapper.selectByBook(book), new LinkedList<>());
         }
     }
 
-    public BookAdvice bookAdviceOfCollegeAdmin(SearchParams2 params2){
+    public BookAdvance bookAdviceOfCollegeAdmin(SearchParams2 params2){
         Book book = bookMapper.selectByISBN(params2.getIsbn());
         if (book == null){
             return null;
         } else {
-            return new BookAdvice(book, courseOpenMapper.selectByBookAndCollegeAdmin(params2), new LinkedList<>());
+            return new BookAdvance(book, courseOpenMapper.selectByBookAndCollegeAdmin(params2), new LinkedList<>());
         }
     }
 
     public ApiResponse<?> orderBookStu(SearchParams2 params2){
         // 获取增强模型
-        BookAdvice bookAdvice = bookAdviceOfStudent(params2);
-        if (bookAdvice == null) {
+        BookAdvance bookAdvance = bookAdviceOfStudent(params2);
+        if (bookAdvance == null) {
             return Responses.fail("没有这本书");
         }
-        if (bookAdvice.getCourseOpens().isEmpty()) {
+        if (bookAdvance.getCourseOpens().isEmpty()) {
             return Responses.fail("你无法订阅这本书，因为没有相关的开课");
         }
-        Optional<StudentBookOrder> order = bookAdvice.getOrders().stream().findAny();
+        Optional<StudentBookOrder> order = bookAdvance.getOrders().stream().findAny();
 
         // 增加额外的逻辑
         Student student = studentMapper.queryMoney(params2.getPersonId());
         if (order.isEmpty()) {
-            if (student.getBalance() < bookAdvice.getBook().getPrice()) {
+            if (student.getBalance() < bookAdvance.getBook().getPrice()) {
                 return Responses.fail("余额不足");
             }
-            studentMapper.changeMoney(student, (int)-bookAdvice.getBook().getPrice());
-            bookOrderMapper.addBookOrder(params2.getPersonId(), params2.getIsbn(), bookAdvice.getBook().getPrice().intValue(), params2.getYear() , params2.getSemester());
+            studentMapper.changeMoney(student, (int)-bookAdvance.getBook().getPrice());
+            bookOrderMapper.addBookOrder(params2.getPersonId(), params2.getIsbn(), bookAdvance.getBook().getPrice().intValue(), params2.getYear() , params2.getSemester());
         } else {
-            studentMapper.changeMoney(student, bookAdvice.getBook().getPrice().intValue());
+            studentMapper.changeMoney(student, bookAdvance.getBook().getPrice().intValue());
             bookOrderMapper.deleteBookOrder((int)order.get().getId());
         }
         return Responses.ok("订阅成功");
@@ -186,14 +186,14 @@ public class BookService {
     }
 
     public ApiResponse<?> orderBookTeacher(SearchParams2 params2) {
-        BookAdvice bookAdvice = bookAdviceOfTeacher(params2);
-        if (bookAdvice == null){
+        BookAdvance bookAdvance = bookAdviceOfTeacher(params2);
+        if (bookAdvance == null){
             return Responses.fail("没有该书本");
         }
-        if (bookAdvice.getOrderState() == 1) {
+        if (bookAdvance.getOrderState() == 1) {
             return Responses.fail("你已经领取了该本书");
         }
-        CourseOpen courseOpen = bookAdvice.selectTeacher(params2);
+        CourseOpen courseOpen = bookAdvance.selectTeacher(params2);
         if (courseOpen == null){
             return Responses.fail("无法领取书籍，因为没有相关的开课");
         }

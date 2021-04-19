@@ -22,15 +22,6 @@ interface BookMapper {
     @Insert("insert into book (isbn, name, price, cover) values (#{isbn}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{cover,jdbcType=VARCHAR})")
     fun insert(record: Book): Int
 
-    @Select("""
-    select book.* from (select * from book where book.name like concat('%', #{book}, '%')) book
-        left join course_open on book.isbn = course_open.book
-        left join course on course_open.course = course.id
-        where course.name like concat('%', #{course}, '%')
-    """)
-    @ResultType(Book::class)
-    fun selectByNameAndCourse(@Param("name") name: String, @Param("course") course: String): List<Book>
-
     @Deprecated("已迁移到searchOfStudent")
     @Select("""
     select distinct book.* from (select * from book where book.name like concat('%', #{name}, '%')) book

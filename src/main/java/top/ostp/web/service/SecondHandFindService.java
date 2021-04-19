@@ -199,7 +199,7 @@ public class SecondHandFindService {
                 selfPublish.setBook(otherFind.getBook());
                 selfPublish.setSecond(otherFind);
                 selfPublish.setStatus(1);
-                secondHandPublishMapper.insertAll(selfPublish);
+                int result = secondHandPublishMapper.insertAll(selfPublish);
             } else {
                 selfPublish.setSecond(otherFind);
                 selfPublish.setStatus(1);
@@ -220,7 +220,7 @@ public class SecondHandFindService {
                 selfFind.setBook(otherPublish.getBook());
                 selfFind.setSecond(otherPublish);
                 selfFind.setStatus(1);
-                secondHandFindMapper.insertAll(selfFind);
+                int result = secondHandFindMapper.insertAll(selfFind);
             } else {
                 selfFind.setSecond(otherPublish);
                 selfFind.setStatus(1);

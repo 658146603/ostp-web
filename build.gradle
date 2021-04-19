@@ -7,7 +7,7 @@ plugins {
 
 group = 'top.ostp'
 version = '1.0.1.RELEASE'
-sourceCompatibility = '11'
+sourceCompatibility = '15'
 
 repositories {
     maven { url 'https://maven.aliyun.com/repository/public' }
@@ -16,27 +16,23 @@ repositories {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
-
-    implementation 'mysql:mysql-connector-java:8.0.22'
-
-    implementation 'com.google.code.gson:gson:2.8.6'
-
-    implementation 'org.mybatis:mybatis:3.5.6'
+    testImplementation 'org.easymock:easymock:4.2'
+    testImplementation "io.mockk:mockk:1.10.0"
 
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'mysql:mysql-connector-java:8.0.22'
+    implementation 'org.mybatis:mybatis:3.5.6'
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
-
     implementation 'org.apache.poi:poi-ooxml:4.1.2'
 
 }
@@ -46,11 +42,11 @@ test {
 }
 compileKotlin {
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "15"
     }
 }
 compileTestKotlin {
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "15"
     }
 }

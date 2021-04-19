@@ -10,7 +10,7 @@ import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.annotations.NoAuthority;
 import top.ostp.web.model.common.ApiResponse;
-import top.ostp.web.model.complex.MajorAdvice;
+import top.ostp.web.model.complex.MajorAdvance;
 import top.ostp.web.service.MajorService;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class MajorController {
     @AuthTeacher
     @PostMapping("/major/fetch_all")
     @ResponseBody
-    public ApiResponse<List<MajorAdvice>> selectAllByCollegeId(int id) {
+    public ApiResponse<List<MajorAdvance>> selectAllByCollegeId(int id) {
         return majorService.selectAllByCollegeId(id);
     }
 

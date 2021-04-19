@@ -12,4 +12,5 @@ data class Teacher(
     }
 
     constructor() : this("", "", null, "", "")
+    constructor(uid: String, password: String) : this(uid, "", null, password, "")
 }

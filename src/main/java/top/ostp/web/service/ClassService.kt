@@ -7,14 +7,14 @@ import top.ostp.web.model.Clazz
 import top.ostp.web.model.Major
 import top.ostp.web.model.common.ApiResponse
 import top.ostp.web.model.common.Responses
-import top.ostp.web.model.complex.ClassAdvice
+import top.ostp.web.model.complex.ClassAdvance
 
 @Service
 class ClassService {
     @Autowired
     lateinit var clazzMapper: ClazzMapper
 
-    fun selectAllByMajorId(id: Int): List<ClassAdvice> {
+    fun selectAllByMajorId(id: Int): List<ClassAdvance> {
         return clazzMapper.selectAllExtendByMajorId(id)
     }
 

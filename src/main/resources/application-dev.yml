@@ -5,7 +5,7 @@ spring:
     multipart:
       max-file-size: 10MB
   datasource:
-    url: jdbc:mysql://web.otsp.top:3306/ostp?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://nfcv.xyz:3306/ostp?useUnicode=true&characterEncoding=utf8
     username: dbuser
     password: dbpassword
     driver-class-name: com.mysql.cj.jdbc.Driver

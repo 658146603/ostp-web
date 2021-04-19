@@ -3,7 +3,7 @@ package top.ostp.web.mapper
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.Clazz
-import top.ostp.web.model.complex.ClassAdvice
+import top.ostp.web.model.complex.ClassAdvance
 
 @Mapper
 @Repository
@@ -40,18 +40,6 @@ interface ClazzMapper {
     )
     fun selectById(id: Long): Clazz?
 
-    @Select("select * from clazz where name = #{name}")
-    @Results(
-        value = [
-            Result(
-                property = "major", column = "major",
-                one = One(select = "top.ostp.web.mapper.MajorMapper.selectById")
-            )
-        ]
-    )
-    @ResultType(Clazz::class)
-    fun selectByName(name: String): List<Clazz>
-
     @Select("select * from clazz where major = #{id}")
     @Results(
         value = [
@@ -71,8 +59,8 @@ select clazz.*,
     from clazz where clazz.major = #{id}
     """
     )
-    @ResultType(ClassAdvice::class)
-    fun selectAllExtendByMajorId(id: Int): List<ClassAdvice>
+    @ResultType(ClassAdvance::class)
+    fun selectAllExtendByMajorId(id: Int): List<ClassAdvance>
 
     @Select(
         """
