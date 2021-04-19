@@ -8,12 +8,12 @@ import java.io.Serializable
 /**
  * 增强的book，能标识比book更多的数据
  */
-data class BookAdvice(var book: Book, var courseOpens: List<CourseOpen>, var orders: List<StudentBookOrder>) :
+data class BookAdvance(var book: Book, var courseOpens: List<CourseOpen>, var orders: List<StudentBookOrder>) :
     Serializable {
     val serialVersionUID = 1L
     var orderState: Int = 0
     var courses: List<String> = courseOpens.map { it.course.name }.distinct().toList()
-    fun calculateStudent(): BookAdvice {
+    fun calculateStudent(): BookAdvance {
         orderState = if (!orders.any()) {
             0
         } else if (orders[0].received == 1) {
@@ -24,7 +24,7 @@ data class BookAdvice(var book: Book, var courseOpens: List<CourseOpen>, var ord
         return this
     }
 
-    fun calculateTeacher(params2: SearchParams2): BookAdvice {
+    fun calculateTeacher(params2: SearchParams2): BookAdvance {
         orderState = if (courseOpens.find {
                 it.received == 1 && it.year == params2.year && it.semester == params2.semester
             } == null) {

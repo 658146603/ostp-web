@@ -12,7 +12,7 @@ import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
-import top.ostp.web.model.complex.BookAdvice;
+import top.ostp.web.model.complex.BookAdvance;
 import top.ostp.web.model.complex.SearchParams;
 import top.ostp.web.model.complex.SearchParams2;
 import top.ostp.web.service.BookOrderService;
@@ -64,7 +64,7 @@ public class BookController {
     @AuthStudent
     @PostMapping(value = "/book/search_stu")
     @ResponseBody
-    public ApiResponse<List<BookAdvice>> searchOfStudent(
+    public ApiResponse<List<BookAdvance>> searchOfStudent(
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String course,
             @RequestParam(defaultValue = "2020") int year,
@@ -88,7 +88,7 @@ public class BookController {
     @AuthTeacher
     @PostMapping(value = "/book/search_teacher")
     @ResponseBody
-    public ApiResponse<List<BookAdvice>> searchOfTeacher(
+    public ApiResponse<List<BookAdvance>> searchOfTeacher(
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String course,
             @RequestParam(defaultValue = "2020") int year,
@@ -112,7 +112,7 @@ public class BookController {
     @AuthAdmin
     @PostMapping(value = "/book/search_admin")
     @ResponseBody
-    public ApiResponse<List<BookAdvice>> searchOfAdmin(
+    public ApiResponse<List<BookAdvance>> searchOfAdmin(
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "") String course,
             @RequestParam(defaultValue = "2020") int year,

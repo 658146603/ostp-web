@@ -3,7 +3,7 @@ package top.ostp.web.mapper
 import org.apache.ibatis.annotations.*
 import org.springframework.stereotype.Repository
 import top.ostp.web.model.College
-import top.ostp.web.model.complex.CollegeAdvice
+import top.ostp.web.model.complex.CollegeAdvance
 
 @Mapper
 @Repository
@@ -46,6 +46,6 @@ interface CollegeMapper {
 from college;
     """
     )
-    @ResultType(CollegeAdvice::class)
-    fun selectAllExtend(): List<CollegeAdvice>
+    @ResultType(CollegeAdvance::class)
+    fun selectAllExtend(): List<CollegeAdvance>
 }

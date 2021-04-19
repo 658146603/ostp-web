@@ -9,7 +9,7 @@ import top.ostp.web.model.annotations.AuthAdmin;
 import top.ostp.web.model.annotations.AuthStudent;
 import top.ostp.web.model.annotations.AuthTeacher;
 import top.ostp.web.model.common.ApiResponse;
-import top.ostp.web.model.complex.CollegeAdvice;
+import top.ostp.web.model.complex.CollegeAdvance;
 import top.ostp.web.service.CollegeService;
 
 import java.util.List;
@@ -99,7 +99,7 @@ public class CollegeController {
     @AuthTeacher
     @PostMapping(value = "college/list")
     @ResponseBody
-    public ApiResponse<List<CollegeAdvice>> selectAllCollege() {
+    public ApiResponse<List<CollegeAdvance>> selectAllCollege() {
         return collegeService.selectAll();
     }
 

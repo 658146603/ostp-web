@@ -7,7 +7,7 @@ import top.ostp.web.mapper.CollegeMapper;
 import top.ostp.web.model.College;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
-import top.ostp.web.model.complex.CollegeAdvice;
+import top.ostp.web.model.complex.CollegeAdvance;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class CollegeService {
         return Responses.ok(collegeMapper.selectById(id));
     }
 
-    public ApiResponse<List<CollegeAdvice>> selectAll() {
+    public ApiResponse<List<CollegeAdvance>> selectAll() {
         return Responses.ok(collegeMapper.selectAllExtend());
     }
 

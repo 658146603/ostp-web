@@ -28,9 +28,6 @@ class BookOrderTests {
 
         println("id 6:")
         println(bookOrderMapper.selectById(6))
-
-        println("select by book and student")
-        println(bookOrderMapper.selectByBookAndStudent("9787-213-243-432", "201806061201"))
     }
 
     @Test
@@ -47,13 +44,6 @@ class BookOrderTests {
     fun delete() {
         bookOrderMapper.deleteBookOrder(7)
     }
-
-    @Test
-    fun selectByBookAndStudent() {
-        val orders = bookOrderMapper.selectByBookAndStudent("9787-212-222-333", "201806061201")
-        println(orders)
-    }
-
 
     @Autowired
     lateinit var bookOrderService: BookOrderService

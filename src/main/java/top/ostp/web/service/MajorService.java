@@ -7,7 +7,7 @@ import top.ostp.web.mapper.MajorMapper;
 import top.ostp.web.model.Major;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
-import top.ostp.web.model.complex.MajorAdvice;
+import top.ostp.web.model.complex.MajorAdvance;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class MajorService {
         }
     }
 
-    public ApiResponse<List<MajorAdvice>> selectAllByCollegeId(int collegeId) {
+    public ApiResponse<List<MajorAdvance>> selectAllByCollegeId(int collegeId) {
         return Responses.ok(majorMapper.selectAllExtendByCollegeId(collegeId));
     }
 
