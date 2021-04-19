@@ -16,6 +16,11 @@ public class Admin {
     public Admin() {
     }
 
+    public Admin(String uid, String password) {
+        this.id = uid;
+        this.password = password;
+    }
+
     public Admin erasePassword() {
         return new Admin(id, "", su, college);
     }
