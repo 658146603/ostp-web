@@ -10,8 +10,44 @@ on:
     branches: [ master ]
 
 jobs:
-  test_in_Linux:
+  Test_in_Linux:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Modify gradle config file
+        run: |
+          sed -e '/maven.aliyun.com/d' build.gradle >> build.gradle.1
+          sed -e '/maven.aliyun.com/d' settings.gradle >> settings.gradle.1
+          mv build.gradle.1 build.gradle
+          mv settings.gradle.1 settings.gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run test
+        run: ./gradlew test
+  Test_in_Windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Modify gradle config file
+        run: |
+          sed -e '/maven.aliyun.com/d' build.gradle >> build.gradle.1
+          sed -e '/maven.aliyun.com/d' settings.gradle >> settings.gradle.1
+          mv build.gradle.1 build.gradle
+          mv settings.gradle.1 settings.gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Run test
+        run: ./gradlew test
+  Test_in_MacOS:
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
