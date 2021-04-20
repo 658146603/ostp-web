@@ -1,5 +1,7 @@
 package top.ostp.web.model;
 
+import java.util.Objects;
+
 public class SecondHandFind {
     private String id;
     private Student person;
@@ -19,6 +21,14 @@ public class SecondHandFind {
     }
 
     public SecondHandFind() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SecondHandFind that = (SecondHandFind) o;
+        return Objects.equals(id, that.id);
     }
 
     public String getId() {

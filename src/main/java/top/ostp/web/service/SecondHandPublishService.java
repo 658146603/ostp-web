@@ -13,10 +13,10 @@ import top.ostp.web.model.SecondHandPublish;
 import top.ostp.web.model.Student;
 import top.ostp.web.model.common.ApiResponse;
 import top.ostp.web.model.common.Responses;
+import top.ostp.web.util.UuidProvider;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class SecondHandPublishService {
@@ -24,6 +24,7 @@ public class SecondHandPublishService {
     SecondHandFindMapper secondHandFindMapper;
     StudentMapper studentMapper;
     BookMapper bookMapper;
+    UuidProvider uuidProvider;
 
     @Autowired
     public void setStudentMapper(StudentMapper studentMapper) {
@@ -35,8 +36,23 @@ public class SecondHandPublishService {
         this.secondHandPublishMapper = secondHandPublishMapper;
     }
 
+    @Autowired
+    public void setUuidProvider(UuidProvider uuidProvider) {
+        this.uuidProvider = uuidProvider;
+    }
+
     public StudentMapper getStudentMapper() {
         return studentMapper;
+    }
+
+    @Autowired
+    public void setBookMapper(BookMapper bookMapper) {
+        this.bookMapper = bookMapper;
+    }
+
+    @Autowired
+    public void setSecondHandFindMapper(SecondHandFindMapper secondHandFindMapper) {
+        this.secondHandFindMapper = secondHandFindMapper;
     }
 
     public BookMapper getBookMapper() {
@@ -52,19 +68,9 @@ public class SecondHandPublishService {
     }
 
 
-    @Autowired
-    public void setBookMapper(BookMapper bookMapper) {
-        this.bookMapper = bookMapper;
-    }
-
-    @Autowired
-    public void setSecondHandFindMapper(SecondHandFindMapper secondHandFindMapper) {
-        this.secondHandFindMapper = secondHandFindMapper;
-    }
-
     public ApiResponse<Object> insert(String person, String book, int price, int exchange) {
         try {
-            String id = UUID.randomUUID().toString();
+            String id = uuidProvider.getUuid();
             Student student = studentMapper.selectStudentById(person);
             Book book1 = bookMapper.selectByISBN(book);
 
@@ -73,7 +79,11 @@ public class SecondHandPublishService {
             }
             SecondHandPublish secondHandPublish = new SecondHandPublish(id, student, book1, price, exchange, 0);
             int result = secondHandPublishMapper.insert(secondHandPublish);
-            return Responses.ok();
+            if (result > 0) {
+                return Responses.ok();
+            } else {
+                return Responses.fail("插入失败");
+            }
         } catch (DuplicateKeyException e) {
             e.printStackTrace();
         }
@@ -81,8 +91,6 @@ public class SecondHandPublishService {
     }
 
     public ApiResponse<Object> deleteByOrderId(String id) {
-//        SecondHandPublish = secondHandPublishMapper
-//        Book book1 = bookMapper.selectByISBN(book);
         int result = secondHandPublishMapper.delete(id);
         if (result == 1) {
             return Responses.ok();
@@ -148,7 +156,7 @@ public class SecondHandPublishService {
         // do purchase operation
         // first check if there's available want list?
         Optional<SecondHandFind> wantList = secondHandFindMapper.selectBuyListByStudentAndBook(studentId, secondHandPublish.getBook().getIsbn()).stream().findAny();
-        SecondHandFind secondHandFind = null;
+        SecondHandFind secondHandFind;
         int result = 0;
         if (student.getBalance() < secondHandPublish.getPrice()) {
             return Responses.fail("余额不足");
@@ -164,7 +172,7 @@ public class SecondHandPublishService {
         } else {
             // else create a secondHandFind
             secondHandFind = new SecondHandFind();
-            secondHandFind.setId(UUID.randomUUID().toString());
+            secondHandFind.setId(uuidProvider.getUuid());
             secondHandFind.setBook(secondHandPublish.getBook());
             secondHandFind.setExchange(0);
             secondHandFind.setStatus(1);

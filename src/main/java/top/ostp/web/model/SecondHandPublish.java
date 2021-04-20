@@ -1,6 +1,6 @@
 package top.ostp.web.model;
 
-import org.intellij.lang.annotations.MagicConstant;
+import java.util.Objects;
 
 public class SecondHandPublish {
     private String id;
@@ -18,6 +18,16 @@ public class SecondHandPublish {
                 ", exchange=" + exchange +
                 ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SecondHandPublish that = (SecondHandPublish) o;
+
+       return Objects.equals(id, that.id);
     }
 
     private double price;
