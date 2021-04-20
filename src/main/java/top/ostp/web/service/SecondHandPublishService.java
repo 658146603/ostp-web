@@ -35,6 +35,23 @@ public class SecondHandPublishService {
         this.secondHandPublishMapper = secondHandPublishMapper;
     }
 
+    public StudentMapper getStudentMapper() {
+        return studentMapper;
+    }
+
+    public BookMapper getBookMapper() {
+        return bookMapper;
+    }
+
+    public SecondHandFindMapper getSecondHandFindMapper() {
+        return secondHandFindMapper;
+    }
+
+    public SecondHandPublishMapper getSecondHandPublishMapper() {
+        return secondHandPublishMapper;
+    }
+
+
     @Autowired
     public void setBookMapper(BookMapper bookMapper) {
         this.bookMapper = bookMapper;
@@ -164,7 +181,7 @@ public class SecondHandPublishService {
             secondHandPublish.setSecond(secondHandFind);
             secondHandPublishMapper.update(secondHandPublish);
             // 进行缴费
-            studentMapper.changeMoney(student, - (int)secondHandPublish.getPrice());
+            studentMapper.changeMoney(student, -(int) secondHandPublish.getPrice());
             // 然后给另外一个人加钱
             // 仅在买方确认后才会加钱，请产品经理审阅。
             // studentMapper.changeMoney(secondHandPublish.getPerson(), (int)secondHandPublish.getPrice());
