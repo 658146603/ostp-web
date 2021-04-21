@@ -2,6 +2,7 @@ package top.ostp.web.model;
 
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 public class Book implements Serializable {
@@ -12,6 +13,16 @@ public class Book implements Serializable {
     private String cover;
 
     public Book() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book that = (Book) o;
+
+        return Objects.equals(isbn, that.isbn);
     }
 
     public Book(String isbn, String name, Long price, String cover) {
