@@ -26,6 +26,25 @@ interface BookOrderMapper {
     @Select("select id, student, book, price, year, semester, received from student_book_order")
     fun list(): List<StudentBookOrder>
 
+    @Results(
+        value = [
+            Result(
+                property = "student", column = "student",
+                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            )
+        ]
+    )
+    @ResultType(StudentBookOrder::class)
+    @Select("select id, student, book, price, year, semester, received from student_book_order where year = #{year} and semester = #{semester}")
+    fun selectByYearSemester(
+        @Param("year") year: Int,
+        @Param("semester") semester: Int,
+    ): List<StudentBookOrder>
+
 
     @Results(
         value = [
@@ -87,6 +106,22 @@ where year = #{year}
         @Param("semester") semester: Int,
     ): Int
 
+    @Results(
+        value = [
+            Result(
+                property = "student", column = "student",
+                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            )
+        ]
+    )
+    @ResultType(StudentBookOrder::class)
+    @Select("select * from student_book_order where book = #{isbn}")
+    fun selectByBook(book: Book): List<StudentBookOrder>
+
     @Deprecated("已迁移到SearchOfStudent")
     @Results(
         value = [
@@ -137,6 +172,27 @@ where year = #{year}
             )
         ]
     )
+    @ResultType(StudentBookOrder::class)
+    @Select("select * from student_book_order where student = #{student} and year = #{year} and book = #{book}")
+    fun selectByYearSemesterAndBook(
+        @Param("book") book: String,
+        @Param("year") year: Int,
+        @Param("semester") semester: Int,
+    ): List<StudentBookOrder>
+
+
+    @Results(
+        value = [
+            Result(
+                property = "student", column = "student",
+                one = One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById")
+            ),
+            Result(
+                property = "book", column = "book",
+                one = One(select = "top.ostp.web.mapper.BookMapper.selectByISBN")
+            )
+        ]
+    )
     @Select("select * from student_book_order where id = #{id}")
     fun selectById(order: Int): StudentBookOrder?
 
@@ -151,6 +207,9 @@ where year = #{year}
         @Param("year") year: Int,
         @Param("semester") semester: Int,
     ): Int
+
+    @Update("update student_book_order set received = 1 where id = #{order}")
+    fun received(order: Int): Int
 
 
 }

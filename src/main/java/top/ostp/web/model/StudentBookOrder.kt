@@ -10,4 +10,8 @@ data class StudentBookOrder(
     var received: Int,
 ) {
     constructor() : this(0, null, null, 0, 0, 0, 0)
+
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other) || id == (other as? StudentBookOrder)?.id
+    }
 }

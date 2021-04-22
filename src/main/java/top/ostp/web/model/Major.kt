@@ -8,5 +8,9 @@ data class Major(
 ) {
     constructor() : this(0, "", null, 0)
 
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other) || id == (other as? Major)?.id
+    }
+
     constructor(name: String, college: College, year: Int) : this(0, name, college, year)
 }

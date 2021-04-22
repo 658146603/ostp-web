@@ -53,6 +53,26 @@ public interface SecondHandFindMapper {
     )
     SecondHandFind select(String id);
 
+    /**
+     * 只选择部分依赖，用于解决循环construct的问题
+     * @param id 订单的id
+     * @return 订单的部分数据，排除second
+     */
+    @Select("select * from second_hand_find where id=#{id}")
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    SecondHandFind selectPart(String id);
+
     @Select("select * from second_hand_find where book = #{isbn}")
     @Results(
             value = {

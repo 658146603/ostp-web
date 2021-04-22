@@ -39,6 +39,21 @@ public interface SecondHandPublishMapper {
     )
     SecondHandPublish select(String id);
 
+    @Results(
+            value = {
+                    @Result(
+                            property = "person", column = "person",
+                            one = @One(select = "top.ostp.web.mapper.StudentMapper.selectStudentById", fetchType = FetchType.EAGER)
+                    ),
+                    @Result(
+                            property = "book", column = "book",
+                            one = @One(select = "top.ostp.web.mapper.BookMapper.selectByISBN", fetchType = FetchType.EAGER)
+                    )
+            }
+    )
+    @Select("select * from second_hand_publish where id = #{id}")
+    SecondHandPublish selectPart(String id);
+
     @Select("select * from second_hand_publish")
     @Results(
             value = {

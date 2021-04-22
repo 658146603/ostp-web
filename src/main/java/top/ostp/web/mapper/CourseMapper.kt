@@ -50,6 +50,18 @@ interface CourseMapper {
     fun selectById(id: String): Course?
 
 
+    @Select("select * from course where name = #{name}")
+    @Results(
+        value = [
+            Result(
+                property = "major", column = "major",
+                one = One(select = "top.ostp.web.mapper.MajorMapper.selectById")
+            )
+        ]
+    )
+    @ResultType(Course::class)
+    fun selectByName(name: String): List<Course>
+
     @Select("select * from course where major = #{id}")
     @Results(
         value = [
