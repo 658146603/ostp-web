@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:mysql://nfcv.xyz:3306/ostp?useUnicode=true&characterEncoding=utf8
     username: dbuser
-    password: dbpassword
+    password: dbpassword-
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       minimum-idle: 3

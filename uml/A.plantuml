@@ -1,0 +1,39 @@
+@startuml
+title 原始流程图
+start
+if (loginTeacher?) then (yes)
+    #green:Success;
+    stop
+endif
+if (loginStudent?) then (yes)
+    #green:Success;
+    stop
+endif
+if (loginAdmin?) then (yes)
+    #green:Success;
+    stop
+endif
+#pink:Fail;
+stop
+@enduml
+
+@startuml
+title 化简后流程图
+(*) --> "1"
+if "2" then
+-->[yes] "5"
+--> "7"
+else
+-->[no] if "3" then
+        -->[yes] "5"
+        else
+        -->[no] if "4" then
+                -->[yes] "5"
+                else
+                --> [no] "6"
+                --> "7"
+                --> (*)
+                endif
+        endif
+endif
+@enduml

@@ -268,5 +268,3 @@ class SecondHandTest {
         assertEquals(2, find.status)
     }
 }
-
-
