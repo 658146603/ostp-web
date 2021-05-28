@@ -1,0 +1,50 @@
+@startuml
+title 订阅书籍流程图
+
+start
+if (existBook?) then (yes)
+    if (courseOpen?) then (yes)
+        if (ordered?) then (yes)
+            if (balance >= book.price?) then (yes)
+                #lightYellow:balance-=price;
+                #lightGreen:orderSuccess;
+            else (no)
+                #pink:moneyNotEnough;
+            endif
+        else (no)
+            #lightYellow:balance+=price;
+            #lightGreen:cancelOrderSuccess;
+        endif
+        stop
+    else (no)
+        stop
+    endif
+else (no)
+    stop
+endif
+@enduml
+
+@startuml
+title 化简后流程图
+(*) --> "0"
+if "1" then
+-->[yes] if "2" then
+         --> [yes] if "3" then
+                   --> [yes] if "4" then
+                             --> [yes] "5"
+                             --> "7"
+                             else
+                             --> [no] "6"
+                             --> "7"
+                             endif
+                   else
+                   --> [no] "7"
+                   endif
+         else
+         --> [no] "7"
+         endif
+else
+-->[no] "7"
+endif
+--> (*)
+@enduml
