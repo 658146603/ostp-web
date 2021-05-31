@@ -1,5 +1,5 @@
 @startuml
-title 原始流程图
+title 登录流程图
 start
 if (loginTeacher?) then (yes)
     #green:Success;
@@ -18,7 +18,27 @@ stop
 @enduml
 
 @startuml
-title 化简后流程图
+title 登录流程图
+start
+if (是教师账号且密码正确) then (yes)
+    #lightGreen:教师登录成功;
+    stop
+endif
+if (是学生账号且密码正确) then (yes)
+    #lightGreen:学生登录成功;
+    stop
+endif
+if (是管理员账号且密码正确) then (yes)
+    #lightGreen:管理员登录成功;
+    stop
+endif
+#pink:登录失败;
+stop
+@enduml
+
+
+@startuml
+title 登录化简后流程图
 (*) --> "1"
 if "2" then
 -->[yes] "5"

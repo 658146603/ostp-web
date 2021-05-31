@@ -1,0 +1,56 @@
+@startuml
+title 二手书购买流程图
+start
+if (存在书本) then (no)
+    stop
+else if (买自己的书) then (yes)
+    stop
+else if (用于交换) then (yes)
+    stop
+else if (已经被买走) then (yes)
+    stop
+endif
+if (余额不足) then (yes)
+    stop
+else (no)
+if (在想要的书籍列表中) then (yes)
+    #lightYellow:更新状态;
+else (no)
+    #lightYellow:添加订单;
+endif
+#lightGreen:购买成功;
+stop
+@enduml
+
+@startuml
+title 二手书购买化简后流程图
+(*) --> "0"
+if "1" then
+-->[yes] if "2" then
+         --> [no] if "3" then
+                  --> [no] if "4" then
+                           --> [no] if "5" then
+                                    --> [no] if "6" then
+                                             --> [yes] "8"
+                                             --> "10"
+                                             else
+                                             --> [no] "9"
+                                             --> "10"
+                                             endif
+                                    else
+                                    --> [yes] "10"
+                                    endif
+                           else
+                           --> [yes] "10"
+                           endif
+                  else
+                  --> [yes] "10"
+                  endif
+         else
+         --> [yes] "10"
+         endif
+else
+--> [no] "10"
+endif
+--> (*)
+@enduml

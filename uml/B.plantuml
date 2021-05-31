@@ -25,7 +25,33 @@ endif
 @enduml
 
 @startuml
-title 化简后流程图
+title 订阅书籍流程图
+
+start
+if (存在书本) then (yes)
+    if (已开课) then (yes)
+        if (已经订阅书籍) then (yes)
+            if (余额充足) then (yes)
+                #lightYellow:扣除余额;
+                #lightGreen:订阅成功;
+            else (no)
+                #pink:返回余额不足信息;
+            endif
+        else (no)
+            #lightYellow:退回余额;
+            #lightGreen:取消订阅成功;
+        endif
+        stop
+    else (no)
+        stop
+    endif
+else (no)
+    stop
+endif
+@enduml
+
+@startuml
+title 订阅书籍化简后流程图
 (*) --> "0"
 if "1" then
 -->[yes] if "2" then
