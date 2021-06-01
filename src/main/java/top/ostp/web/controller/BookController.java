@@ -42,7 +42,6 @@ public class BookController {
         this.bookOrderService = bookOrderService;
     }
 
-
     @AuthAdmin
     @PostMapping(value = "/book/insert")
     @ResponseBody
